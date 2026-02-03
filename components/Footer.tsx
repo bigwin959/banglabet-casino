@@ -1,123 +1,59 @@
 import Link from "next/link";
-import { Facebook, Twitter, Instagram, Mail, Phone, MapPin } from "lucide-react";
+import { Mail, Phone, MapPin } from "lucide-react";
 
-const Footer = () => {
-    const quickLinks = [
-        { name: "Live Casino", href: "/live-casino" },
-        { name: "Sportbook", href: "/sportbook" },
-        { name: "Promotions", href: "/promotion" },
-        { name: "Blog", href: "/blog" },
-        { name: "About Us", href: "/about" },
-        { name: "Contact Us", href: "/contact" },
-    ];
-
-    const socialLinks = [
-        { icon: Facebook, href: "#", label: "Facebook" },
-        { icon: Twitter, href: "#", label: "Twitter" },
-        { icon: Instagram, href: "#", label: "Instagram" },
-    ];
+export default function Footer() {
+    const currentYear = new Date().getFullYear();
 
     return (
-        <footer className="bg-background border-t border-primary/20 mt-20">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <footer className="bg-white border-t border-gray-200 mt-12 pt-12 pb-6">
+            <div className="container-custom max-w-[1080px]">
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-                    {/* Brand */}
-                    <div className="space-y-4">
-                        <h3 className="text-2xl font-heading neon-glow">
-                            BanglaBet<span className="text-cta">88</span>
-                        </h3>
-                        <p className="text-text/70 text-sm">
-                            Your trusted online casino and sports betting platform. Play responsibly.
+                    {/* About Column */}
+                    <div className="md:col-span-1">
+                        <h3 className="text-lg font-bold mb-4">About Banglabet88</h3>
+                        <p className="text-sm text-text mb-4">
+                            Win real money with Banglabet! Enjoy thrilling live casino games, huge jackpots, and secure payments.
                         </p>
-                        <div className="flex space-x-4">
-                            {socialLinks.map((social) => (
-                                <a
-                                    key={social.label}
-                                    href={social.href}
-                                    className="text-text hover:text-primary transition-colors duration-200"
-                                    aria-label={social.label}
-                                >
-                                    <social.icon size={20} />
-                                </a>
-                            ))}
+                        <div className="text-sm text-text">
+                            <p className="mb-2">Address: 1000 Topkhana Road, Dhaka 1000, Bangladesh</p>
+                            <p className="mb-2">Email: support@banglabet88.net</p>
+                            <p>Phone: +8801717001178</p>
                         </div>
                     </div>
 
                     {/* Quick Links */}
-                    <div>
-                        <h4 className="text-lg font-heading text-primary mb-4">Quick Links</h4>
-                        <ul className="space-y-2">
-                            {quickLinks.map((link) => (
-                                <li key={link.name}>
-                                    <Link
-                                        href={link.href}
-                                        className="text-text/70 hover:text-primary transition-colors duration-200 text-sm"
-                                    >
-                                        {link.name}
-                                    </Link>
-                                </li>
-                            ))}
+                    <div className="md:col-span-1">
+                        <h3 className="text-lg font-bold mb-4">Quick Links</h3>
+                        <ul className="space-y-2 text-sm">
+                            <li><Link href="/live-casino" className="text-text hover:text-primary">Live Casino</Link></li>
+                            <li><Link href="/sportsbook" className="text-text hover:text-primary">Sportsbook</Link></li>
+                            <li><Link href="/promotions" className="text-text hover:text-primary">Promotions</Link></li>
+                            <li><Link href="/blog" className="text-text hover:text-primary">Blog</Link></li>
                         </ul>
                     </div>
 
-                    {/* Contact Info */}
-                    <div>
-                        <h4 className="text-lg font-heading text-primary mb-4">Contact</h4>
-                        <ul className="space-y-3">
-                            <li className="flex items-center space-x-2 text-text/70 text-sm">
-                                <Mail size={16} />
-                                <span>support@banglabet88.com</span>
-                            </li>
-                            <li className="flex items-center space-x-2 text-text/70 text-sm">
-                                <Phone size={16} />
-                                <span>+880 1234-567890</span>
-                            </li>
-                            <li className="flex items-center space-x-2 text-text/70 text-sm">
-                                <MapPin size={16} />
-                                <span>Dhaka, Bangladesh</span>
-                            </li>
+                    {/* Policy Links */}
+                    <div className="md:col-span-1">
+                        <h3 className="text-lg font-bold mb-4">Information</h3>
+                        <ul className="space-y-2 text-sm">
+                            <li><a href="https://bbtlink.co/affhome" target="_blank" rel="noopener noreferrer" className="text-text hover:text-primary">Affiliates Program</a></li>
+                            <li><a href="https://bbtlink.co/responsible-gaming" target="_blank" rel="noopener noreferrer" className="text-text hover:text-primary">Responsible Gaming</a></li>
+                            <li><a href="https://bbtlink.co/security" target="_blank" rel="noopener noreferrer" className="text-text hover:text-primary">Security</a></li>
+                            <li><a href="https://bbtlink.co/privacy-policy" target="_blank" rel="noopener noreferrer" className="text-text hover:text-primary">Privacy Policy</a></li>
                         </ul>
                     </div>
 
-                    {/* Newsletter */}
-                    <div>
-                        <h4 className="text-lg font-heading text-primary mb-4">Newsletter</h4>
-                        <p className="text-text/70 text-sm mb-4">
-                            Subscribe to get the latest promotions and updates.
-                        </p>
-                        <div className="flex flex-col space-y-2">
-                            <input
-                                type="email"
-                                placeholder="Your email"
-                                className="input text-sm"
-                            />
-                            <button className="btn-primary text-sm">Subscribe</button>
-                        </div>
+                    {/* Payment / Providers Placeholder */}
+                    <div className="md:col-span-1">
+                        <h3 className="text-lg font-bold mb-4">Trusted Partners</h3>
+                        <a href="https://newcity.vip/" target="_blank" rel="noopener noreferrer" className="text-primary font-bold">New City VIP</a>
                     </div>
                 </div>
 
-                {/* Bottom Bar */}
-                <div className="mt-12 pt-8 border-t border-primary/20">
-                    <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-                        <p className="text-text/50 text-sm">
-                            © 2026 BanglaBet88. All rights reserved.
-                        </p>
-                        <div className="flex space-x-6 text-sm">
-                            <Link href="#" className="text-text/50 hover:text-primary transition-colors">
-                                Terms of Service
-                            </Link>
-                            <Link href="#" className="text-text/50 hover:text-primary transition-colors">
-                                Privacy Policy
-                            </Link>
-                            <Link href="#" className="text-text/50 hover:text-primary transition-colors">
-                                Responsible Gaming
-                            </Link>
-                        </div>
-                    </div>
+                <div className="border-t border-gray-100 mt-8 pt-8 text-center text-sm text-gray-400">
+                    <p>&copy; {currentYear} Banglabet88. All Rights Reserved.</p>
                 </div>
             </div>
         </footer>
     );
-};
-
-export default Footer;
+}

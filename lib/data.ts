@@ -44,21 +44,21 @@ export interface BlogPost {
 export const banners: Banner[] = [
     {
         id: 1,
-        image: "/images/banner-1.jpg",
+        image: "/images/banner-placeholder.svg",
         title: "Welcome Bonus 100%",
         description: "Get up to $1000 on your first deposit",
         link: "/promotion",
     },
     {
         id: 2,
-        image: "/images/banner-2.jpg",
+        image: "/images/banner-placeholder.svg",
         title: "Live Casino Cashback",
         description: "10% cashback on all live casino games",
         link: "/live-casino",
     },
     {
         id: 3,
-        image: "/images/banner-3.jpg",
+        image: "/images/banner-placeholder.svg",
         title: "Sports Betting Bonus",
         description: "Free bet up to $500 for new players",
         link: "/sportbook",
@@ -68,7 +68,7 @@ export const banners: Banner[] = [
 export const promotions: Promotion[] = [
     {
         id: 1,
-        image: "/images/promo-welcome.jpg",
+        image: "/images/game-placeholder.svg",
         title: "Welcome Bonus",
         discount: "100%",
         description: "Double your first deposit up to $1000",
@@ -76,7 +76,7 @@ export const promotions: Promotion[] = [
     },
     {
         id: 2,
-        image: "/images/promo-reload.jpg",
+        image: "/images/game-placeholder.svg",
         title: "Reload Bonus",
         discount: "50%",
         description: "Get 50% bonus on every reload",
@@ -84,7 +84,7 @@ export const promotions: Promotion[] = [
     },
     {
         id: 3,
-        image: "/images/promo-cashback.jpg",
+        image: "/images/game-placeholder.svg",
         title: "Weekly Cashback",
         discount: "10%",
         description: "Get 10% cashback every week",
@@ -92,7 +92,7 @@ export const promotions: Promotion[] = [
     },
     {
         id: 4,
-        image: "/images/promo-vip.jpg",
+        image: "/images/game-placeholder.svg",
         title: "VIP Rewards",
         discount: "Exclusive",
         description: "Join our VIP program for exclusive benefits",
@@ -100,7 +100,7 @@ export const promotions: Promotion[] = [
     },
     {
         id: 5,
-        image: "/images/promo-referral.jpg",
+        image: "/images/game-placeholder.svg",
         title: "Referral Bonus",
         discount: "$100",
         description: "Earn $100 for each friend you refer",
@@ -108,7 +108,7 @@ export const promotions: Promotion[] = [
     },
     {
         id: 6,
-        image: "/images/promo-birthday.jpg",
+        image: "/images/game-placeholder.svg",
         title: "Birthday Bonus",
         discount: "Free Spins",
         description: "Get free spins on your birthday",
@@ -116,7 +116,7 @@ export const promotions: Promotion[] = [
     },
     {
         id: 7,
-        image: "/images/promo-tournament.jpg",
+        image: "/images/game-placeholder.svg",
         title: "Tournament Prize",
         discount: "$10K",
         description: "Win up to $10,000 in our tournaments",
@@ -124,7 +124,7 @@ export const promotions: Promotion[] = [
     },
     {
         id: 8,
-        image: "/images/promo-loyalty.jpg",
+        image: "/images/game-placeholder.svg",
         title: "Loyalty Points",
         discount: "2x Points",
         description: "Earn double loyalty points this month",
@@ -132,7 +132,7 @@ export const promotions: Promotion[] = [
     },
     {
         id: 9,
-        image: "/images/promo-mobile.jpg",
+        image: "/images/game-placeholder.svg",
         title: "Mobile Bonus",
         discount: "$50",
         description: "Get $50 bonus when you play on mobile",
@@ -140,7 +140,7 @@ export const promotions: Promotion[] = [
     },
     {
         id: 10,
-        image: "/images/promo-weekend.jpg",
+        image: "/images/game-placeholder.svg",
         title: "Weekend Boost",
         discount: "25%",
         description: "Get 25% extra on weekend deposits",
@@ -151,21 +151,21 @@ export const promotions: Promotion[] = [
 export const agents: Agent[] = [
     {
         id: 1,
-        logo: "/images/evo-logo.png",
+        logo: "/images/game-placeholder.svg",
         name: "Evolution Gaming",
         description: "The world's leading live casino provider with professional dealers and HD streaming",
         gameCount: 150,
     },
     {
         id: 2,
-        logo: "/images/sexy-logo.png",
+        logo: "/images/game-placeholder.svg",
         name: "Sexy Gaming",
         description: "Premium live casino experience with beautiful dealers and exclusive games",
         gameCount: 80,
     },
     {
         id: 3,
-        logo: "/images/pt-logo.png",
+        logo: "/images/game-placeholder.svg",
         name: "Playtech",
         description: "Industry-leading casino software with innovative games and features",
         gameCount: 200,
@@ -184,7 +184,7 @@ export const sports: Sport[] = [
 export const blogPosts: BlogPost[] = [
     {
         id: 1,
-        image: "/images/blog-1.jpg",
+        image: "/images/game-placeholder.svg",
         title: "Top 10 Strategies for Winning at Blackjack",
         excerpt: "Learn the best strategies to increase your chances of winning at blackjack...",
         date: "2026-01-25",
@@ -192,7 +192,7 @@ export const blogPosts: BlogPost[] = [
     },
     {
         id: 2,
-        image: "/images/blog-2.jpg",
+        image: "/images/game-placeholder.svg",
         title: "Understanding Sports Betting Odds",
         excerpt: "A comprehensive guide to understanding and calculating betting odds...",
         date: "2026-01-22",
@@ -200,7 +200,7 @@ export const blogPosts: BlogPost[] = [
     },
     {
         id: 3,
-        image: "/images/blog-3.jpg",
+        image: "/images/game-placeholder.svg",
         title: "New VIP Program Launched",
         excerpt: "We're excited to announce our new VIP program with exclusive benefits...",
         date: "2026-01-20",

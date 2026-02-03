@@ -1,19 +1,17 @@
-@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;500;600;700&family=Russo+One&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&subset=latin,latin-ext&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #7C3AED;
-  --color-secondary: #A78BFA;
-  --color-cta: #F43F5E;
-  --color-background: #0F0F23;
-  --color-text: #E2E8F0;
+  --color-primary: #2ea3f2;
+  --color-secondary: #000000;
+  --color-cta: #2ea3f2;
+  --color-background: #ffffff;
+  --color-text: #666666;
+  --color-heading: #333333;
+  --color-border: #eeeeee;
 
-  --font-heading: "Russo One", sans-serif;
-  --font-body: "Chakra Petch", sans-serif;
-
-  --animate-neon-pulse: neon-pulse 2s ease-in-out infinite;
-  --animate-glitch: glitch 0.3s ease-in-out;
-  --animate-scanline: scanline 8s linear infinite;
+  --font-heading: "Open Sans", sans-serif;
+  --font-body: "Open Sans", sans-serif;
 }
 
 :root {
@@ -37,6 +35,8 @@ body {
   background-color: var(--color-background);
   color: var(--color-text);
   overflow-x: hidden;
+  line-height: 1.7em;
+  font-weight: 500;
 }
 
 h1,
@@ -46,158 +46,36 @@ h4,
 h5,
 h6 {
   font-family: var(--font-heading);
+  color: var(--color-heading);
+  font-weight: 500;
 }
 
-/* Keyframes */
-@keyframes neon-pulse {
-
-  0%,
-  100% {
-    text-shadow:
-      0 0 10px #7C3AED, 0 0 20px #7C3AED, 0 0 30px #7C3AED, 0 0 40px #7C3AED;
-  }
-
-  50% {
-    text-shadow:
-      0 0 5px #7C3AED, 0 0 10px #7C3AED, 0 0 15px #7C3AED, 0 0 20px #7C3AED;
-  }
+a {
+  color: var(--color-primary);
+  text-decoration: none;
 }
 
-@keyframes glitch {
-  0% {
-    transform: translate(0);
-  }
-
-  20% {
-    transform: translate(-2px, 2px);
-  }
-
-  40% {
-    transform: translate(-2px, -2px);
-  }
-
-  60% {
-    transform: translate(2px, 2px);
-  }
-
-  80% {
-    transform: translate(2px, -2px);
-  }
-
-  100% {
-    transform: translate(0);
-  }
+a:hover {
+  text-decoration: none;
 }
 
-@keyframes scanline {
-  0% {
-    transform: translateY(-100%);
-  }
-
-  100% {
-    transform: translateY(100%);
-  }
-}
-
-/* Utilities not in Tailwind */
-.neon-glow {
-  text-shadow:
-    0 0 10px var(--color-primary),
-    0 0 20px var(--color-primary),
-    0 0 30px var(--color-primary),
-    0 0 40px var(--color-primary);
-}
-
-.neon-glow-cta {
-  text-shadow:
-    0 0 10px var(--color-cta),
-    0 0 20px var(--color-cta),
-    0 0 30px var(--color-cta);
-  box-shadow:
-    0 0 10px var(--color-cta),
-    0 0 20px var(--color-cta);
-}
-
-.crt-scanlines {
-  position: relative;
-  overflow: hidden;
-}
-
-.crt-scanlines::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(to bottom,
-      transparent 50%,
-      rgba(0, 0, 0, 0.1) 50%);
-  background-size: 100% 4px;
-  pointer-events: none;
-  z-index: 10;
-  animation: scanline 8s linear infinite;
-}
-
-.glitch {
+/* Utilities */
+.container-custom {
+  width: 80%;
+  max-width: 1080px;
+  margin: auto;
   position: relative;
 }
 
-.glitch:hover {
-  animation: glitch 0.3s ease-in-out;
-}
-
-/* Component classes */
 .btn-primary {
-  @apply bg-cta text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 cursor-pointer hover:opacity-90 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-cta focus:ring-offset-2 focus:ring-offset-background;
+  @apply bg-primary text-white px-6 py-3 rounded font-medium transition-all duration-200 cursor-pointer hover:opacity-90;
 }
 
-.btn-secondary {
-  @apply bg-transparent text-primary border-2 border-primary px-6 py-3 rounded-lg font-semibold transition-all duration-200 cursor-pointer hover:bg-primary hover:text-white focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background;
+.btn-outline {
+  @apply bg-transparent text-primary border border-primary px-6 py-3 rounded font-medium transition-all duration-200 cursor-pointer hover:bg-primary hover:text-white;
 }
 
-.card {
-  @apply bg-background/80 backdrop-blur-sm rounded-xl p-6 shadow-md transition-all duration-200 cursor-pointer hover:shadow-lg hover:-translate-y-1 border border-primary/20;
-}
-
-.input {
-  @apply px-4 py-3 border border-text/20 rounded-lg text-base bg-background/50 text-text transition-all duration-200 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20;
-}
-
-/* Media queries */
-@media (max-width: 768px) {
-  .neon-glow {
-    text-shadow:
-      0 0 5px var(--color-primary),
-      0 0 10px var(--color-primary);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-}
-
-/* Scrollbar */
-::-webkit-scrollbar {
-  width: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--color-background);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--color-primary);
-  border-radius: 5px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-secondary);
+/* Swiper overrides */
+.swiper-pagination-bullet-active {
+  background-color: var(--color-primary) !important;
 }
