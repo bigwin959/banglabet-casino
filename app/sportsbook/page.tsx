@@ -1,4 +1,5 @@
 import PromotionCard from "@/components/PromotionCard";
+import SportsbookDetails from "@/components/sportbook/SportsbookDetails";
 import { sports } from "@/lib/data";
 
 export default function SportBook() {
@@ -130,6 +131,9 @@ export default function SportBook() {
                     </div>
                 </div>
             </section>
+
+            {/* Detailed Content */}
+            <SportsbookDetails />
         </div>
     );
 }

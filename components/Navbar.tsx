@@ -12,8 +12,8 @@ const Navbar = () => {
 
     const navLinks = [
         { name: "Live Casino", href: "/live-casino" },
-        { name: "Sportbook", href: "/sportbook" },
-        { name: "Promotion", href: "/promotion" },
+        { name: "Sportsbook", href: "/sportsbook" },
+        { name: "Promotions", href: "/promotions" },
         { name: "Blog", href: "/blog" },
         { name: "About Us", href: "/about" },
         { name: "Contact Us", href: "/contact" },

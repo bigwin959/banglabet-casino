@@ -1,5 +1,6 @@
 import PromotionCard from "@/components/PromotionCard";
 import AgentCard from "@/components/AgentCard";
+import LiveCasinoDetails from "@/components/live-casino/LiveCasinoDetails";
 import { agents } from "@/lib/data";
 
 export default function LiveCasino() {
@@ -66,6 +67,9 @@ export default function LiveCasino() {
                     </div>
                 </div>
             </section>
+
+            {/* Detailed Content */}
+            <LiveCasinoDetails />
         </div>
     );
 }

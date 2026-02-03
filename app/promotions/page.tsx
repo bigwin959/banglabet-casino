@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import PromotionCard from "@/components/PromotionCard";
+import PromotionsDetails from "@/components/promotions/PromotionsDetails";
 import { promotions } from "@/lib/data";
 import { ChevronDown, ChevronUp } from "lucide-react";
 
@@ -97,6 +98,9 @@ export default function PromotionPage() {
                     </div>
                 </div>
             </section>
+
+            {/* Detailed Content */}
+            <PromotionsDetails />
         </div>
     );
 }

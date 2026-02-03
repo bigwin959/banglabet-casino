@@ -47,7 +47,7 @@ export const banners: Banner[] = [
         image: "/images/banner-placeholder.svg",
         title: "Welcome Bonus 100%",
         description: "Get up to $1000 on your first deposit",
-        link: "/promotion",
+        link: "/promotions",
     },
     {
         id: 2,
@@ -61,7 +61,7 @@ export const banners: Banner[] = [
         image: "/images/banner-placeholder.svg",
         title: "Sports Betting Bonus",
         description: "Free bet up to $500 for new players",
-        link: "/sportbook",
+        link: "/sportsbook",
     },
 ];
 
