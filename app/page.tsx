@@ -22,7 +22,7 @@ export default function Home() {
       id: "2",
       image: "/images/hero-promo.png",
       title: "Exciting Promotions & Bonuses",
-      link: "/promotion",
+      link: "/promotions",
     },
     {
       id: "3",

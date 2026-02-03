@@ -15,8 +15,8 @@ const Navbar = () => {
         { name: "Sportsbook", href: "/sportsbook" },
         { name: "Promotions", href: "/promotions" },
         { name: "Blog", href: "/blog" },
-        { name: "About Us", href: "/about" },
-        { name: "Contact Us", href: "/contact" },
+        { name: "About Us", href: "/about-us" },
+        { name: "Contact Us", href: "/contact-us" },
     ];
 
     return (
