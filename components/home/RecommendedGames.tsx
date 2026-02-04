@@ -11,7 +11,7 @@ const slotGames = [
     {
         title: "Gates of Olympus",
         description: "After signing up with BigWin959 Online Casino by following its no-sweat live casino login processes, never miss out on its customer-favorite games such as the Gates of Olympus, where visuals and ecstatic gameplay are top-tier and captivate the hearts of everyone. Gates of Olympus features generous multipliers as well, so be ready to experience epic winnings with this game!",
-        image: "/images/slot-gates_olympus_v2.png",
+        image: "/images/banner-special-slots.png",
         tags: ["Min 30 BDT", "Multiplier"],
     },
     {
@@ -42,42 +42,42 @@ const liveGames = [
 
 export default function RecommendedGames() {
     return (
-        <section className="py-16 bg-gray-50">
+        <section className="py-20 bg-background">
             <div className="container-custom">
                 {/* Slots */}
-                <div className="mb-16">
-                    <h2 className="text-2xl font-bold mb-2 text-center text-heading">Recommended Slot Games</h2>
-                    <p className="text-center text-primary mb-8 font-medium">Super Ace, Gates of Olympus and Fortune Gems</p>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="mb-24">
+                    <h2 className="text-3xl md:text-5xl font-bold mb-4 text-center text-white uppercase font-heading tracking-tight">Recommended <span className="text-primary">Slot Games</span></h2>
+                    <p className="text-center text-gray-500 mb-12 font-medium uppercase tracking-widest text-sm">Super Ace • Gates of Olympus • Fortune Gems</p>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         {slotGames.map((game, i) => (
-                            <div key={i} className="bg-white p-6 rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
-                                <div className="h-48 w-full relative mb-4 rounded overflow-hidden shadow-inner">
-                                    <Image src={game.image} alt={game.title} fill className="object-cover transition-transform hover:scale-110 duration-500" />
-                                    <span className="absolute bottom-2 left-2 bg-primary text-white text-xs px-2 py-1 rounded shadow">{game.tags[0]}</span>
+                            <div key={i} className="bg-[#121212] p-6 rounded-xl shadow-2xl border border-white/5 hover:border-primary/30 transition-all duration-300 group">
+                                <div className="aspect-[4/3] w-full relative mb-6 rounded-lg overflow-hidden border border-white/10 group-hover:border-primary/20 transition-colors bg-[#050505]">
+                                    <Image src={game.image} alt={game.title} fill className="object-contain p-2 transition-transform group-hover:scale-105 duration-700" />
+                                    <span className="absolute top-3 left-3 bg-primary text-white text-[10px] font-bold px-3 py-1 rounded-sm uppercase tracking-tighter shadow-2xl">{game.tags[0]}</span>
                                 </div>
-                                <h3 className="text-xl font-bold mb-3 text-heading">{game.title}</h3>
-                                <p className="text-sm text-text leading-relaxed mb-4">{game.description}</p>
-                                <Link href="/slots" className="text-primary font-bold text-sm hover:underline">Play Now →</Link>
+                                <h3 className="text-xl font-bold mb-4 text-white uppercase font-heading tracking-wide group-hover:text-primary transition-colors">{game.title}</h3>
+                                <p className="text-sm text-gray-400 leading-relaxed mb-6 line-clamp-3">{game.description}</p>
+                                <Link href="/slots" className="inline-flex items-center text-primary font-bold text-sm uppercase tracking-widest hover:text-red-500 transition-colors">Play Now <span className="ml-2 group-hover:translate-x-2 transition-transform">→</span></Link>
                             </div>
                         ))}
                     </div>
-                    <div className="text-center mt-8">
-                        <Link href="/slots" className="btn-primary">Play Now</Link>
+                    <div className="text-center mt-12">
+                        <Link href="/slots" className="inline-flex items-center px-12 py-4 bg-primary !text-white font-bold rounded-sm hover:bg-red-700 transition-all uppercase tracking-widest text-sm shadow-xl shadow-red-600/20">View All Slots</Link>
                     </div>
                 </div>
 
                 {/* Live Casino */}
                 <div>
-                    <h2 className="text-2xl font-bold mb-8 text-center text-heading">Recommended Live Casino</h2>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <h2 className="text-3xl md:text-5xl font-bold mb-12 text-center text-white uppercase font-heading tracking-tight">Elite <span className="text-primary">Live Casino</span></h2>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         {liveGames.map((game, i) => (
-                            <div key={i} className="bg-white p-6 rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
-                                <div className="h-48 w-full relative mb-4 rounded overflow-hidden shadow-inner">
-                                    <Image src={game.image} alt={game.title} fill className="object-cover transition-transform hover:scale-110 duration-500" />
+                            <div key={i} className="bg-[#121212] p-6 rounded-xl shadow-2xl border border-white/5 hover:border-primary/30 transition-all duration-300 group">
+                                <div className="aspect-[4/3] w-full relative mb-6 rounded-lg overflow-hidden border border-white/10 group-hover:border-primary/20 transition-colors bg-[#050505]">
+                                    <Image src={game.image} alt={game.title} fill className="object-contain p-2 transition-transform group-hover:scale-105 duration-700" />
                                 </div>
-                                <h3 className="text-xl font-bold mb-3 text-heading">{game.title}</h3>
-                                <p className="text-sm text-text leading-relaxed mb-4">{game.description}</p>
-                                <Link href="/live-casino" className="btn-outline text-xs py-2 px-3">Bet Live</Link>
+                                <h3 className="text-xl font-bold mb-4 text-white uppercase font-heading tracking-wide group-hover:text-primary transition-colors">{game.title}</h3>
+                                <p className="text-sm text-gray-400 leading-relaxed mb-6 line-clamp-3">{game.description}</p>
+                                <Link href="/live-casino" className="inline-flex items-center justify-center w-full py-3 border border-primary/50 text-primary font-bold rounded-sm hover:bg-primary hover:text-white transition-all uppercase tracking-widest text-xs">Bet Live</Link>
                             </div>
                         ))}
                     </div>

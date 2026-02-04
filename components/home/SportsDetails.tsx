@@ -32,14 +32,14 @@ const sports = [
 
 export default function SportsDetails() {
     return (
-        <section className="py-12 bg-gray-50">
+        <section className="py-20 bg-background">
             <div className="container-custom">
-                <h2 className="text-2xl font-bold mb-8 text-heading text-center">Sport Betting in BigWin959 Online</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <h2 className="text-3xl md:text-5xl font-bold mb-12 text-white uppercase font-heading tracking-tight text-center">Elite <span className="text-primary">Sports Markets</span></h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {sports.map((s, i) => (
-                        <div key={i} className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-                            <h3 className="text-lg font-bold mb-3 text-primary">{s.name} Betting</h3>
-                            <p className="text-sm text-text leading-relaxed">{s.desc}</p>
+                        <div key={i} className="bg-[#121212] p-8 rounded-sm border border-white/5 hover:border-primary/40 transition-all duration-300 group">
+                            <h3 className="text-xl font-bold mb-4 text-primary uppercase font-heading tracking-widest group-hover:text-white transition-colors">{s.name} Betting</h3>
+                            <p className="text-sm text-gray-400 leading-relaxed font-light">{s.desc}</p>
                         </div>
                     ))}
                 </div>

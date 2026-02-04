@@ -8,15 +8,16 @@ export default {
     theme: {
         extend: {
             colors: {
-                primary: "#7C3AED",
-                secondary: "#A78BFA",
-                cta: "#F43F5E",
-                background: "#0F0F23",
-                text: "#E2E8F0",
+                primary: "var(--color-primary)",
+                secondary: "var(--color-secondary)",
+                cta: "var(--color-cta)",
+                background: "var(--color-background)",
+                text: "var(--color-text)",
+                heading: "var(--color-heading)",
             },
             fontFamily: {
-                heading: ['"Russo One"', "sans-serif"],
-                body: ['"Chakra Petch"', "sans-serif"],
+                heading: ["var(--font-chakra)", "sans-serif"],
+                body: ["var(--font-chakra)", "sans-serif"],
             },
             animation: {
                 "neon-pulse": "neon-pulse 2s ease-in-out infinite",

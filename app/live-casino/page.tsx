@@ -6,14 +6,14 @@ import { agents } from "@/lib/data";
 export default function LiveCasino() {
     const discountCards = [
         {
-            image: "/images/live-bonus.jpg",
+            image: "https://img-live.bannershive.dev/h001_uploads/images/B1_BDT_EN_Pragmatic_Play_God_of_Olympus_1000_Daily_Cashback_CTL_PROMOTION.jpg",
             title: "Live Casino Welcome",
             discount: "100%",
             description: "Experience the thrill of real casino games with a 100% welcome bonus.",
             ctaText: "Sign Up",
         },
         {
-            image: "/images/vip-live.jpg",
+            image: "https://img-live.bannershive.dev/h001_uploads/images/B1_BDT_EN_ALL_Rescue%20Bonus_CTL_PROMOTION.jpg",
             title: "High Roller Cashback",
             discount: "20%",
             description: "Exclusive 20% cashback for VIP players on all live dealer tables.",

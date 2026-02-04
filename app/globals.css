@@ -1,17 +1,20 @@
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&subset=latin,latin-ext&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #2ea3f2;
-  --color-secondary: #000000;
-  --color-cta: #2ea3f2;
-  --color-background: #ffffff;
-  --color-text: #666666;
-  --color-heading: #333333;
-  --color-border: #eeeeee;
+  --color-primary: #dc2626;
+  --color-secondary: #ffffff;
+  --color-cta: #dc2626;
+  --color-background: #0a0a0a;
+  --color-text: #cccccc;
+  --color-heading: #ffffff;
+  --color-border: #222222;
 
-  --font-heading: "Open Sans", sans-serif;
-  --font-body: "Open Sans", sans-serif;
+  --font-heading: var(--font-chakra), "Chakra Petch", sans-serif;
+  --font-body: var(--font-chakra), "Chakra Petch", sans-serif;
+}
+
+.chakra-font {
+  font-family: var(--font-chakra), "Chakra Petch", sans-serif !important;
 }
 
 :root {
@@ -51,8 +54,8 @@ h6 {
 }
 
 a {
-  color: var(--color-primary);
   text-decoration: none;
+  transition: color 0.2s;
 }
 
 a:hover {
