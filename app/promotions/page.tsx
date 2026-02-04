@@ -29,19 +29,8 @@ export default function PromotionPage() {
     ];
 
     return (
-        <div className="min-h-screen pb-20">
-            {/* Hero Section */}
-            <section className="relative py-20 px-4 bg-gradient-to-b from-secondary/10 to-background">
-                <div className="max-w-7xl mx-auto text-center">
-                    <h1 className="text-4xl md:text-6xl font-heading mb-6 neon-glow">
-                        Current Promotions
-                    </h1>
-                    <p className="text-xl text-text/80 max-w-2xl mx-auto">
-                        Boost your bankroll with our exclusive bonuses and rewards.
-                        From welcome packages to daily cashback, we have something for everyone.
-                    </p>
-                </div>
-            </section>
+        <div className="min-h-screen pb-20 pt-10">
+            {/* Content starts directly */}
 
             {/* Promotion Grid */}
             <section className="py-16 px-4">

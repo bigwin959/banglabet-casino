@@ -21,19 +21,8 @@ export default function SportBook() {
     ];
 
     return (
-        <div className="min-h-screen pb-20">
-            {/* Hero Section */}
-            <section className="relative py-20 px-4 bg-gradient-to-b from-cta/10 to-background">
-                <div className="max-w-7xl mx-auto text-center">
-                    <h1 className="text-4xl md:text-6xl font-heading mb-6 neon-glow">
-                        Sportsbook
-                    </h1>
-                    <p className="text-xl text-text/80 max-w-2xl mx-auto">
-                        Bet on your favorite sports with the best odds in the market.
-                        Live betting, thousands of events, and instant payouts.
-                    </p>
-                </div>
-            </section>
+        <div className="min-h-screen pb-20 pt-10">
+            {/* Content starts directly */}
 
             {/* Discount Promotions */}
             <section className="py-16 px-4">

@@ -26,9 +26,9 @@ export default function BankingInfo() {
                 <div className="mb-20">
                     <h2 className="text-3xl md:text-5xl font-bold mb-6 text-white uppercase font-heading tracking-tight">Rapid <span className="text-primary">Deposits</span></h2>
                     <p className="mb-8 text-gray-400 text-lg leading-relaxed">Secure, instantaneous, and diverse. We support the most trusted payment gateways in Bangladesh ensuring your capital is always ready for action.</p>
-                    <div className="overflow-x-auto rounded-lg shadow-2xl border border-white/5 bg-[#111]">
+                    <div className="overflow-x-auto">
                         <table className="w-full text-sm text-left">
-                            <thead className="bg-white/5 text-white border-b border-white/5">
+                            <thead className="text-white border-b border-white/20">
                                 <tr>
                                     <th className="p-4 uppercase font-bold tracking-widest">Gateway</th>
                                     <th className="p-4 uppercase font-bold tracking-widest text-center">Min (BDT)</th>
@@ -37,9 +37,9 @@ export default function BankingInfo() {
                                     <th className="p-4 uppercase font-bold tracking-widest text-center">Fees</th>
                                 </tr>
                             </thead>
-                            <tbody className="divide-y divide-white/5">
+                            <tbody className="divide-y divide-white/10">
                                 {depositMethods.map((m, i) => (
-                                    <tr key={i} className="hover:bg-primary/5 transition-colors">
+                                    <tr key={i} className="transition-colors border-b border-white/5 last:border-0">
                                         <td className="p-4 font-bold text-primary uppercase tracking-tighter">{m.method}</td>
                                         <td className="p-4 text-gray-300 text-center">{m.min}</td>
                                         <td className="p-4 text-gray-300 text-center">{m.max}</td>
@@ -55,9 +55,9 @@ export default function BankingInfo() {
                 <div>
                     <h2 className="text-3xl md:text-5xl font-bold mb-6 text-white uppercase font-heading tracking-tight">Priority <span className="text-primary">Withdrawals</span></h2>
                     <p className="mb-8 text-gray-400 text-lg leading-relaxed">Your winnings, delivered. We prioritize high-speed processing for all withdrawal requests, maintaining the highest standard of financial integrity.</p>
-                    <div className="overflow-x-auto rounded-lg shadow-2xl border border-white/5 bg-[#111]">
+                    <div className="overflow-x-auto">
                         <table className="w-full text-sm text-left">
-                            <thead className="bg-white/5 text-white border-b border-white/5">
+                            <thead className="text-white border-b border-white/20">
                                 <tr>
                                     <th className="p-4 uppercase font-bold tracking-widest">Gateway</th>
                                     <th className="p-4 uppercase font-bold tracking-widest text-center">Min</th>
@@ -66,9 +66,9 @@ export default function BankingInfo() {
                                     <th className="p-4 uppercase font-bold tracking-widest text-center">Daily Cap</th>
                                 </tr>
                             </thead>
-                            <tbody className="divide-y divide-white/5">
+                            <tbody className="divide-y divide-white/10">
                                 {withdrawalMethods.map((m, i) => (
-                                    <tr key={i} className="hover:bg-primary/5 transition-colors">
+                                    <tr key={i} className="transition-colors border-b border-white/5 last:border-0">
                                         <td className="p-4 font-bold text-primary uppercase tracking-tighter">{m.method}</td>
                                         <td className="p-4 text-gray-300 text-center">{m.min}</td>
                                         <td className="p-4 text-gray-300 text-center">{m.max}</td>

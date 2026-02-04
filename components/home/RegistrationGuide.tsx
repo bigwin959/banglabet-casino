@@ -10,32 +10,32 @@ export default function RegistrationGuide() {
                         <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white uppercase font-heading tracking-tight">Signing Up for <span className="text-primary">Banglabet88</span></h2>
                         <p className="mb-8 text-gray-400 text-lg leading-relaxed">Establish your command center. Choose from our four streamlined registration methods designed for maximum velocity and security.</p>
 
-                        <div className="bg-[#111] rounded-lg shadow-2xl overflow-hidden border border-white/5">
+                        <div className="overflow-hidden">
                             <table className="w-full text-sm">
-                                <thead className="bg-white/5 border-b border-white/5">
+                                <thead className="border-b border-white/20">
                                     <tr>
                                         <th className="p-4 text-left font-bold text-white uppercase tracking-wider">Method</th>
                                         <th className="p-4 text-left font-bold text-white uppercase tracking-wider">Requirements</th>
                                         <th className="p-4 text-left font-bold text-white uppercase tracking-wider">Speed</th>
                                     </tr>
                                 </thead>
-                                <tbody className="divide-y divide-white/5">
-                                    <tr className="hover:bg-primary/5 transition-colors">
+                                <tbody className="divide-y divide-white/10">
+                                    <tr className="transition-colors border-b border-white/5 last:border-0">
                                         <td className="p-4 font-bold text-primary uppercase">One-Click</td>
                                         <td className="p-4 text-gray-300">BD Region / BDT Currency</td>
                                         <td className="p-4 text-red-500 font-bold uppercase tracking-tighter">10-15s</td>
                                     </tr>
-                                    <tr className="hover:bg-primary/5 transition-colors">
+                                    <tr className="transition-colors border-b border-white/5 last:border-0">
                                         <td className="p-4 font-bold text-primary uppercase">Email</td>
                                         <td className="p-4 text-gray-300">Full Profile Details</td>
                                         <td className="p-4 text-gray-300 uppercase tracking-tighter">1 min</td>
                                     </tr>
-                                    <tr className="hover:bg-primary/5 transition-colors">
+                                    <tr className="transition-colors border-b border-white/5 last:border-0">
                                         <td className="p-4 font-bold text-primary uppercase">Phone</td>
                                         <td className="p-4 text-gray-300">OTP Authenticated</td>
                                         <td className="p-4 text-red-500 font-bold uppercase tracking-tighter">30s</td>
                                     </tr>
-                                    <tr className="hover:bg-primary/5 transition-colors">
+                                    <tr className="transition-colors border-b border-white/5 last:border-0">
                                         <td className="p-4 font-bold text-primary uppercase">Social</td>
                                         <td className="p-4 text-gray-300">FB / Google / Twitter</td>
                                         <td className="p-4 text-gray-300 uppercase tracking-tighter">1 min</td>
