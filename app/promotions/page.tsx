@@ -1,13 +1,23 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PromotionCard from "@/components/PromotionCard";
 import PromotionsDetails from "@/components/promotions/PromotionsDetails";
-import { promotions } from "@/lib/data";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { promotions as staticPromos } from "@/lib/data";
+import { ChevronDown, ChevronUp, Gift } from "lucide-react";
 
 export default function PromotionPage() {
     const [openFaq, setOpenFaq] = useState<number | null>(null);
+    const [allPromos, setAllPromos] = useState<any[]>([]);
+
+    useEffect(() => {
+        const saved = localStorage.getItem("generalPromotions");
+        if (saved) {
+            setAllPromos(JSON.parse(saved));
+        } else {
+            setAllPromos(staticPromos);
+        }
+    }, []);
 
     const faqs = [
         {
@@ -29,19 +39,35 @@ export default function PromotionPage() {
     ];
 
     return (
-        <div className="min-h-screen pb-20 pt-10">
-            {/* Content starts directly */}
+        <div className="min-h-screen pb-20 pt-28 md:pt-40">
+            {/* Page Header */}
+            <div className="container-custom mb-16 px-4">
+                <div className="flex flex-col items-center text-center">
+                    <div className="flex items-center gap-4 mb-4">
+                        <span className="w-12 h-1 bg-primary rounded-full" />
+                        <span className="text-primary font-black uppercase tracking-[0.4em] text-xs">Rewards & Benefits</span>
+                        <span className="w-12 h-1 bg-primary rounded-full" />
+                    </div>
+                    <h1 className="text-4xl md:text-7xl font-heading font-black text-white uppercase tracking-tighter mb-6">
+                        Elite <span className="text-primary italic">Promotions</span>
+                    </h1>
+                    <p className="text-gray-500 max-w-2xl text-lg font-medium leading-relaxed">
+                        Elevate your gaming experience with our exclusive rewards. From welcome bonuses to weekly cashback, we've designed every offer to maximize your winning potential.
+                    </p>
+                </div>
+            </div>
 
             {/* Promotion Grid */}
             <section className="py-16 px-4">
                 <div className="max-w-7xl mx-auto">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        {promotions.map((promo) => (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                        {allPromos.map((promo) => (
                             <PromotionCard key={promo.id} {...promo} />
                         ))}
                     </div>
                 </div>
             </section>
+
 
             {/* How It Works & FAQ */}
             <section className="py-16 px-4 bg-background/50">

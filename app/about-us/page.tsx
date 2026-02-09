@@ -58,8 +58,21 @@ export default function AboutPage() {
                     </div>
                     <div className="relative">
                         <div className="absolute -inset-4 bg-primary/20 blur-3xl rounded-full"></div>
-                        <div className="relative aspect-square rounded-2xl overflow-hidden border-2 border-primary/30 bg-background/50 flex items-center justify-center">
-                            <div className="text-9xl opacity-20">🏙️</div>
+                        <div className="relative aspect-square rounded-3xl overflow-hidden border border-white/10 bg-surface shadow-2xl flex items-center justify-center group">
+                            <Image 
+                                src="https://res.cloudinary.com/dmyocpyxd/image/upload/w_1200,f_auto,q_auto/v1767000514/Security-Technology.png"
+                                alt="Security Technology"
+                                fill
+                                className="object-cover transition-transform duration-1000 group-hover:scale-110"
+                            />
+                            {/* Glass overlay */}
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                        </div>
+                        
+                        {/* Decorative Badge */}
+                        <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-[#111] border border-white/10 rounded-2xl flex flex-col items-center justify-center shadow-2xl group hover:border-primary/50 transition-colors">
+                            <Shield className="text-primary mb-2 group-hover:scale-110 transition-transform" size={32} />
+                            <span className="text-[10px] font-black uppercase tracking-widest text-center text-gray-500">Secured BY<br/>959 SHIELD</span>
                         </div>
                     </div>
                 </div>

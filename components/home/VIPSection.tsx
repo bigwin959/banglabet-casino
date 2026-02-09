@@ -34,7 +34,7 @@ export default function VIPSection() {
                     ))}
                 </div>
 
-                <Link href="/vip" className="inline-flex items-center px-12 py-5 bg-primary !text-white font-bold rounded-sm hover:bg-red-700 transition-all uppercase tracking-widest text-base shadow-2xl shadow-red-600/30">
+                <Link href="/vip" className="btn-primary !px-12 !py-5 !text-base shadow-2xl shadow-primary/20">
                     Join VIP Club Now
                 </Link>
             </div>

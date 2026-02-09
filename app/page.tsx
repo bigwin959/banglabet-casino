@@ -3,6 +3,7 @@ import BannerSlider from "@/components/BannerSlider";
 import CategoryTeasers from "@/components/home/CategoryTeasers";
 import PromotionsPreview from "@/components/home/PromotionsPreview";
 import RecommendedGames from "@/components/home/RecommendedGames";
+import BlogPreview from "@/components/home/BlogPreview";
 import VIPSection from "@/components/home/VIPSection";
 import ProvidersSection from "@/components/home/ProvidersSection";
 import RegistrationGuide from "@/components/home/RegistrationGuide";
@@ -16,59 +17,62 @@ export default function Home() {
       id: "3",
       image: "/images/hero-3.jpg",
       title: "Premium Classic Gaming",
-      link: "/register",
+      link: "https://www.bigwin959.com/register",
     },
     {
       id: "1",
       image: "/images/hero-1.jpg",
       title: "Ultimate Casino Experience",
-      link: "/register",
+      link: "https://www.bigwin959.com/register",
     },
     {
       id: "2",
       image: "/images/hero-2.jpg",
       title: "Future of Gaming is Here",
-      link: "/register",
+      link: "https://www.bigwin959.com/register",
     },
   ];
 
-  return (
-    <div className="min-h-screen pb-20 pt-20 md:pt-28 bg-background">
-      <h1 className="sr-only">BigWin959 - Premium Online Casino & Sports Betting in Bangladesh</h1>
+    return (
+        <div className="min-h-screen bg-background selection:bg-primary selection:text-white">
+            <h1 className="sr-only">BigWin959 - Premium Online Casino & Sports Betting in Bangladesh</h1>
 
-      {/* Hero Banner Slider */}
-      <section className="py-2 mb-8">
-        <BannerSlider banners={banners} />
-      </section>
+            {/* Hero Section */}
+            <main>
+                <section className="pt-24 md:pt-32 pb-10">
+                    <BannerSlider banners={banners} />
+                </section>
 
-      <div className="space-y-0 text-white">
-        {/* Category Teasers (Sports, Slots, Live) */}
-        <CategoryTeasers />
+                <div className="space-y-0 text-white">
+                    {/* Featured Teasers */}
+                    <CategoryTeasers />
 
-        {/* Promotions Preview */}
-        <PromotionsPreview />
+                    {/* Gaming Lobby Preview - Contains Live Casino */}
+                    <RecommendedGames />
 
-        {/* Recommended Games (Slots & Live) */}
-        <RecommendedGames />
+                    {/* Blog Preview */}
+                    <BlogPreview />
 
-        {/* VIP Section */}
-        <VIPSection />
+                    {/* Promotional Content */}
+                    <PromotionsPreview />
 
-        {/* Game Providers */}
-        <ProvidersSection />
+                    {/* VIP Lounge */}
+                    <VIPSection />
 
-        {/* Registration Guide */}
-        <RegistrationGuide />
-
-        {/* Banking Information */}
-        <BankingInfo />
-
-        {/* Sports Details */}
-        <SportsDetails />
-
-        {/* Info & FAQ */}
-        <InfoSection />
-      </div>
-    </div>
-  );
+                    {/* Trust Signals */}
+                    <ProvidersSection />
+                    
+                    {/* Educational Content */}
+                    <RegistrationGuide />
+                    <BankingInfo />
+                    
+                    {/* Market Details */}
+                    <SportsDetails />
+                    <InfoSection />
+                </div>
+            </main>
+        </div>
+    );
 }
+
+

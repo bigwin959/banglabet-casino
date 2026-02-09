@@ -61,11 +61,6 @@ export default function SportsbookDetails() {
                             <strong>Bonuses and Promotions:</strong> With Bet365 online sports betting, customers are assured of a rain of promotions for a more electrifying betting experience. In fact, there are enhanced odds, free bets, and parlay bonuses applied even to major sporting events.
                         </li>
                     </ul>
-                    <div className="pt-4">
-                        <Link href="/promotions" className="inline-block bg-primary text-white px-8 py-3 rounded-full font-bold hover:bg-opacity-90 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1">
-                            See All Promotions
-                        </Link>
-                    </div>
                 </div>
 
                 {/* SBO */}

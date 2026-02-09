@@ -15,6 +15,7 @@ export interface Promotion {
     discount: string;
     description: string;
     ctaText: string;
+    ctaLink: string;
 }
 
 export interface Agent {
@@ -73,6 +74,7 @@ export const promotions: Promotion[] = [
         discount: "100%",
         description: "Double your first deposit up to $1000",
         ctaText: "Claim Now",
+        ctaLink: "/register",
     },
     {
         id: 2,
@@ -81,6 +83,7 @@ export const promotions: Promotion[] = [
         discount: "50%",
         description: "Get 50% bonus on every reload",
         ctaText: "Claim Now",
+        ctaLink: "/deposit",
     },
     {
         id: 3,
@@ -89,6 +92,7 @@ export const promotions: Promotion[] = [
         discount: "10%",
         description: "Get 10% cashback every week",
         ctaText: "Claim Now",
+        ctaLink: "/register",
     },
     {
         id: 4,
@@ -97,6 +101,7 @@ export const promotions: Promotion[] = [
         discount: "Exclusive",
         description: "Join our VIP program for exclusive benefits",
         ctaText: "Learn More",
+        ctaLink: "/vip",
     },
     {
         id: 5,
@@ -105,6 +110,7 @@ export const promotions: Promotion[] = [
         discount: "$100",
         description: "Earn $100 for each friend you refer",
         ctaText: "Refer Now",
+        ctaLink: "/referral",
     },
     {
         id: 6,
@@ -113,6 +119,7 @@ export const promotions: Promotion[] = [
         discount: "Free Spins",
         description: "Get free spins on your birthday",
         ctaText: "Claim Now",
+        ctaLink: "/register",
     },
     {
         id: 7,
@@ -121,6 +128,7 @@ export const promotions: Promotion[] = [
         discount: "$10K",
         description: "Win up to $10,000 in our tournaments",
         ctaText: "Join Now",
+        ctaLink: "/tournaments",
     },
     {
         id: 8,
@@ -129,6 +137,7 @@ export const promotions: Promotion[] = [
         discount: "2x Points",
         description: "Earn double loyalty points this month",
         ctaText: "Play Now",
+        ctaLink: "/games",
     },
     {
         id: 9,
@@ -137,6 +146,7 @@ export const promotions: Promotion[] = [
         discount: "$50",
         description: "Get $50 bonus when you play on mobile",
         ctaText: "Claim Now",
+        ctaLink: "/download",
     },
     {
         id: 10,
@@ -145,6 +155,7 @@ export const promotions: Promotion[] = [
         discount: "25%",
         description: "Get 25% extra on weekend deposits",
         ctaText: "Claim Now",
+        ctaLink: "/register",
     },
 ];
 

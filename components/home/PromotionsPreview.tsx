@@ -16,7 +16,7 @@ export default function PromotionsPreview() {
                         <p className="text-gray-400 mb-10 text-lg leading-relaxed max-w-2xl">
                             BigWin959 is your premier destination for elite bonuses. Whether you're a newcomer or a high-roller, our curated rewards are designed to amplify your winning potential.
                         </p>
-                        <Link href="/promotions" className="inline-flex items-center px-10 py-4 bg-primary !text-white font-bold rounded-sm hover:bg-red-700 transition-all uppercase tracking-widest text-sm shadow-xl shadow-red-600/20">
+                        <Link href="/promotions" className="btn-primary !px-10 !py-4 shadow-xl shadow-primary/20">
                             See All Promotions
                         </Link>
                     </div>

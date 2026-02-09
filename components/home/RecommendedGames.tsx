@@ -42,44 +42,70 @@ const liveGames = [
 
 export default function RecommendedGames() {
     return (
-        <section className="py-20 bg-background">
-            <div className="container-custom">
-                {/* Slots */}
-                <div className="mb-24">
-                    <h2 className="text-3xl md:text-5xl font-bold mb-4 text-center text-white uppercase font-heading tracking-tight">Recommended <span className="text-primary">Slot Games</span></h2>
-                    <p className="text-center text-gray-500 mb-12 font-medium uppercase tracking-widest text-sm">Super Ace • Gates of Olympus • Fortune Gems</p>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        {slotGames.map((game, i) => (
-                            <div key={i} className="transition-all duration-300 group">
-                                <div className="aspect-square w-full relative mb-6 rounded-2xl overflow-hidden transition-all duration-300 shadow-2xl">
-                                    <Image src={game.image} alt={game.title} fill className="object-cover transition-transform group-hover:scale-110 duration-700" />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                                    <span className="absolute top-4 left-4 bg-primary text-white text-[10px] font-bold px-3 py-1 rounded-sm uppercase tracking-tighter shadow-2xl z-10">{game.tags[0]}</span>
-                                </div>
-                                <h3 className="text-xl font-bold mb-3 text-white uppercase font-heading tracking-wide group-hover:text-primary transition-colors">{game.title}</h3>
-                                <p className="text-sm text-gray-400 leading-relaxed mb-6 line-clamp-3">{game.description}</p>
-                                <Link href="/slots" className="inline-flex items-center text-primary font-bold text-sm uppercase tracking-widest hover:text-red-500 transition-colors">Play Now <span className="ml-2 group-hover:translate-x-2 transition-transform">→</span></Link>
-                            </div>
-                        ))}
-                    </div>
-                    <div className="text-center mt-12">
-                        <Link href="/slots" className="inline-flex items-center px-12 py-4 bg-primary !text-white font-bold rounded-sm hover:bg-red-700 transition-all uppercase tracking-widest text-sm shadow-xl shadow-red-600/20">View All Slots</Link>
-                    </div>
-                </div>
-
-                {/* Live Casino */}
+        <section className="py-24 bg-background relative overflow-hidden">
+            {/* Background Decoration */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/5 rounded-full blur-[150px] pointer-events-none" />
+            
+            <div className="container-custom relative z-10">
+                {/* Live Casino Section */}
                 <div>
-                    <h2 className="text-3xl md:text-5xl font-bold mb-12 text-center text-white uppercase font-heading tracking-tight">Elite <span className="text-primary">Live Casino</span></h2>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div className="text-center mb-20">
+                        <div className="flex items-center justify-center space-x-3 mb-4">
+                            <span className="w-12 h-px bg-primary" />
+                            <span className="text-primary font-black uppercase tracking-[0.5em] text-xs">Diamond Lobby</span>
+                            <span className="w-12 h-px bg-primary" />
+                        </div>
+                        <h2 className="text-5xl md:text-7xl font-bold text-white uppercase font-heading tracking-tighter leading-none mb-8">
+                            Elite <span className="text-primary italic">Live Dealers</span>
+                        </h2>
+                        <p className="text-gray-400 max-w-2xl mx-auto text-lg italic leading-relaxed">
+                            Experience the pulse-pounding thrill of a real casino floor from the luxury of your home with our world-class, professional dealers.
+                        </p>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
                         {liveGames.map((game, i) => (
-                            <div key={i} className="transition-all duration-300 group">
-                                <div className="aspect-square w-full relative mb-6 rounded-2xl overflow-hidden transition-all duration-300 shadow-2xl">
-                                    <Image src={game.image} alt={game.title} fill className="object-cover transition-transform group-hover:scale-110 duration-700" />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                            <div key={i} className="group">
+                                <div className="relative aspect-[16/10] rounded-3xl overflow-hidden mb-8 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.5)] transition-all duration-700 group-hover:-translate-y-3 group-hover:shadow-[0_45px_70px_-20px_rgba(220,38,38,0.2)]">
+                                    <Image 
+                                        src={game.image} 
+                                        alt={game.title} 
+                                        fill 
+                                        className="object-cover transition-transform duration-[2000ms] group-hover:scale-110" 
+                                    />
+                                    {/* Vignette Overlay */}
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
+                                    
+                                    <div className="absolute bottom-6 left-8">
+                                        <div className="flex items-center space-x-3 text-primary">
+                                            <div className="flex space-x-1">
+                                                <div className="w-1.5 h-1.5 rounded-full bg-primary animate-ping" />
+                                                <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+                                            </div>
+                                            <span className="text-[10px] font-black uppercase tracking-[0.3em] text-white/90">Studio Active</span>
+                                        </div>
+                                    </div>
+                                    
+                                    {/* Action Button on Hover */}
+                                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 bg-black/40 backdrop-blur-[2px]">
+                                        <Link href="/live-casino" className="btn-primary !scale-90 group-hover:!scale-100 transition-transform duration-500">
+                                            Take A Seat
+                                        </Link>
+                                    </div>
                                 </div>
-                                <h3 className="text-xl font-bold mb-3 text-white uppercase font-heading tracking-wide group-hover:text-primary transition-colors">{game.title}</h3>
-                                <p className="text-sm text-gray-400 leading-relaxed mb-6 line-clamp-3">{game.description}</p>
-                                <Link href="/live-casino" className="inline-flex items-center justify-center w-full py-3 border border-primary/50 text-primary font-bold rounded-sm hover:bg-primary hover:text-white transition-all uppercase tracking-widest text-xs">Bet Live</Link>
+                                <div className="px-4">
+                                    <div className="flex items-center justify-between mb-3">
+                                        <h3 className="text-2xl font-bold text-white uppercase font-heading tracking-tight group-hover:text-primary transition-colors">
+                                            {game.title}
+                                        </h3>
+                                    </div>
+                                    <p className="text-gray-500 text-sm leading-relaxed mb-8 line-clamp-2">
+                                        {game.description}
+                                    </p>
+                                    <Link href="/live-casino" className="inline-flex items-center text-white/60 font-bold text-xs uppercase tracking-[0.3em] group/link hover:text-primary transition-colors">
+                                        Join Table <span className="ml-4 text-primary group-hover/link:translate-x-3 transition-transform">→</span>
+                                    </Link>
+                                </div>
                             </div>
                         ))}
                     </div>
@@ -88,3 +114,4 @@ export default function RecommendedGames() {
         </section>
     );
 }
+
