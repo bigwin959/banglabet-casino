@@ -4,19 +4,8 @@ import { Mail, Phone, MapPin, MessageSquare, Send } from "lucide-react";
 
 export default function ContactPage() {
     return (
-        <div className="min-h-screen pb-20">
-            {/* Hero Section */}
-            <section className="relative py-20 px-4 bg-background">
-                <div className="max-w-7xl mx-auto text-center">
-                    <h1 className="text-4xl md:text-6xl font-heading mb-6 neon-glow">
-                        Get in Touch
-                    </h1>
-                    <p className="text-xl text-text/80 max-w-2xl mx-auto">
-                        Have questions or need assistance? Our support team is here to help you 24/7.
-                        Reach out to us through any of the channels below.
-                    </p>
-                </div>
-            </section>
+        <div className="min-h-screen pb-20 pt-24 md:pt-28">
+
 
             <div className="max-w-7xl mx-auto px-4 py-12">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
@@ -66,8 +55,8 @@ export default function ContactPage() {
                                 </div>
                                 <h3 className="text-lg font-heading mb-2">Email Support</h3>
                                 <p className="text-text/70 text-sm mb-2">For general inquiries</p>
-                                <a href="mailto:support@banglabet88.com" className="text-cta hover:underline">
-                                    support@banglabet88.com
+                                <a href="mailto:support@bigwin959.com" className="text-cta hover:underline">
+                                    support@bigwin959.com
                                 </a>
                             </div>
 

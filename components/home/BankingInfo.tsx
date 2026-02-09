@@ -21,30 +21,30 @@ const withdrawalMethods = [
 
 export default function BankingInfo() {
     return (
-        <section className="py-16 bg-white">
+        <section className="py-20 bg-background">
             <div className="container-custom">
-                <div className="mb-12">
-                    <h2 className="text-2xl font-bold mb-4 text-heading">Deposit Methods</h2>
-                    <p className="mb-6 text-text">Depositing is super easy in Melbet Bangladesh. You can choose from bank transfer, e-wallet, and cryptocurrencies. The minimum amount to deposit is only 30 BDT.</p>
-                    <div className="overflow-x-auto rounded-lg shadow-sm border border-gray-100">
+                <div className="mb-20">
+                    <h2 className="text-3xl md:text-5xl font-bold mb-6 text-white uppercase font-heading tracking-tight">Rapid <span className="text-primary">Deposits</span></h2>
+                    <p className="mb-8 text-gray-400 text-lg leading-relaxed">Secure, instantaneous, and diverse. We support the most trusted payment gateways in Bangladesh ensuring your capital is always ready for action.</p>
+                    <div className="overflow-x-auto">
                         <table className="w-full text-sm text-left">
-                            <thead className="bg-gray-100 text-heading">
+                            <thead className="text-white border-b border-white/20">
                                 <tr>
-                                    <th className="p-3">Payment Method</th>
-                                    <th className="p-3">Min Deposit (BDT)</th>
-                                    <th className="p-3">Max Deposit (BDT)</th>
-                                    <th className="p-3">Processing Time</th>
-                                    <th className="p-3">Fees</th>
+                                    <th className="p-4 uppercase font-bold tracking-widest">Gateway</th>
+                                    <th className="p-4 uppercase font-bold tracking-widest text-center">Min (BDT)</th>
+                                    <th className="p-4 uppercase font-bold tracking-widest text-center">Max (BDT)</th>
+                                    <th className="p-4 uppercase font-bold tracking-widest text-center">Tempo</th>
+                                    <th className="p-4 uppercase font-bold tracking-widest text-center">Fees</th>
                                 </tr>
                             </thead>
-                            <tbody className="divide-y divide-gray-100">
+                            <tbody className="divide-y divide-white/10">
                                 {depositMethods.map((m, i) => (
-                                    <tr key={i} className="hover:bg-gray-50">
-                                        <td className="p-3 font-medium text-primary">{m.method}</td>
-                                        <td className="p-3">{m.min}</td>
-                                        <td className="p-3">{m.max}</td>
-                                        <td className="p-3">{m.time}</td>
-                                        <td className="p-3">{m.fees}</td>
+                                    <tr key={i} className="transition-colors border-b border-white/5 last:border-0">
+                                        <td className="p-4 font-bold text-primary uppercase tracking-tighter">{m.method}</td>
+                                        <td className="p-4 text-gray-300 text-center">{m.min}</td>
+                                        <td className="p-4 text-gray-300 text-center">{m.max}</td>
+                                        <td className="p-4 text-red-500 font-bold text-center uppercase text-xs">{m.time}</td>
+                                        <td className="p-4 text-gray-300 text-center">{m.fees}</td>
                                     </tr>
                                 ))}
                             </tbody>
@@ -53,29 +53,27 @@ export default function BankingInfo() {
                 </div>
 
                 <div>
-                    <h2 className="text-2xl font-bold mb-4 text-heading">Withdrawal Methods</h2>
-                    <p className="mb-6 text-text">BigWin959 BD processes most of the e-wallet and mobile banking withdrawals within a few hours. Bank transfers can take a little longer.</p>
-                    <div className="overflow-x-auto rounded-lg shadow-sm border border-gray-100">
+                    <h2 className="text-3xl md:text-5xl font-bold mb-6 text-white uppercase font-heading tracking-tight">Priority <span className="text-primary">Withdrawals</span></h2>
+                    <p className="mb-8 text-gray-400 text-lg leading-relaxed">Your winnings, delivered. We prioritize high-speed processing for all withdrawal requests, maintaining the highest standard of financial integrity.</p>
+                    <div className="overflow-x-auto">
                         <table className="w-full text-sm text-left">
-                            <thead className="bg-gray-100 text-heading">
+                            <thead className="text-white border-b border-white/20">
                                 <tr>
-                                    <th className="p-3">Payment Method</th>
-                                    <th className="p-3">Min Withdrawal</th>
-                                    <th className="p-3">Max Withdrawal</th>
-                                    <th className="p-3">Time</th>
-                                    <th className="p-3">Fees</th>
-                                    <th className="p-3">Daily Limit</th>
+                                    <th className="p-4 uppercase font-bold tracking-widest">Gateway</th>
+                                    <th className="p-4 uppercase font-bold tracking-widest text-center">Min</th>
+                                    <th className="p-4 uppercase font-bold tracking-widest text-center">Max</th>
+                                    <th className="p-4 uppercase font-bold tracking-widest text-center">Time</th>
+                                    <th className="p-4 uppercase font-bold tracking-widest text-center">Daily Cap</th>
                                 </tr>
                             </thead>
-                            <tbody className="divide-y divide-gray-100">
+                            <tbody className="divide-y divide-white/10">
                                 {withdrawalMethods.map((m, i) => (
-                                    <tr key={i} className="hover:bg-gray-50">
-                                        <td className="p-3 font-medium text-primary">{m.method}</td>
-                                        <td className="p-3">{m.min}</td>
-                                        <td className="p-3">{m.max}</td>
-                                        <td className="p-3">{m.time}</td>
-                                        <td className="p-3">{m.fees}</td>
-                                        <td className="p-3">{m.daily}</td>
+                                    <tr key={i} className="transition-colors border-b border-white/5 last:border-0">
+                                        <td className="p-4 font-bold text-primary uppercase tracking-tighter">{m.method}</td>
+                                        <td className="p-4 text-gray-300 text-center">{m.min}</td>
+                                        <td className="p-4 text-gray-300 text-center">{m.max}</td>
+                                        <td className="p-4 text-red-500 font-bold text-center uppercase text-xs">{m.time}</td>
+                                        <td className="p-4 text-gray-300 text-center">{m.daily}</td>
                                     </tr>
                                 ))}
                             </tbody>

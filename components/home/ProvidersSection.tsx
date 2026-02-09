@@ -5,16 +5,16 @@ const providers = [
 
 export default function ProvidersSection() {
     return (
-        <section className="py-12 bg-white border-b border-gray-100">
+        <section className="py-20 bg-background border-b border-white/5">
             <div className="container-custom text-center">
-                <h2 className="text-2xl font-bold mb-6 text-heading">BigWin959 Premier Online Casino Game Provider</h2>
-                <p className="text-text mb-8 max-w-4xl mx-auto">
-                    On top of everything that matters, BigWin959 makes sure that its customers’ gameplay experiences are premier and exceptional, hence collaborating with today’s leading game providers. Top-quality games are always at your fingertips, from slots to live dealer options and table games.
+                <h2 className="text-3xl md:text-5xl font-bold mb-8 text-white uppercase font-heading tracking-tight">Premier <span className="text-primary">Game Providers</span></h2>
+                <p className="text-gray-400 mb-12 max-w-4xl mx-auto text-lg leading-relaxed">
+                    Excellence is non-negotiable. BigWin959 partners with the world's most elite developers to bring you cutting-edge gameplay and unmatched fairness.
                 </p>
 
-                <div className="flex flex-wrap justify-center gap-4 opacity-70">
+                <div className="flex flex-wrap justify-center gap-6">
                     {providers.map((provider, i) => (
-                        <div key={i} className="bg-gray-100 px-6 py-3 rounded-full font-bold text-gray-500 select-none">
+                        <div key={i} className="bg-[#151515] px-8 py-4 rounded-sm border border-white/5 text-white/50 text-sm font-bold uppercase tracking-[0.2em] transition-all duration-300 hover:text-primary hover:border-primary/50 cursor-default select-none">
                             {provider}
                         </div>
                     ))}

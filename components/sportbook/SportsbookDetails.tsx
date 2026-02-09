@@ -17,7 +17,7 @@ export default function SportsbookDetails() {
                 <div className="space-y-6">
                     <h3 className="text-2xl font-heading font-semibold text-heading">Cricket</h3>
                     <p className="leading-relaxed">
-                        In Banglabet, there is no doubt that despite not being the country’s national sport, cricket sports has captured the interest and hearts of many Bangladeshis, leading it to also dominate online sports betting in the country among other sports. Well, BigWin959 online sports betting, along with Sports 333 Bet and others, presents a spectacular and formidable sportsbook in terms of cricket betting.
+                        In BigWin959, there is no doubt that despite not being the country’s national sport, cricket sports has captured the interest and hearts of many Bangladeshis, leading it to also dominate online sports betting in the country among other sports. Well, BigWin959 online sports betting, along with Sports 333 Bet and others, presents a spectacular and formidable sportsbook in terms of cricket betting.
                     </p>
                     <p className="leading-relaxed">
                         Dive through Bet365 in terms of cricket betting, or its online sports betting, in general, by supplying yourself with information such as available types of bets shown in the following:
@@ -55,17 +55,12 @@ export default function SportsbookDetails() {
                             <strong>Bet Builder:</strong> This interesting feature, not only with Bet365 but also with Sports 333 Bet, allows bettors to customize and combine their previous bets, such as prop bets on the first goal scorer and total goals through over or under-bets.
                         </li>
                         <li>
-                            <strong>Cash Out:</strong> Betting in Banglabet ensures a safe and hassle-free transaction, such as by letting you settle your bet first before the end of a match, thereby securing your profit and minimizing potential losses.
+                            <strong>Cash Out:</strong> Betting in BigWin959 ensures a safe and hassle-free transaction, such as by letting you settle your bet first before the end of a match, thereby securing your profit and minimizing potential losses.
                         </li>
                         <li>
                             <strong>Bonuses and Promotions:</strong> With Bet365 online sports betting, customers are assured of a rain of promotions for a more electrifying betting experience. In fact, there are enhanced odds, free bets, and parlay bonuses applied even to major sporting events.
                         </li>
                     </ul>
-                    <div className="pt-4">
-                        <Link href="/promotions" className="inline-block bg-primary text-white px-8 py-3 rounded-full font-bold hover:bg-opacity-90 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1">
-                            See All Promotions
-                        </Link>
-                    </div>
                 </div>
 
                 {/* SBO */}
@@ -97,7 +92,7 @@ export default function SportsbookDetails() {
                 <div className="space-y-6">
                     <h3 className="text-2xl font-heading font-semibold text-heading">HorseBook</h3>
                     <p className="leading-relaxed">
-                        Horse racing enthusiasts definitely havea place in Banglabet. Some of the best options you are encouraged to consider are:
+                        Horse racing enthusiasts definitely havea place in BigWin959. Some of the best options you are encouraged to consider are:
                     </p>
                     <ul className="list-disc pl-6 space-y-4">
                         <li>

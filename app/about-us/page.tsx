@@ -11,7 +11,7 @@ export default function AboutPage() {
         {
             icon: Users,
             title: "Community Focused",
-            description: "BanglaBet88 is built for the community. We value our players and strive to provide the most engaging social gaming experience."
+            description: "BigWin959 is built for the community. We value our players and strive to provide the most engaging social gaming experience."
         },
         {
             icon: Award,
@@ -36,7 +36,7 @@ export default function AboutPage() {
                             Redefining Online <br /><span className="text-cta">Entertainment</span>
                         </h1>
                         <p className="text-xl text-text/80 mb-8">
-                            BanglaBet88 is Bangladesh's premier online gaming destination,
+                            BigWin959 is Bangladesh's premier online gaming destination,
                             offering a world-class casino and sports betting experience tailored for you.
                         </p>
                         <div className="flex space-x-4">
@@ -58,8 +58,21 @@ export default function AboutPage() {
                     </div>
                     <div className="relative">
                         <div className="absolute -inset-4 bg-primary/20 blur-3xl rounded-full"></div>
-                        <div className="relative aspect-square rounded-2xl overflow-hidden border-2 border-primary/30 bg-background/50 flex items-center justify-center">
-                            <div className="text-9xl opacity-20">🏙️</div>
+                        <div className="relative aspect-square rounded-3xl overflow-hidden border border-white/10 bg-surface shadow-2xl flex items-center justify-center group">
+                            <Image 
+                                src="https://res.cloudinary.com/dmyocpyxd/image/upload/w_1200,f_auto,q_auto/v1767000514/Security-Technology.png"
+                                alt="Security Technology"
+                                fill
+                                className="object-cover transition-transform duration-1000 group-hover:scale-110"
+                            />
+                            {/* Glass overlay */}
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                        </div>
+                        
+                        {/* Decorative Badge */}
+                        <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-[#111] border border-white/10 rounded-2xl flex flex-col items-center justify-center shadow-2xl group hover:border-primary/50 transition-colors">
+                            <Shield className="text-primary mb-2 group-hover:scale-110 transition-transform" size={32} />
+                            <span className="text-[10px] font-black uppercase tracking-widest text-center text-gray-500">Secured BY<br/>959 SHIELD</span>
                         </div>
                     </div>
                 </div>
@@ -83,7 +96,7 @@ export default function AboutPage() {
             <section className="py-20 px-4">
                 <div className="max-w-7xl mx-auto">
                     <h2 className="text-3xl font-heading text-center mb-16 text-primary neon-glow">
-                        Why Choose BanglaBet88
+                        Why Choose BigWin959
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                         {features.map((feature, index) => (
@@ -108,7 +121,7 @@ export default function AboutPage() {
                         Join Our Community Today
                     </h2>
                     <p className="text-lg text-text/80 mb-8">
-                        Experience the difference with BanglaBet88. Sign up now and claim your welcome bonus.
+                        Experience the difference with BigWin959. Sign up now and claim your welcome bonus.
                     </p>
                     <button className="btn-primary neon-glow-cta px-8 py-3">
                         Get Started

@@ -1,11 +1,22 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Menu, X } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { Menu, X, Globe } from "lucide-react";
 
 export default function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+    const [isScrolled, setIsScrolled] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            setIsScrolled(window.scrollY > 20);
+        };
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
@@ -20,108 +31,113 @@ export default function Header() {
         { label: "Contact Us", href: "/contact-us" },
     ];
 
+    const pathname = usePathname();
+
     return (
-        <header className="bg-white shadow-sm sticky top-0 z-50">
-            <div className="container-custom py-3 max-w-[1080px]">
-                <div className="flex items-center justify-between">
+        <header className={`fixed inset-x-0 z-50 transition-all duration-500 px-4 md:px-8 ${isScrolled ? "top-0 py-2" : "top-2 md:top-4"}`}>
+            <div className={`max-w-7xl mx-auto transition-all duration-500 border border-white/10 flex items-center justify-between px-6 
+                ${isScrolled 
+                    ? "bg-black/90 backdrop-blur-xl rounded-none md:rounded-full h-14 md:h-16 shadow-2xl" 
+                    : "bg-black/50 backdrop-blur-md rounded-full h-14 md:h-20 shadow-lg"}`}>
+
+                {/* Logo & Links Group */}
+                <div className="flex items-center space-x-10">
                     {/* Logo */}
-                    <div className="flex-shrink-0">
-                        <Link href="/">
-                            <img
-                                src="/logo.svg"
-                                alt="Banglabet88"
-                                className="h-12 w-auto object-contain"
-                                onError={(e) => {
-                                    // Fallback if logo missing
-                                    e.currentTarget.style.display = 'none';
-                                }}
+                    <Link href="/" className="flex items-center group">
+                        <div className="relative h-8 md:h-12 w-auto transition-all duration-300 group-hover:scale-105 group-hover:drop-shadow-[0_0_8px_rgba(220,38,38,0.5)]">
+                            <img 
+                                src="/logo.png" 
+                                alt="BigWin959 Logo" 
+                                className="h-full w-auto object-contain"
                             />
-                            <span className="text-2xl font-bold text-heading hidden">Banglabet88</span>
-                        </Link>
-                        {/* Text fallback if image fails to load or during dev */}
-                        <Link href="/" className="text-2xl font-bold text-heading md:hidden lg:hidden">
-                            Banglabet88
-                        </Link>
-                    </div>
+                        </div>
+                    </Link>
 
                     {/* Desktop Navigation */}
-                    <nav className="hidden md:flex space-x-6 items-center">
-                        {menuItems.map((item) => (
-                            <Link
-                                key={item.label}
-                                href={item.href}
-                                className="text-text hover:text-primary font-medium transition-colors"
-                            >
-                                {item.label}
-                            </Link>
-                        ))}
-                    </nav>
-
-                    {/* Auth Buttons & Mobile Toggle */}
-                    <div className="flex items-center space-x-4">
-                        <div className="hidden md:flex space-x-2">
-                            <a
-                                href="https://bbtlink.co/banglabet88net"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="btn-primary"
-                            >
-                                Log In
-                            </a>
-                            <a
-                                href="https://bbtlink.co/banglabet88net"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="btn-outline"
-                            >
-                                Sign Up
-                            </a>
-                        </div>
-
-                        {/* Mobile Menu Button */}
-                        <button
-                            className="md:hidden text-heading focus:outline-none"
-                            onClick={toggleMenu}
-                        >
-                            {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
-                        </button>
+                    <div className="hidden lg:flex items-center space-x-8">
+                        {menuItems.map((item) => {
+                            const isActive = pathname === item.href;
+                            return (
+                                <Link
+                                    key={item.label}
+                                    href={item.href}
+                                    className={`text-[13px] font-bold transition-all uppercase tracking-[0.15em] relative group/item
+                                        ${isActive ? "text-primary" : "text-gray-400 hover:text-white"}`}
+                                >
+                                    {item.label}
+                                    <span className={`absolute -bottom-1 left-0 h-0.5 bg-primary transition-all duration-300 shadow-[0_0_8px_rgba(255,0,0,0.8)]
+                                        ${isActive ? "w-full" : "w-0 group-hover/item:w-full"}`}></span>
+                                </Link>
+                            );
+                        })}
                     </div>
+                </div>
+
+                {/* Right Side - Actions */}
+                <div className="flex items-center space-x-6">
+                    <div className="hidden xl:flex items-center space-x-4">
+                        <Link href="/login" className="text-sm font-bold text-white hover:text-primary transition-colors uppercase tracking-widest">
+                            Log In
+                        </Link>
+                    </div>
+
+                    <a
+                        href="https://www.bigwin959.com/register"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn-primary flex items-center !px-8 !text-black"
+                    >
+                        Join Now
+                    </a>
+
+                    {/* Mobile Menu Button */}
+                    <button
+                        onClick={toggleMenu}
+                        className="lg:hidden text-white hover:text-primary transition-colors p-2"
+                    >
+                        {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
+                    </button>
                 </div>
             </div>
 
-            {/* Mobile Menu Dropdown */}
+
+            {/* Mobile Menu */}
             {isMenuOpen && (
-                <div className="md:hidden bg-white border-t border-gray-100 absolute w-full left-0 top-full shadow-lg">
-                    <nav className="flex flex-col p-4 space-y-4">
-                        {menuItems.map((item) => (
+                <div className="lg:hidden mt-2 mx-auto max-w-[95%] bg-black/95 backdrop-blur-lg rounded-3xl shadow-2xl border border-white/10 overflow-hidden">
+                    <div className="px-6 py-8 space-y-4">
+                        {menuItems.map((item) => {
+                            const isActive = pathname === item.href;
+                            return (
+                                <Link
+                                    key={item.label}
+                                    href={item.href}
+                                    className={`block text-lg font-semibold transition-colors uppercase tracking-widest font-heading
+                                    ${isActive ? "text-primary pl-2 border-l-2 border-primary" : "text-gray-300 hover:text-white"}`}
+                                    onClick={() => setIsMenuOpen(false)}
+                                >
+                                    {item.label}
+                                </Link>
+                            );
+                        })}
+                        <div className="pt-4 border-t border-white/10 flex flex-col space-y-3">
                             <Link
-                                key={item.label}
-                                href={item.href}
-                                className="text-text hover:text-primary font-medium p-2 block border-b border-gray-50"
+                                href="/login"
+                                className="text-center text-gray-300 font-bold py-3 hover:text-white font-heading tracking-widest"
                                 onClick={() => setIsMenuOpen(false)}
                             >
-                                {item.label}
+                                Login
                             </Link>
-                        ))}
-                        <div className="flex flex-col space-y-2 pt-2">
                             <a
-                                href="https://bbtlink.co/banglabet88net"
+                                href="https://www.bigwin959.com/register"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="btn-primary text-center"
+                                className="btn-primary !text-black text-center font-bold py-3 rounded-full shadow-lg shadow-primary/20 font-heading tracking-widest"
+                                onClick={() => setIsMenuOpen(false)}
                             >
-                                Log In
-                            </a>
-                            <a
-                                href="https://bbtlink.co/banglabet88net"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="btn-outline text-center"
-                            >
-                                Sign Up
+                                Join Now
                             </a>
                         </div>
-                    </nav>
+                    </div>
                 </div>
             )}
         </header>

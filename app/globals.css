@@ -1,17 +1,26 @@
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&subset=latin,latin-ext&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #2ea3f2;
-  --color-secondary: #000000;
-  --color-cta: #2ea3f2;
-  --color-background: #ffffff;
-  --color-text: #666666;
-  --color-heading: #333333;
-  --color-border: #eeeeee;
+  --color-primary: #ffe491;
+  --color-primary-dark: #ccb674;
+  --color-primary-light: #ffefbd;
+  --color-secondary: #dc2626; /* Kept red as secondary if needed, but primary is now gold */
+  --color-cta: #ffe491;
+  --color-background: #050505;
+  --color-surface: #0f0f0f;
+  --color-text: #a3a3a3;
+  --color-heading: #ffffff;
+  --color-border: #1a1a1a;
 
-  --font-heading: "Open Sans", sans-serif;
-  --font-body: "Open Sans", sans-serif;
+  --font-heading: var(--font-chakra), "Chakra Petch", sans-serif;
+  --font-body: var(--font-chakra), "Chakra Petch", sans-serif;
+
+  --shadow-premium: 0 0 30px rgba(255, 228, 145, 0.15);
+  --shadow-glow: 0 0 20px rgba(255, 228, 145, 0.4);
+}
+
+.chakra-font {
+  font-family: var(--font-chakra), "Chakra Petch", sans-serif !important;
 }
 
 :root {
@@ -22,21 +31,28 @@
   --space-xl: 2rem;
   --space-2xl: 3rem;
   --space-3xl: 4rem;
-
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
-  --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.15);
 }
 
 /* Base styles */
 body {
   font-family: var(--font-body);
   background-color: var(--color-background);
+  background-image:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(255, 228, 145, 0.05) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(255, 228, 145, 0.03) 0%,
+      transparent 40%
+    );
   color: var(--color-text);
   overflow-x: hidden;
-  line-height: 1.7em;
-  font-weight: 500;
+  line-height: 1.6;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
 }
 
 h1,
@@ -47,35 +63,82 @@ h5,
 h6 {
   font-family: var(--font-heading);
   color: var(--color-heading);
-  font-weight: 500;
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
 a {
-  color: var(--color-primary);
   text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-a:hover {
-  text-decoration: none;
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #222;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary);
 }
 
 /* Utilities */
 .container-custom {
-  width: 80%;
-  max-width: 1080px;
+  width: 90%;
+  max-width: 1200px;
   margin: auto;
   position: relative;
 }
 
+.glass-panel {
+  @apply bg-white/5 backdrop-blur-md border border-white/10;
+}
+
 .btn-primary {
-  @apply bg-primary text-white px-6 py-3 rounded font-medium transition-all duration-200 cursor-pointer hover:opacity-90;
+  @apply relative overflow-hidden bg-primary text-black px-8 py-3 rounded-sm font-black transition-all duration-300 cursor-pointer hover:shadow-[0_0_20px_#ffe491] active:scale-95 uppercase tracking-widest text-sm;
+}
+
+.btn-primary::after {
+  content: "";
+  @apply absolute top-0 -left-full w-full h-full bg-gradient-to-r from-transparent via-white/40 to-transparent transition-all duration-500;
+}
+
+.btn-primary:hover::after {
+  @apply left-full;
 }
 
 .btn-outline {
-  @apply bg-transparent text-primary border border-primary px-6 py-3 rounded font-medium transition-all duration-200 cursor-pointer hover:bg-primary hover:text-white;
+  @apply bg-transparent text-white border border-primary/40 px-8 py-3 rounded-sm font-bold transition-all duration-300 cursor-pointer hover:bg-primary hover:text-black uppercase tracking-widest text-sm;
 }
 
 /* Swiper overrides */
 .swiper-pagination-bullet-active {
   background-color: var(--color-primary) !important;
+  box-shadow: 0 0 10px var(--color-primary);
 }
+
+/* Animations */
+@keyframes pulse-glow {
+  0% {
+    box-shadow: 0 0 5px rgba(255, 228, 145, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(255, 228, 145, 0.5);
+  }
+  100% {
+    box-shadow: 0 0 5px rgba(255, 228, 145, 0.2);
+  }
+}
+
+.animate-glow {
+  animation: pulse-glow 3s infinite;
+}
+
