@@ -35,7 +35,7 @@ export default function PromotionPage() {
             {/* Promotion Grid */}
             <section className="py-16 px-4">
                 <div className="max-w-7xl mx-auto">
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         {promotions.map((promo) => (
                             <PromotionCard key={promo.id} {...promo} />
                         ))}
@@ -79,9 +79,9 @@ export default function PromotionPage() {
                     <div className="mt-12 p-6 bg-primary/10 rounded-xl border border-primary/20">
                         <h3 className="text-xl font-heading text-primary mb-4">Terms & Conditions</h3>
                         <p className="text-sm text-text/70">
-                            All promotions are subject to BanglaBet88's general terms and conditions.
+                            All promotions are subject to BigWin959's general terms and conditions.
                             Players must be 18+ to participate. Wagering requirements apply to all bonuses
-                            unless otherwise stated. BanglaBet88 reserves the right to amend or cancel
+                            unless otherwise stated. BigWin959 reserves the right to amend or cancel
                             promotions at any time.
                         </p>
                     </div>

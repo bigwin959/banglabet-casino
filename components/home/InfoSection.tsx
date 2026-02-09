@@ -12,7 +12,7 @@ export default function InfoSection() {
                         <ShieldCheck className="w-12 h-12 text-primary shrink-0 group-hover:scale-110 transition-transform" />
                         <div>
                             <h3 className="font-bold text-xl mb-3 text-white uppercase font-heading tracking-wider">License & Security</h3>
-                            <p className="text-sm text-gray-400 leading-relaxed">Banglabet88 operates under a strict Curacao regulatory framework (8048/JAZ2020-060). We utilize military-grade encryption to ensure your data and capital are impenetrable.</p>
+                            <p className="text-sm text-gray-400 leading-relaxed">BigWin959 operates under a strict Curacao regulatory framework (8048/JAZ2020-060). We utilize military-grade encryption to ensure your data and capital are impenetrable.</p>
                         </div>
                     </div>
                     <div className="flex gap-6 p-8 bg-[#111] border border-white/5 rounded-sm group hover:border-primary/40 transition-all">
@@ -38,7 +38,7 @@ export default function InfoSection() {
                             </div>
                             <div className="p-4 border border-white/5 bg-black/40 rounded-sm">
                                 <span className="text-primary font-bold uppercase tracking-widest text-[10px] block mb-1">Email Command</span>
-                                <span className="text-white font-semibold">support@banglabet88.net</span>
+                                <span className="text-white font-semibold">support@bigwin959.com</span>
                             </div>
                             <div className="p-4 border border-white/5 bg-black/40 rounded-sm">
                                 <span className="text-primary font-bold uppercase tracking-widest text-[10px] block mb-1">Social Intel</span>

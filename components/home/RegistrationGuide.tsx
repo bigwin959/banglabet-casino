@@ -7,7 +7,7 @@ export default function RegistrationGuide() {
 
                     {/* Signing Up Routes */}
                     <div>
-                        <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white uppercase font-heading tracking-tight">Signing Up for <span className="text-primary">Banglabet88</span></h2>
+                        <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white uppercase font-heading tracking-tight">Signing Up for <span className="text-primary">BigWin959</span></h2>
                         <p className="mb-8 text-gray-400 text-lg leading-relaxed">Establish your command center. Choose from our four streamlined registration methods designed for maximum velocity and security.</p>
 
                         <div className="overflow-hidden">
@@ -58,7 +58,7 @@ export default function RegistrationGuide() {
                         <div className="mt-12 bg-gradient-to-r from-primary to-red-900/50 p-8 rounded-sm shadow-2xl relative overflow-hidden group">
                             <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity" />
                             <h3 className="font-bold text-white text-xl mb-4 uppercase font-heading tracking-wider relative z-10">Mobile Command Center</h3>
-                            <p className="text-white/80 text-sm mb-6 leading-relaxed relative z-10">Dominate the game anywhere. Download the official Banglabet88 app for iOS and Android.</p>
+                            <p className="text-white/80 text-sm mb-6 leading-relaxed relative z-10">Dominate the game anywhere. Download the official BigWin959 app for iOS and Android.</p>
                             <div className="flex flex-wrap gap-4 relative z-10">
                                 <button className="bg-white text-black px-6 py-3 rounded-sm text-xs font-bold flex items-center gap-2 hover:bg-gray-100 transition-all uppercase tracking-widest">
                                     <span></span> iOS Version

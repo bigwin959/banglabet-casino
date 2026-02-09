@@ -12,8 +12,8 @@ const chakra = Chakra_Petch({
 });
 
 export const metadata: Metadata = {
-  title: "Win Real Money with Banglabet88 - Best Live Casino in BD",
-  description: "Win real money with Banglabet! Enjoy thrilling live casino games, huge jackpots, and secure payments.",
+  title: "Win Real Money with BigWin959 - Best Live Casino in BD",
+  description: "Win real money with BigWin959! Enjoy thrilling live casino games, huge jackpots, and secure payments.",
 };
 
 export default function RootLayout({

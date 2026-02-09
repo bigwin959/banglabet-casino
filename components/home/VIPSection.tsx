@@ -16,13 +16,13 @@ export default function VIPSection() {
         <section className="py-24 bg-black relative overflow-hidden">
             {/* Background elements */}
             <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[150px] -mr-64 -mt-64" />
-            
+
             <div className="container-custom text-center relative z-10">
                 <h2 className="text-3xl md:text-5xl font-bold mb-8 text-white uppercase font-heading tracking-tight">
                     Step into <span className="text-primary">Luxury</span>, Power Up Your Play
                 </h2>
                 <p className="text-gray-400 mb-16 max-w-3xl mx-auto text-lg leading-relaxed">
-                    Exclusivity meets intensity. The Banglabet88 VIP Club is engineered for those who demand more from their gaming experience. 
+                    Exclusivity meets intensity. The BigWin959 VIP Club is engineered for those who demand more from their gaming experience.
                 </p>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">

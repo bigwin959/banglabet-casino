@@ -35,7 +35,7 @@ const liveGames = [
     },
     {
         title: "Roulette Sexy Hall",
-        description: "Banglabet’s engaging and charismatic live dealers play an important role in why Roulette Sexy Hall is one of the top picks. Indulge in every suspenseful spin while enjoying the glamorous and authentic environment that Roulette Sexy Hall provides.",
+        description: "BigWin959’s engaging and charismatic live dealers play an important role in why Roulette Sexy Hall is one of the top picks. Indulge in every suspenseful spin while enjoying the glamorous and authentic environment that Roulette Sexy Hall provides.",
         image: "/images/live-roulette.png",
     },
 ];

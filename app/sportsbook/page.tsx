@@ -1,18 +1,19 @@
 import PromotionCard from "@/components/PromotionCard";
 import SportsbookDetails from "@/components/sportbook/SportsbookDetails";
+import LiveMatches from "@/components/sportbook/LiveMatches";
 import { sports } from "@/lib/data";
 
 export default function SportBook() {
     const sportPromotions = [
         {
-            image: "/images/sport-bonus.jpg",
+            image: "https://img-live.bannershive.dev/h001_uploads/images/B1_BDT_EN_Pragmatic_Play_God_of_Olympus_1000_Daily_Cashback_CTL_PROMOTION.jpg",
             title: "First Bet Bonus",
             discount: "$50",
             description: "Place your first bet risk-free up to $50. If you lose, we refund you.",
             ctaText: "Bet Now",
         },
         {
-            image: "/images/sport-cashback.jpg",
+            image: "https://img-live.bannershive.dev/h001_uploads/images/B1_BDT_EN_Pragmatic_Play_God_of_Olympus_1000_Daily_Cashback_CTL_PROMOTION.jpg",
             title: "Accumulator Boost",
             discount: "50%",
             description: "Get up to 50% extra winnings on your accumulator bets.",
@@ -65,61 +66,8 @@ export default function SportBook() {
                 </div>
             </section>
 
-            {/* Live Odds Table Placeholder */}
-            <section className="py-16 px-4">
-                <div className="max-w-7xl mx-auto">
-                    <h2 className="text-2xl font-heading mb-8 pl-4 border-l-4 border-cta">
-                        Live Matches
-                    </h2>
-                    <div className="bg-background/80 border border-primary/20 rounded-xl overflow-hidden">
-                        {/* Table Header */}
-                        <div className="grid grid-cols-12 gap-4 p-4 bg-primary/10 font-heading text-sm text-primary">
-                            <div className="col-span-6 md:col-span-5">Match</div>
-                            <div className="col-span-2 hidden md:block text-center">Time</div>
-                            <div className="col-span-2 text-center">1</div>
-                            <div className="col-span-2 text-center">X</div>
-                            <div className="col-span-2 text-center">2</div>
-                        </div>
-
-                        {/* Table Rows */}
-                        {[1, 2, 3, 4, 5].map((item) => (
-                            <div
-                                key={item}
-                                className="grid grid-cols-12 gap-4 p-4 border-t border-primary/10 hover:bg-white/5 transition-colors items-center"
-                            >
-                                <div className="col-span-6 md:col-span-5 flex items-center space-x-3">
-                                    <span className="text-xl">⚽</span>
-                                    <div>
-                                        <div className="font-bold">Manchester Utd vs Liverpool</div>
-                                        <div className="text-xs text-text/50">Premier League</div>
-                                    </div>
-                                </div>
-                                <div className="col-span-2 hidden md:block text-center text-cta font-mono animate-pulse">
-                                    LIVE 45'
-                                </div>
-                                <div className="col-span-2">
-                                    <button className="w-full bg-background border border-primary/20 hover:bg-primary hover:text-white rounded py-1 transition-colors font-mono">
-                                        2.10
-                                    </button>
-                                </div>
-                                <div className="col-span-2">
-                                    <button className="w-full bg-background border border-primary/20 hover:bg-primary hover:text-white rounded py-1 transition-colors font-mono">
-                                        3.40
-                                    </button>
-                                </div>
-                                <div className="col-span-2">
-                                    <button className="w-full bg-background border border-primary/20 hover:bg-primary hover:text-white rounded py-1 transition-colors font-mono">
-                                        2.80
-                                    </button>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                    <div className="text-center mt-8">
-                        <button className="btn-secondary">View All Matches</button>
-                    </div>
-                </div>
-            </section>
+            {/* Live Matches */}
+            <LiveMatches />
 
             {/* Detailed Content */}
             <SportsbookDetails />

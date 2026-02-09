@@ -9,7 +9,7 @@ export default function ProvidersSection() {
             <div className="container-custom text-center">
                 <h2 className="text-3xl md:text-5xl font-bold mb-8 text-white uppercase font-heading tracking-tight">Premier <span className="text-primary">Game Providers</span></h2>
                 <p className="text-gray-400 mb-12 max-w-4xl mx-auto text-lg leading-relaxed">
-                    Excellence is non-negotiable. Banglabet88 partners with the world's most elite developers to bring you cutting-edge gameplay and unmatched fairness.
+                    Excellence is non-negotiable. BigWin959 partners with the world's most elite developers to bring you cutting-edge gameplay and unmatched fairness.
                 </p>
 
                 <div className="flex flex-wrap justify-center gap-6">

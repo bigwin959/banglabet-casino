@@ -11,7 +11,7 @@ export default function AboutPage() {
         {
             icon: Users,
             title: "Community Focused",
-            description: "BanglaBet88 is built for the community. We value our players and strive to provide the most engaging social gaming experience."
+            description: "BigWin959 is built for the community. We value our players and strive to provide the most engaging social gaming experience."
         },
         {
             icon: Award,
@@ -36,7 +36,7 @@ export default function AboutPage() {
                             Redefining Online <br /><span className="text-cta">Entertainment</span>
                         </h1>
                         <p className="text-xl text-text/80 mb-8">
-                            BanglaBet88 is Bangladesh's premier online gaming destination,
+                            BigWin959 is Bangladesh's premier online gaming destination,
                             offering a world-class casino and sports betting experience tailored for you.
                         </p>
                         <div className="flex space-x-4">
@@ -83,7 +83,7 @@ export default function AboutPage() {
             <section className="py-20 px-4">
                 <div className="max-w-7xl mx-auto">
                     <h2 className="text-3xl font-heading text-center mb-16 text-primary neon-glow">
-                        Why Choose BanglaBet88
+                        Why Choose BigWin959
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                         {features.map((feature, index) => (
@@ -108,7 +108,7 @@ export default function AboutPage() {
                         Join Our Community Today
                     </h2>
                     <p className="text-lg text-text/80 mb-8">
-                        Experience the difference with BanglaBet88. Sign up now and claim your welcome bonus.
+                        Experience the difference with BigWin959. Sign up now and claim your welcome bonus.
                     </p>
                     <button className="btn-primary neon-glow-cta px-8 py-3">
                         Get Started

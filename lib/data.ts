@@ -1,4 +1,4 @@
-// Static data for the BanglaBet Casino website
+// Static data for the BigWin959 website
 
 export interface Banner {
     id: number;
@@ -68,7 +68,7 @@ export const banners: Banner[] = [
 export const promotions: Promotion[] = [
     {
         id: 1,
-        image: "/images/game-placeholder.svg",
+        image: "/images/Welcome%20Bonus.jpg",
         title: "Welcome Bonus",
         discount: "100%",
         description: "Double your first deposit up to $1000",
@@ -76,7 +76,7 @@ export const promotions: Promotion[] = [
     },
     {
         id: 2,
-        image: "/images/game-placeholder.svg",
+        image: "/images/Reload%20Bonus.jpg",
         title: "Reload Bonus",
         discount: "50%",
         description: "Get 50% bonus on every reload",
@@ -84,7 +84,7 @@ export const promotions: Promotion[] = [
     },
     {
         id: 3,
-        image: "/images/game-placeholder.svg",
+        image: "/images/Weekly%20Cashback.jpg",
         title: "Weekly Cashback",
         discount: "10%",
         description: "Get 10% cashback every week",
@@ -92,7 +92,7 @@ export const promotions: Promotion[] = [
     },
     {
         id: 4,
-        image: "/images/game-placeholder.svg",
+        image: "/images/Vip%20Rewards.jpg",
         title: "VIP Rewards",
         discount: "Exclusive",
         description: "Join our VIP program for exclusive benefits",
@@ -100,7 +100,7 @@ export const promotions: Promotion[] = [
     },
     {
         id: 5,
-        image: "/images/game-placeholder.svg",
+        image: "/images/Referral%20Bonus.jpg",
         title: "Referral Bonus",
         discount: "$100",
         description: "Earn $100 for each friend you refer",
@@ -108,7 +108,7 @@ export const promotions: Promotion[] = [
     },
     {
         id: 6,
-        image: "/images/game-placeholder.svg",
+        image: "/images/Birthday%20Bonus.jpg",
         title: "Birthday Bonus",
         discount: "Free Spins",
         description: "Get free spins on your birthday",
@@ -116,7 +116,7 @@ export const promotions: Promotion[] = [
     },
     {
         id: 7,
-        image: "/images/game-placeholder.svg",
+        image: "/images/Tournament%20Prize.jpg",
         title: "Tournament Prize",
         discount: "$10K",
         description: "Win up to $10,000 in our tournaments",
@@ -124,7 +124,7 @@ export const promotions: Promotion[] = [
     },
     {
         id: 8,
-        image: "/images/game-placeholder.svg",
+        image: "/images/Royalty%20Points.jpg",
         title: "Loyalty Points",
         discount: "2x Points",
         description: "Earn double loyalty points this month",
@@ -132,7 +132,7 @@ export const promotions: Promotion[] = [
     },
     {
         id: 9,
-        image: "/images/game-placeholder.svg",
+        image: "/images/Mobile%20Bonus.jpg",
         title: "Mobile Bonus",
         discount: "$50",
         description: "Get $50 bonus when you play on mobile",
@@ -140,7 +140,7 @@ export const promotions: Promotion[] = [
     },
     {
         id: 10,
-        image: "/images/game-placeholder.svg",
+        image: "/images/Weekend%20Bonus.jpg",
         title: "Weekend Boost",
         discount: "25%",
         description: "Get 25% extra on weekend deposits",

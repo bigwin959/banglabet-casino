@@ -34,8 +34,8 @@ export default function Home() {
 
   return (
     <div className="min-h-screen pb-20 pt-20 md:pt-28 bg-background">
-      <h1 className="sr-only">Banglabet88 - Premium Online Casino & Sports Betting in Bangladesh</h1>
-      
+      <h1 className="sr-only">BigWin959 - Premium Online Casino & Sports Betting in Bangladesh</h1>
+
       {/* Hero Banner Slider */}
       <section className="py-2 mb-8">
         <BannerSlider banners={banners} />

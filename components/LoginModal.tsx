@@ -31,8 +31,8 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
                 <div className="flex border-b border-primary/20">
                     <button
                         className={`flex-1 py-4 text-center font-heading transition-colors ${activeTab === "login"
-                                ? "bg-primary/10 text-primary border-b-2 border-primary"
-                                : "text-text/70 hover:text-text hover:bg-white/5"
+                            ? "bg-primary/10 text-primary border-b-2 border-primary"
+                            : "text-text/70 hover:text-text hover:bg-white/5"
                             }`}
                         onClick={() => setActiveTab("login")}
                     >
@@ -40,8 +40,8 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
                     </button>
                     <button
                         className={`flex-1 py-4 text-center font-heading transition-colors ${activeTab === "signup"
-                                ? "bg-primary/10 text-primary border-b-2 border-primary"
-                                : "text-text/70 hover:text-text hover:bg-white/5"
+                            ? "bg-primary/10 text-primary border-b-2 border-primary"
+                            : "text-text/70 hover:text-text hover:bg-white/5"
                             }`}
                         onClick={() => setActiveTab("signup")}
                     >
@@ -52,7 +52,7 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
                 {/* Form Container */}
                 <div className="p-8">
                     <h2 className="text-2xl font-heading text-center mb-6 neon-glow">
-                        {activeTab === "login" ? "Welcome Back" : "Join BanglaBet88"}
+                        {activeTab === "login" ? "Welcome Back" : "Join BigWin959"}
                     </h2>
 
                     <form className="space-y-4">
