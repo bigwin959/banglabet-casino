@@ -1,4 +1,8 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import BannerSlider from "@/components/BannerSlider";
+import { cms, FeaturedContent, DiamondLobbyItem, HomeBlogSettings } from "@/lib/cms";
 
 import CategoryTeasers from "@/components/home/CategoryTeasers";
 import PromotionsPreview from "@/components/home/PromotionsPreview";
@@ -12,7 +16,7 @@ import SportsDetails from "@/components/home/SportsDetails";
 import InfoSection from "@/components/home/InfoSection";
 
 export default function Home() {
-  const banners = [
+  const [banners, setBanners] = useState([
     {
       id: "3",
       image: "/images/hero-3.jpg",
@@ -24,55 +28,61 @@ export default function Home() {
       image: "/images/hero-1.jpg",
       title: "Ultimate Casino Experience",
       link: "https://www.bigwin959.com/register",
-    },
-    {
-      id: "2",
-      image: "/images/hero-2.jpg",
-      title: "Future of Gaming is Here",
-      link: "https://www.bigwin959.com/register",
-    },
-  ];
+    }
+  ]);
 
-    return (
-        <div className="min-h-screen bg-background selection:bg-primary selection:text-white">
-            <h1 className="sr-only">BigWin959 - Premium Online Casino & Sports Betting in Bangladesh</h1>
+  const [featuredContent, setFeaturedContent] = useState<FeaturedContent[]>([]);
+  const [diamondLobby, setDiamondLobby] = useState<DiamondLobbyItem[]>([]);
+  const [blogSettings, setBlogSettings] = useState<HomeBlogSettings | undefined>(undefined);
 
-            {/* Hero Section */}
-            <main>
-                <section className="pt-24 md:pt-32 pb-10">
-                    <BannerSlider banners={banners} />
-                </section>
+  useEffect(() => {
+    // Load CMS Data
+    setBanners(cms.homeBanners.get());
+    setFeaturedContent(cms.featuredContent.get());
+    setDiamondLobby(cms.diamondLobby.get());
+    setBlogSettings(cms.homeBlog.get());
+  }, []);
 
-                <div className="space-y-0 text-white">
-                    {/* Featured Teasers */}
-                    <CategoryTeasers />
+  return (
+    <div className="min-h-screen bg-background selection:bg-primary selection:text-white">
+      <h1 className="sr-only">BigWin959 - Premium Online Casino & Sports Betting in Bangladesh</h1>
 
-                    {/* Gaming Lobby Preview - Contains Live Casino */}
-                    <RecommendedGames />
+      {/* Hero Section */}
+      <main>
+        <section className="pt-24 md:pt-32 pb-10">
+          <BannerSlider banners={banners} />
+        </section>
 
-                    {/* Blog Preview */}
-                    <BlogPreview />
+        <div className="space-y-0 text-white">
+          {/* Featured Teasers */}
+          <CategoryTeasers items={featuredContent} />
 
-                    {/* Promotional Content */}
-                    <PromotionsPreview />
+          {/* Gaming Lobby Preview - Contains Live Casino */}
+          <RecommendedGames items={diamondLobby} />
 
-                    {/* VIP Lounge */}
-                    <VIPSection />
+          {/* Blog Preview */}
+          <BlogPreview settings={blogSettings} />
 
-                    {/* Trust Signals */}
-                    <ProvidersSection />
-                    
-                    {/* Educational Content */}
-                    <RegistrationGuide />
-                    <BankingInfo />
-                    
-                    {/* Market Details */}
-                    <SportsDetails />
-                    <InfoSection />
-                </div>
-            </main>
+          {/* Promotional Content */}
+          <PromotionsPreview />
+
+          {/* VIP Lounge */}
+          <VIPSection />
+
+          {/* Trust Signals */}
+          <ProvidersSection />
+
+          {/* Educational Content */}
+          <RegistrationGuide />
+          <BankingInfo />
+
+          {/* Market Details */}
+          <SportsDetails />
+          <InfoSection />
         </div>
-    );
+      </main>
+    </div>
+  );
 }
 
 

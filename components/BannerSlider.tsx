@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import Image from "next/image";
@@ -15,13 +16,32 @@ interface Banner {
     image: string;
     title: string;
     link: string;
+    description?: string;
+    buttonText?: string;
+    imageOnly?: boolean;
 }
 
 interface BannerSliderProps {
     banners: Banner[];
 }
 
-const BannerSlider = ({ banners }: BannerSliderProps) => {
+const BannerSlider = ({ banners: initialBanners }: BannerSliderProps) => {
+    const [banners, setBanners] = useState<Banner[]>(initialBanners);
+
+    useEffect(() => {
+        const savedBanners = localStorage.getItem("homeBanners");
+        if (savedBanners) {
+            try {
+                const parsed = JSON.parse(savedBanners);
+                if (parsed.length > 0) {
+                    setBanners(parsed);
+                }
+            } catch (e) {
+                console.error("Failed to parse banners", e);
+            }
+        }
+    }, []);
+
     return (
         <div className="w-full max-w-7xl mx-auto mb-16 relative group px-4 md:px-8">
             <style jsx global>{`
@@ -94,34 +114,43 @@ const BannerSlider = ({ banners }: BannerSliderProps) => {
                                 quality={100}
                                 sizes="100vw"
                             />
-                            
-                            {/* Premium Gradation */}
-                            <div className="absolute inset-0 bg-gradient-to-r from-black via-black/40 to-transparent" />
-                            <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/80 to-transparent" />
-                            
-                            {/* Animated Content */}
-                            <div className="absolute inset-0 flex flex-col justify-center px-10 md:px-20 max-w-4xl">
-                                <div className="overflow-hidden mb-2">
-                                    <span className="block text-primary font-black uppercase tracking-[0.4em] text-xs md:text-sm animate-in slide-in-from-bottom duration-700">
-                                        Ultimate Gaming Experience
-                                    </span>
-                                </div>
-                                <h2 className="text-4xl md:text-7xl font-bold text-white uppercase font-heading tracking-tighter leading-none mb-8 animate-in fade-in slide-in-from-left duration-1000">
-                                    {banner.title.split(' ').map((word, i) => (
-                                        <span key={i} className={i % 2 === 1 ? "text-primary" : ""}>
-                                            {word}{' '}
-                                        </span>
-                                    ))}
-                                </h2>
-                                <div className="flex flex-wrap gap-4 animate-in fade-in slide-in-from-bottom duration-1000 delay-300">
-                                     <Link href="https://www.bigwin959.com/register" target="_blank" className="btn-primary flex items-center !px-10">
-                                        Join Now & Get Bonus
-                                    </Link>
-                                    <Link href="/promotions" className="btn-outline !bg-white/10 backdrop-blur-md">
-                                        View Offers
-                                    </Link>
-                                </div>
-                            </div>
+
+                            {/* Premium Gradation - Only if not image only */}
+                            {!banner.imageOnly && (
+                                <>
+                                    <div className="absolute inset-0 bg-gradient-to-r from-black via-black/40 to-transparent" />
+                                    <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/80 to-transparent" />
+
+                                    {/* Animated Content */}
+                                    <div className="absolute inset-0 flex flex-col justify-center px-10 md:px-20 max-w-4xl">
+                                        <div className="overflow-hidden mb-2">
+                                            <span className="block text-primary font-black uppercase tracking-[0.4em] text-xs md:text-sm animate-in slide-in-from-bottom duration-700">
+                                                Ultimate Gaming Experience
+                                            </span>
+                                        </div>
+                                        <h2 className="text-4xl md:text-7xl font-bold text-white uppercase font-heading tracking-tighter leading-none mb-8 animate-in fade-in slide-in-from-left duration-1000">
+                                            {banner.title.split(' ').map((word, i) => (
+                                                <span key={i} className={i % 2 === 1 ? "text-primary" : ""}>
+                                                    {word}{' '}
+                                                </span>
+                                            ))}
+                                        </h2>
+                                        {banner.description && (
+                                            <p className="text-gray-300 text-sm md:text-lg font-medium mb-8 max-w-2xl animate-in fade-in slide-in-from-bottom duration-1000 delay-200">
+                                                {banner.description}
+                                            </p>
+                                        )}
+                                        <div className="flex flex-wrap gap-4 animate-in fade-in slide-in-from-bottom duration-1000 delay-300">
+                                            <Link href={banner.link || "https://www.bigwin959.com/register"} target={banner.link?.startsWith("http") ? "_blank" : "_self"} className="btn-primary flex items-center !px-10">
+                                                {banner.buttonText || "Join Now & Get Bonus"}
+                                            </Link>
+                                            <Link href="/promotions" className="btn-outline !bg-white/10 backdrop-blur-md">
+                                                View Offers
+                                            </Link>
+                                        </div>
+                                    </div>
+                                </>
+                            )}
                         </div>
                     </SwiperSlide>
                 ))}

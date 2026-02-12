@@ -40,6 +40,13 @@ export interface BlogPost {
     excerpt: string;
     date: string;
     category: string;
+    author: string;
+    readTime: string;
+    content: string;
+    highlightBox?: string;
+    subHeading?: string;
+    subContent?: string;
+    footerNote?: string;
 }
 
 export const banners: Banner[] = [
@@ -200,6 +207,13 @@ export const blogPosts: BlogPost[] = [
         excerpt: "Learn the best strategies to increase your chances of winning at blackjack...",
         date: "2026-01-25",
         category: "Gaming Tips",
+        author: "Elite Staff",
+        readTime: "5 Min Read",
+        content: "Blackjack is a game of skill as much as it is a game of chance. To consistently win, one must understand the probabilities and employ basic strategy. This guide covers card counting, bankroll management, and when to hit or stand.",
+        highlightBox: "Success in Blackjack depends on discipline. Never chase losses.",
+        subHeading: "Mastering the Count",
+        subContent: "Card counting is not illegal, but casinos frown upon it. Learn the HI-LO system to gain an edge.",
+        footerNote: "Gamble responsibly."
     },
     {
         id: 2,
@@ -208,6 +222,13 @@ export const blogPosts: BlogPost[] = [
         excerpt: "A comprehensive guide to understanding and calculating betting odds...",
         date: "2026-01-22",
         category: "Guides",
+        author: "Elite Staff",
+        readTime: "4 Min Read",
+        content: "At BigWin959, we are dedicated to providing our community with the most up-to-date and thoroughly researched intelligence in the gaming industry. Our analysts have spent countless hours dissecting the mechanics behind understanding sports betting odds to ensure you have the competitive edge.",
+        highlightBox: "\"Success in guides isn't just about luck; it's about understanding the internal rhythms of the platform and executing with precision.\"",
+        subHeading: "Operational Execution",
+        subContent: "Every strategy mentioned in our archive is tested against the current market conditions. We monitor the operational health of all our features 24/7 to guarantee that when you choose to act, you do so on a platform that is optimized for excellence.",
+        footerNote: "Note: Information contained within this report is proprietary to BigWin959 and is intended for registered users of the elite platform."
     },
     {
         id: 3,
@@ -216,5 +237,10 @@ export const blogPosts: BlogPost[] = [
         excerpt: "We're excited to announce our new VIP program with exclusive benefits...",
         date: "2026-01-20",
         category: "News",
+        author: "BigWin Team",
+        readTime: "3 Min Read",
+        content: "Our most loyal players deserve the best. That's why we've overhauled our VIP program to offer faster withdrawals, higher limits, and personal account managers.",
+        subHeading: "Exclusive Perks",
+        subContent: "VIP members now get access to exclusive tournaments and birthday bonuses.",
     },
 ];

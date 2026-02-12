@@ -32,23 +32,22 @@ export default function BlogPage() {
                                 <p className="text-gray-500">Check back later for new updates from BigWin959.</p>
                             </div>
                         ) : (
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-10 h-fit">
+                            <div className="columns-1 md:columns-2 gap-8 space-y-8">
                                 {allPosts.map((post) => (
                                     <article
                                         key={post.id}
-                                        className="group flex flex-col h-full bg-[#111] overflow-hidden rounded-[2rem] border border-white/5 hover:border-primary/30 transition-all duration-500"
+                                        className="group break-inside-avoid bg-[#111] overflow-hidden rounded-[2rem] border border-white/5 hover:border-primary/30 transition-all duration-500 mb-8"
                                     >
                                         {/* Image Container */}
-                                        <div className="relative w-full h-56 bg-surface overflow-hidden">
+                                        <div className="relative w-full bg-surface overflow-hidden">
                                             {post.image ? (
-                                                <Image
+                                                <img
                                                     src={post.image}
                                                     alt={post.title}
-                                                    fill
-                                                    className="object-cover transition-transform duration-1000 group-hover:scale-110"
+                                                    className="w-full h-auto object-cover transition-transform duration-1000 group-hover:scale-110"
                                                 />
                                             ) : (
-                                                <div className="absolute inset-0 flex items-center justify-center bg-primary/10">
+                                                <div className="absolute inset-0 flex items-center justify-center bg-primary/10 aspect-video">
                                                     <div className="text-5xl opacity-20 text-primary">📰</div>
                                                 </div>
                                             )}
@@ -59,7 +58,7 @@ export default function BlogPage() {
                                             </div>
                                         </div>
 
-                                        <div className="flex-1 p-8">
+                                        <div className="p-8">
                                             <div className="flex items-center space-x-4 text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-6">
                                                 <span className="flex items-center space-x-2">
                                                     <Calendar size={14} className="text-primary" />
@@ -73,7 +72,7 @@ export default function BlogPage() {
                                             <p className="text-gray-400 text-sm mb-8 line-clamp-3 leading-relaxed font-medium">
                                                 {post.excerpt}
                                             </p>
-                                            
+
                                             <div className="mt-auto">
                                                 <Link
                                                     href={`/blog/${post.id}`}
@@ -113,18 +112,18 @@ export default function BlogPage() {
 
                             {/* Newsletter / Subscribe */}
                             <div className="bg-primary p-8 rounded-[2rem] text-center shadow-xl shadow-primary/20 relative overflow-hidden group">
-                                <div className="absolute top-0 right-0 w-24 h-24 bg-white/10 rounded-full -mr-10 -mt-10 blur-2xl" />
-                                <h3 className="text-xl font-black text-white mb-4 uppercase font-heading tracking-widest relative z-10">Subscribe</h3>
-                                <p className="text-sm text-white/80 mb-8 font-medium relative z-10">
+                                <div className="absolute top-0 right-0 w-24 h-24 bg-black/5 rounded-full -mr-10 -mt-10 blur-2xl" />
+                                <h3 className="text-xl font-black text-black mb-4 uppercase font-heading tracking-widest relative z-10">Subscribe</h3>
+                                <p className="text-sm text-black/70 mb-8 font-medium relative z-10">
                                     Get premium strategies and exclusive bonuses directly in your inbox.
                                 </p>
                                 <div className="space-y-4 relative z-10">
-                                    <input 
-                                        type="email" 
-                                        placeholder="YOUR EMAIL" 
-                                        className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white text-xs font-bold focus:outline-none focus:bg-white/20 transition-all placeholder:text-white/40 uppercase tracking-widest" 
+                                    <input
+                                        type="email"
+                                        placeholder="YOUR EMAIL"
+                                        className="w-full bg-black/5 border border-black/10 rounded-xl px-4 py-3 text-black text-xs font-bold focus:outline-none focus:bg-black/10 transition-all placeholder:text-black/40 uppercase tracking-widest"
                                     />
-                                    <button className="w-full bg-white text-primary font-black py-4 rounded-xl hover:scale-105 active:scale-95 transition-all uppercase tracking-widest text-xs shadow-lg">
+                                    <button className="w-full bg-black text-primary font-black py-4 rounded-xl hover:scale-105 active:scale-95 transition-all uppercase tracking-widest text-xs shadow-lg">
                                         Join Circle
                                     </button>
                                 </div>
@@ -136,5 +135,3 @@ export default function BlogPage() {
         </div>
     );
 }
-
-

@@ -1,27 +1,45 @@
+"use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
+import { cms, PageContentLiveCasino } from "@/lib/cms";
 
 export default function LiveCasinoDetails() {
+    const [content, setContent] = useState<PageContentLiveCasino | null>(null);
+
+    useEffect(() => {
+        setContent(cms.liveCasino.get());
+    }, []);
+
+    const defaultContent = {
+        introTitle: "Live Casino",
+        introContent: "Through the immersive services of stunning live dealers paired with high-definition video streams delivering an almost realistic casino environment, live casinos never fail to attract casino enthusiasts, no matter their preferences and budgets. Live casinos had just become prettily sophisticated with the combination of modern trends, tools, and strategies. With all this fun and excitement within the casino realm, BigWin959 ensures to bring its customers to an equally thrilling setting with just a simple tap on BigWin959 live casino login. With BigWin959 partnerships with leading game providers, they equip their selection of live casinos with nothing but pure excellence. Learn more about these astounding game providers below!",
+        hotRoadTitle: "HotRoad",
+        hotRoadContent: "Despite being relatively new to the world of online gambling, BigWin959 and Live Casino login include HotRoad in their formidable lineup of game providers, given how truly exceptional HotRoad products are. Expanding its offers to include sports betting o options, live dealer choices, and casino games, HotRoad delivers the best by going through players’ lenses.",
+        conclusionTitle: "Conclusion",
+        conclusionContent: "BigWin959 never falls short in offering games, especially with the help of its impressive list of game providers. Whether that’s Evolution, Playtech, HotRoad, or Sexy Gaming, expect a ride full of rushes through BigWin959 platform!"
+    };
+
+    const display = content || defaultContent;
+
     return (
         <section className="py-16 px-4 bg-background text-text">
             <div className="max-w-4xl mx-auto space-y-12">
                 {/* Live Casino Intro */}
                 <div className="space-y-6">
-                    <h2 className="text-3xl font-heading font-bold text-primary">Live Casino</h2>
-                    <p className="leading-relaxed">
-                        Through the immersive services of stunning live dealers paired with high-definition video streams delivering an almost realistic casino environment, live casinos never fail to attract casino enthusiasts, no matter their preferences and budgets. Live casinos had just become prettily sophisticated with the combination of modern trends, tools, and strategies. With all this fun and excitement within the casino realm, BigWin959 ensures to bring its customers to an equally thrilling setting with just a simple tap on BigWin959 live casino login. With BigWin959 partnerships with leading game providers, they equip their selection of live casinos with nothing but pure excellence. Learn more about these astounding game providers below!
+                    <h2 className="text-3xl font-heading font-bold text-primary">{display.introTitle}</h2>
+                    <p className="leading-relaxed whitespace-pre-line">
+                        {display.introContent}
                     </p>
                 </div>
 
-
-
-
                 {/* HotRoad */}
                 <div className="space-y-6">
-                    <h3 className="text-2xl font-heading font-semibold text-heading">HotRoad</h3>
-                    <p className="leading-relaxed">
-                        Despite being relatively new to the world of online gambling, BigWin959 and Live Casino login include HotRoad in their formidable lineup of game providers, given how truly exceptional HotRoad products are. Expanding its offers to include sports betting o options, live dealer choices, and casino games, HotRoad delivers the best by going through players’ lenses.
+                    <h3 className="text-2xl font-heading font-semibold text-heading">{display.hotRoadTitle}</h3>
+                    <p className="leading-relaxed whitespace-pre-line">
+                        {display.hotRoadContent}
                     </p>
+                    {/* Hardcoded list for now as it makes sense to stay static or needs schema update */}
                     <p className="leading-relaxed">Here are some general overviews of HotRoad:</p>
                     <ul className="list-disc pl-6 space-y-4">
                         <li>
@@ -38,9 +56,9 @@ export default function LiveCasinoDetails() {
 
                 {/* Conclusion */}
                 <div className="space-y-6 border-t border-border pt-8">
-                    <h3 className="text-2xl font-heading font-semibold text-heading">Conclusion</h3>
-                    <p className="leading-relaxed">
-                        BigWin959 never falls short in offering games, especially with the help of its impressive list of game providers. Whether that’s Evolution, Playtech, HotRoad, or Sexy Gaming, expect a ride full of rushes through BigWin959 platform!
+                    <h3 className="text-2xl font-heading font-semibold text-heading">{display.conclusionTitle}</h3>
+                    <p className="leading-relaxed whitespace-pre-line">
+                        {display.conclusionContent}
                     </p>
                 </div>
             </div>

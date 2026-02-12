@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { Chakra_Petch } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+import { ToastProvider } from "@/context/ToastContext";
+
+import SiteLayout from "@/components/SiteLayout";
 
 const chakra = Chakra_Petch({
   subsets: ["latin"],
@@ -24,9 +25,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${chakra.variable} ${chakra.className} chakra-font antialiased text-text bg-background`}>
-        <Header />
-        <main>{children}</main>
-        <Footer />
+        <ToastProvider>
+          <SiteLayout>
+            {children}
+          </SiteLayout>
+        </ToastProvider>
       </body>
     </html>
   );

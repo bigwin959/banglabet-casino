@@ -64,7 +64,7 @@ export default function BlogPostDetail() {
                     </div>
                 )}
                 <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
-                
+
                 <div className="absolute bottom-0 inset-x-0 pb-16">
                     <div className="max-w-4xl mx-auto px-4">
                         <div className="flex items-center gap-4 mb-6">
@@ -90,11 +90,11 @@ export default function BlogPostDetail() {
                         <div className="flex items-center gap-10">
                             <div className="flex flex-col">
                                 <span className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-1">Author</span>
-                                <span className="text-white font-black uppercase text-sm italic">Elite Staff</span>
+                                <span className="text-white font-black uppercase text-sm italic">{post.author || "Elite Staff"}</span>
                             </div>
                             <div className="hidden md:flex flex-col">
                                 <span className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-1">Time</span>
-                                <span className="text-white font-black uppercase text-sm italic">4 Min Read</span>
+                                <span className="text-white font-black uppercase text-sm italic">{post.readTime || "5 Min Read"}</span>
                             </div>
                         </div>
                         <div className="flex items-center gap-4">
@@ -107,41 +107,47 @@ export default function BlogPostDetail() {
                         </div>
                     </div>
 
-                    {/* Content */}
                     <div className="prose prose-invert max-w-none">
                         <p className="text-xl md:text-2xl text-gray-300 font-medium leading-relaxed italic mb-12 first-letter:text-7xl first-letter:font-heading first-letter:font-black first-letter:text-primary first-letter:mr-3 first-letter:float-left first-letter:leading-none">
                             {post.excerpt}
                         </p>
-                        
-                        {/* Dynamic Content Simulation */}
+
+                        {/* Dynamic Content */}
                         <div className="text-gray-400 text-lg leading-relaxed space-y-8 font-medium">
-                            <p>
-                                At BigWin959, we are dedicated to providing our community with the most up-to-date and thoroughly researched intelligence in the gaming industry. Our analysts have spent countless hours dissecting the mechanics behind {post.title.toLowerCase()} to ensure you have the competitive edge.
-                            </p>
-                            
-                            <div className="bg-primary/5 border-l-4 border-primary p-10 rounded-r-3xl my-12">
-                                <h3 className="text-primary font-heading font-black text-xl uppercase mb-4 tracking-widest">Insider Briefing</h3>
-                                <p className="text-gray-300 italic text-xl">
-                                    "Success in {post.category.toLowerCase()} isn't just about luck; it's about understanding the internal rhythms of the platform and executing with precision."
-                                </p>
-                            </div>
-
-                            <p>
-                                Whether you're looking to maximize your ROI or simply seeking a more immersive experience, our guides are tailored to meet the needs of both novice players and seasoned veterans. We believe that transparency and knowledge sharing are the cornerstones of a thriving gaming ecosystem.
+                            <p className="whitespace-pre-wrap">
+                                {post.content}
                             </p>
 
-                            <h2 className="text-3xl font-heading font-black text-white uppercase tracking-tighter mt-16 mb-8 group flex items-center gap-4">
-                                <span className="w-12 h-1 bg-primary rounded-full group-hover:w-20 transition-all" />
-                                Operational Execution
-                            </h2>
+                            {post.highlightBox && (
+                                <div className="bg-primary/5 border-l-4 border-primary p-10 rounded-r-3xl my-12">
+                                    <h3 className="text-primary font-heading font-black text-xl uppercase mb-4 tracking-widest">Insider Briefing</h3>
+                                    <p className="text-gray-300 italic text-xl">
+                                        "{post.highlightBox}"
+                                    </p>
+                                </div>
+                            )}
 
-                            <p>
-                                Every strategy mentioned in our archive is tested against the current market conditions. We monitor the operational health of all our features 24/7 to guarantee that when you choose to act, you do so on a platform that is optimized for excellence.
-                            </p>
+                            {(post.subHeading || post.subContent) && (
+                                <>
+                                    {post.subHeading && (
+                                        <h2 className="text-3xl font-heading font-black text-white uppercase tracking-tighter mt-16 mb-8 group flex items-center gap-4">
+                                            <span className="w-12 h-1 bg-primary rounded-full group-hover:w-20 transition-all" />
+                                            {post.subHeading}
+                                        </h2>
+                                    )}
+                                    {post.subContent && (
+                                        <p className="whitespace-pre-wrap">
+                                            {post.subContent}
+                                        </p>
+                                    )}
+                                </>
+                            )}
 
-                            <blockquote className="border-l-4 border-white/10 pl-8 my-10 text-gray-400 italic">
-                                Note: Information contained within this report is proprietary to BigWin959 and is intended for registered users of the elite platform.
-                            </blockquote>
+                            {post.footerNote && (
+                                <blockquote className="border-l-4 border-white/10 pl-8 my-10 text-gray-400 italic">
+                                    {post.footerNote}
+                                </blockquote>
+                            )}
 
                             <p>
                                 Stay tuned for more updates as we continue to evolve. The future of gaming is here, and with BigWin959, you're always one step ahead of the curve.
@@ -165,7 +171,7 @@ export default function BlogPostDetail() {
 
                 {/* Return button */}
                 <div className="mt-12 text-center">
-                    <button 
+                    <button
                         onClick={() => router.back()}
                         className="inline-flex items-center gap-3 text-gray-500 hover:text-primary transition-all font-black uppercase tracking-[0.4em] text-[10px]"
                     >

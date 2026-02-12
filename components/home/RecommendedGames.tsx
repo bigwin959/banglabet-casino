@@ -1,51 +1,43 @@
 import Link from "next/link";
 import Image from "next/image";
+import { DiamondLobbyItem } from "@/lib/cms";
 
-const slotGames = [
-    {
-        title: "Super Ace",
-        description: "Still not sure where to pour out your luck? Well, be Super Ace’s guest and try out its strategic and thrilling game experiences. With a blend of traditional card game elements and modern twists, be enthralled with its vibrant graphics and smooth features and animations, on top of its challenging gameplay!",
-        image: "/images/super-ace-new.jpg",
-        tags: ["Slots", "Hot"],
-    },
-    {
-        title: "Gates of Olympus",
-        description: "After signing up with BigWin959 Online Casino by following its no-sweat live casino login processes, never miss out on its customer-favorite games such as the Gates of Olympus, where visuals and ecstatic gameplay are top-tier and captivate the hearts of everyone. Gates of Olympus features generous multipliers as well, so be ready to experience epic winnings with this game!",
-        image: "/images/gates-olympus-new.jpg",
-        tags: ["Min 30 BDT", "Multiplier"],
-    },
-    {
-        title: "Fortune Gems",
-        description: "Trust that your luck extends even to other well-known games like Fortune Gems since BigWin959 ensures to help you win big and all! Well, even with Jeetwin Online Casino, Fortune Gems always proves to be one of the favorites of customers because of how immersive its features are. In no time, expect to receive big rewards on your doorstep.",
-        image: "/images/fortune-gems-new.jpg",
-        tags: ["Gems", "Jackpot"],
-    },
-];
+interface RecommendedGamesProps {
+    items?: DiamondLobbyItem[];
+}
 
-const liveGames = [
+const defaultLiveGames: DiamondLobbyItem[] = [
     {
+        id: "1",
         title: "Dragon Sexy Hall",
-        description: "If you fancy live casinos, well BigWin959 Online Casino recommends its Dragon Sexy Hall, which stuns you amazingly with its unparalleled visuals and gaming experience. Like what you find with other platforms like Baji Live Net Casino, BigWin’s live dealers are as attractive as the world-class top beauties!",
+        description: "If you fancy live casinos, well BigWin959 Online Casino recommends its Dragon Sexy Hall, which stuns you amazingly with its unparalleled visuals and gaming experience.",
         image: "/images/live-dragon.png",
+        link: "/live-casino"
     },
     {
+        id: "2",
         title: "Baccarat Classic Sexy Hall",
-        description: "Your quick live casino login is sure to give you the best of live casinos if paired with BigWin959’s Baccarat Classic Sexy Hall. Prepare for exciting potential rewards with its high-stakes betting, especially perfect for experienced players.",
+        description: "Your quick live casino login is sure to give you the best of live casinos if paired with BigWin959’s Baccarat Classic Sexy Hall.",
         image: "/images/live-baccarat.png",
+        link: "/live-casino"
     },
     {
+        id: "3",
         title: "Roulette Sexy Hall",
-        description: "BigWin959’s engaging and charismatic live dealers play an important role in why Roulette Sexy Hall is one of the top picks. Indulge in every suspenseful spin while enjoying the glamorous and authentic environment that Roulette Sexy Hall provides.",
+        description: "BigWin959’s engaging and charismatic live dealers play an important role in why Roulette Sexy Hall is one of the top picks.",
         image: "/images/live-roulette.png",
+        link: "/live-casino"
     },
 ];
 
-export default function RecommendedGames() {
+export default function RecommendedGames({ items }: RecommendedGamesProps) {
+    const displayGames = items && items.length > 0 ? items : defaultLiveGames;
+
     return (
         <section className="py-24 bg-background relative overflow-hidden">
             {/* Background Decoration */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/5 rounded-full blur-[150px] pointer-events-none" />
-            
+
             <div className="container-custom relative z-10">
                 {/* Live Casino Section */}
                 <div>
@@ -64,18 +56,18 @@ export default function RecommendedGames() {
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-                        {liveGames.map((game, i) => (
-                            <div key={i} className="group">
+                        {displayGames.map((game, i) => (
+                            <div key={game.id || i} className="group">
                                 <div className="relative aspect-[16/10] rounded-3xl overflow-hidden mb-8 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.5)] transition-all duration-700 group-hover:-translate-y-3 group-hover:shadow-[0_45px_70px_-20px_rgba(220,38,38,0.2)]">
-                                    <Image 
-                                        src={game.image} 
-                                        alt={game.title} 
-                                        fill 
-                                        className="object-cover transition-transform duration-[2000ms] group-hover:scale-110" 
+                                    <Image
+                                        src={game.image}
+                                        alt={game.title}
+                                        fill
+                                        className="object-cover transition-transform duration-[2000ms] group-hover:scale-110"
                                     />
                                     {/* Vignette Overlay */}
                                     <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
-                                    
+
                                     <div className="absolute bottom-6 left-8">
                                         <div className="flex items-center space-x-3 text-primary">
                                             <div className="flex space-x-1">
@@ -85,7 +77,7 @@ export default function RecommendedGames() {
                                             <span className="text-[10px] font-black uppercase tracking-[0.3em] text-white/90">Studio Active</span>
                                         </div>
                                     </div>
-                                    
+
                                     {/* Action Button on Hover */}
                                     <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 bg-black/40 backdrop-blur-[2px]">
                                         <Link href="/live-casino" className="btn-primary !scale-90 group-hover:!scale-100 transition-transform duration-500">

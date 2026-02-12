@@ -4,16 +4,33 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Calendar, ArrowRight } from "lucide-react";
+import { HomeBlogSettings } from "@/lib/cms";
 
-export default function BlogPreview() {
+interface BlogPreviewProps {
+    settings?: HomeBlogSettings;
+}
+
+export default function BlogPreview({ settings }: BlogPreviewProps) {
     const [posts, setPosts] = useState<any[]>([]);
 
     useEffect(() => {
         const localPosts = localStorage.getItem("blogPosts");
         if (localPosts) {
-            setPosts(JSON.parse(localPosts).slice(0, 3)); // Only show latest 3
+            let allPosts = JSON.parse(localPosts);
+
+            // Apply filtering based on settings
+            if (settings?.filterType === "trending") {
+                // Random shuffle for "trending" simulation
+                allPosts = allPosts.sort(() => 0.5 - Math.random());
+            } else if (settings?.filterType === "hottest") {
+                // Assume logic for "hottest" or just reverse
+                allPosts = allPosts.reverse();
+            }
+            // "latest" is default (assuming saved in order)
+
+            setPosts(allPosts.slice(0, 3));
         }
-    }, []);
+    }, [settings]);
 
     if (posts.length === 0) return null;
 
@@ -30,7 +47,11 @@ export default function BlogPreview() {
                             <span className="text-primary font-black uppercase tracking-[.4em] text-xs">Inside BigWin959</span>
                         </div>
                         <h2 className="text-4xl md:text-6xl font-bold text-white uppercase font-heading tracking-tighter leading-none">
-                            Latest from <span className="text-primary italic">Our Blog</span>
+                            {settings?.title ? (
+                                <span className="text-primary italic">{settings.title}</span>
+                            ) : (
+                                <>Latest from <span className="text-primary italic">Our Blog</span></>
+                            )}
                         </h2>
                     </div>
                     <Link href="/blog" className="btn-outline flex items-center group">
@@ -41,18 +62,18 @@ export default function BlogPreview() {
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
                     {posts.map((post) => (
-                        <Link 
-                            href={`/blog/${post.id}`} 
-                            key={post.id} 
+                        <Link
+                            href={`/blog/${post.id}`}
+                            key={post.id}
                             className="group flex flex-col bg-surface/50 border border-white/5 rounded-[2rem] overflow-hidden hover:border-primary/20 transition-all duration-500 hover:shadow-[0_20px_40px_-15px_rgba(220,38,38,0.1)]"
                         >
                             <div className="relative aspect-[16/10] overflow-hidden">
                                 {post.image ? (
-                                    <Image 
-                                        src={post.image} 
-                                        alt={post.title} 
-                                        fill 
-                                        className="object-cover transition-transform duration-700 group-hover:scale-110" 
+                                    <Image
+                                        src={post.image}
+                                        alt={post.title}
+                                        fill
+                                        className="object-cover transition-transform duration-700 group-hover:scale-110"
                                     />
                                 ) : (
                                     <div className="absolute inset-0 flex items-center justify-center bg-primary/10">
