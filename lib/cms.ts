@@ -52,6 +52,36 @@ export interface ContactMessage {
     read: boolean;
 }
 
+export interface AboutPageData {
+    heroTitle: string;
+    heroSubtitle: string;
+    heroImage: string;
+    securedByText: string;
+    stats: { label: string; value: string }[];
+    missionTitle: string;
+    missionText: string;
+    features: { icon: string; title: string; description: string }[];
+    whyChooseUs: { icon: string; title: string; description: string }[];
+    communityCta: {
+        title: string;
+        description: string;
+        buttonText: string;
+        buttonLink: string;
+    };
+}
+
+export interface PromotionsPageData {
+    title: string;
+    subtitle: string;
+    introText: string;
+}
+
+export interface FooterData {
+    aboutText: string;
+    copyright: string;
+    socialLinks: { facebook: string; twitter: string; telegram: string; instagram: string };
+}
+
 // --- Default Data ---
 
 const defaultSiteSettings: SiteSettings = {
@@ -117,6 +147,55 @@ const defaultLiveCasinoContent: PageContentLiveCasino = {
     hotRoadContent: "Despite being relatively new to the world of online gambling, BigWin959 and Live Casino login include HotRoad in their formidable lineup of game providers, given how truly exceptional HotRoad products are.",
     conclusionTitle: "Conclusion",
     conclusionContent: "BigWin959 never falls short in offering games, especially with the help of its impressive list of game providers. Whether that’s Evolution, Playtech, HotRoad, or Sexy Gaming, expect a ride full of rushes through BigWin959 platform!"
+};
+
+const defaultAboutPageData: AboutPageData = {
+    heroTitle: "Redefining Online <br /><span class=\"text-cta\">Entertainment</span>",
+    heroSubtitle: "BigWin959 is Bangladesh's premier online gaming destination, offering a world-class casino and sports betting experience tailored for you.",
+    heroImage: "https://res.cloudinary.com/dmyocpyxd/image/upload/w_1200,f_auto,q_auto/v1767000514/Security-Technology.png",
+    securedByText: "Secured BY<br/>959 SHIELD",
+    stats: [
+        { value: "5+", label: "Years Experience" },
+        { value: "1M+", label: "Happy Players" },
+        { value: "24/7", label: "Live Support" }
+    ],
+    missionTitle: "Our Mission",
+    missionText: "\"To provide a safe, exciting, and innovative gaming platform where players can enjoy premium entertainment with complete peace of mind. We are committed to responsible gaming and setting the highest standards in the industry.\"",
+    features: [
+        { title: "Secure & Trusted", description: "We use state-of-the-art encryption combined with accredited payment processing to ensure your data and funds are always safe.", icon: "Shield" },
+        { title: "Community Focused", description: "BigWin959 is built for the community. We value our players and strive to provide the most engaging social gaming experience.", icon: "Users" },
+        { title: "Certified Fair Play", description: "All our games are independently tested and certified for fairness. We operate under strict regulatory compliance.", icon: "Award" },
+        { title: "24/7 Support", description: "Our dedicated support team is available round the clock to assist you with any questions or concerns you might have.", icon: "Headphones" }
+    ],
+    whyChooseUs: [
+        { icon: "Shield", title: "Secure & Trusted", description: "State-of-the-art encryption combined with accredited payment processing." },
+        { icon: "Users", title: "Community Focused", description: "Built for the community with engaging social gaming experiences." },
+        { icon: "Award", title: "Certified Fair Play", description: "Independently tested games and regulatory compliance." },
+        { icon: "Headphones", title: "24/7 Support", description: "Round-the-clock dedicated support team." }
+    ],
+    communityCta: {
+        title: "Join Our Community Today",
+        description: "Experience the difference with BigWin959. Sign up now and claim your welcome bonus.",
+        buttonText: "Get Started",
+        buttonLink: "/signup"
+    }
+};
+
+const defaultPromotionsPageData: PromotionsPageData = {
+    title: "Elite <span class=\"text-primary italic\">Promotions</span>",
+    subtitle: "Rewards & Benefits",
+    introText: "Elevate your gaming experience with our exclusive rewards. From welcome bonuses to weekly cashback, we've designed every offer to maximize your winning potential."
+};
+
+const defaultFooterData: FooterData = {
+    aboutText: "BigWin959 is your premier destination for online entertainment. We offer a wide range of casino games, sports betting, and live dealer experiences.",
+    copyright: "© 2024 BigWin959. All rights reserved.",
+    socialLinks: {
+        facebook: "#",
+        twitter: "#",
+        telegram: "#",
+        instagram: "#"
+    }
 };
 
 // --- Helper Functions ---
@@ -202,5 +281,17 @@ export const cms = {
             const updated = msgs.map(m => m.id === id ? { ...m, read: true } : m);
             saveCMSData('active_contactMessages', updated);
         }
+    },
+    aboutPage: {
+        get: () => getCMSData<AboutPageData>('active_aboutPage', defaultAboutPageData),
+        save: (data: AboutPageData) => saveCMSData('active_aboutPage', data)
+    },
+    promotionsPage: {
+        get: () => getCMSData<PromotionsPageData>('active_promotionsPage', defaultPromotionsPageData),
+        save: (data: PromotionsPageData) => saveCMSData('active_promotionsPage', data)
+    },
+    footer: {
+        get: () => getCMSData<FooterData>('active_footer', defaultFooterData),
+        save: (data: FooterData) => saveCMSData('active_footer', data)
     }
 };

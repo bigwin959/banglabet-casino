@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { cms, SiteSettings, FeaturedContent, DiamondLobbyItem, HomeBlogSettings, PageContentLiveCasino, ContactMessage } from "@/lib/cms";
+import { cms, SiteSettings, FeaturedContent, DiamondLobbyItem, HomeBlogSettings, PageContentLiveCasino, ContactMessage, AboutPageData, PromotionsPageData, FooterData } from "@/lib/cms";
 import {
     Users,
     Settings,
@@ -38,7 +38,10 @@ import {
     Home,
     MessageSquare,
     Globe,
-    Mail
+    Mail,
+    Info,
+    Megaphone,
+    Link as LinkIcon
 } from 'lucide-react';
 import { useToast } from "@/context/ToastContext";
 import { motion, AnimatePresence } from "framer-motion";
@@ -53,7 +56,7 @@ export default function GlobalAdmin() {
     const [error, setError] = useState("");
 
     // Active Tab
-    const [activeTab, setActiveTab] = useState<"blog" | "live" | "sports" | "general" | "banners" | "home" | "pages" | "global" | "inbox">("blog");
+    const [activeTab, setActiveTab] = useState<"blog" | "live" | "sports" | "general" | "banners" | "home" | "pages" | "global" | "inbox" | "about" | "promotions-page" | "footer">("blog");
 
     // Form states
     const [title, setTitle] = useState("");
@@ -91,6 +94,11 @@ export default function GlobalAdmin() {
     const [blogCategories, setBlogCategories] = useState<string[]>([]);
     const [selectedPage, setSelectedPage] = useState<"live-casino" | "contact">("live-casino");
 
+    // New CMS Data States
+    const [aboutPageData, setAboutPageData] = useState<AboutPageData | null>(null);
+    const [promotionsPageData, setPromotionsPageData] = useState<PromotionsPageData | null>(null);
+    const [footerData, setFooterData] = useState<FooterData | null>(null);
+
     // Editing State
     const [editingId, setEditingId] = useState<number | null>(null);
 
@@ -123,6 +131,11 @@ export default function GlobalAdmin() {
         setContactMessages(cms.contactMessages.get());
         setSubscribers(cms.subscribers.get());
         setBlogCategories(cms.blogCategories.get());
+
+        // Load New Data
+        setAboutPageData(cms.aboutPage.get());
+        setPromotionsPageData(cms.promotionsPage.get());
+        setFooterData(cms.footer.get());
     };
 
     const fetchImages = () => {
@@ -646,24 +659,6 @@ export default function GlobalAdmin() {
                             { id: "sports", icon: Target, label: "Sportsbook" },
                             { id: "general", icon: Settings, label: "General Promos" },
                             { id: "banners", icon: LayoutTemplate, label: "Home Banners" },
-                        ].map((item) => (
-                            <button
-                                key={item.id}
-                                onClick={() => { setActiveTab(item.id as any); setMobileMenuOpen(false); resetForm(); }}
-                                className={`w-full flex items-center gap-4 px-4 py-4 rounded-xl transition-all group ${activeTab === item.id ? "bg-primary text-black shadow-[0_0_20px_rgba(255,228,145,0.15)]" : "text-gray-500 hover:bg-white/5 hover:text-white"}`}
-                            >
-                                <item.icon size={18} className={activeTab === item.id ? "text-black" : "group-hover:text-primary transition-colors"} />
-                                <span className="font-bold uppercase tracking-widest text-xs">{item.label}</span>
-                            </button>
-                        ))}
-
-                        <div className="pt-4 pb-2">
-                            <p className="px-4 text-[10px] font-black uppercase tracking-widest text-gray-600">CMS Management</p>
-                        </div>
-
-                        {[
-                            { id: "home", icon: Home, label: "Home Page" },
-                            { id: "pages", icon: FileText, label: "Page Content" },
                             { id: "global", icon: Globe, label: "Global Settings" },
                             { id: "inbox", icon: Mail, label: "Inbox & Leads" },
                         ].map((item) => (
@@ -700,8 +695,8 @@ export default function GlobalAdmin() {
 
 
             {/* Main Content Area */}
-            <main className="flex-1 lg:ml-80 p-4 lg:p-10 min-w-0">
-                <div className="max-w-6xl mx-auto space-y-12">
+            <main className="flex-1 p-4 lg:p-6 min-w-0">
+                <div className="w-full space-y-12">
 
                     {/* Top Bar (Mobile Toggle + Page Title) */}
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-8 border-b border-white/5">
@@ -712,10 +707,13 @@ export default function GlobalAdmin() {
                                         activeTab === "sports" ? "Sportsbook Promotions" :
                                             activeTab === "banners" ? "Homepage Banners" :
                                                 activeTab === "home" ? "Home Page Manager" :
-                                                    activeTab === "pages" ? "Page Content Editor" :
-                                                        activeTab === "global" ? "Global Settings" :
-                                                            activeTab === "inbox" ? "Inbox & Leads" :
-                                                                "General Cards"}
+                                                    activeTab === "about" ? "About Us Manager" :
+                                                        activeTab === "promotions-page" ? "Promotions Header" :
+                                                            activeTab === "footer" ? "Footer Manager" :
+                                                                activeTab === "pages" ? "Page Content Editor" :
+                                                                    activeTab === "global" ? "Global Settings" :
+                                                                        activeTab === "inbox" ? "Inbox & Leads" :
+                                                                            "General Cards"}
                             </h2>
                             <p className="text-gray-500 text-sm">
                                 {activeTab === "blog" ? "Create and Edit Articles" :
@@ -1084,7 +1082,7 @@ export default function GlobalAdmin() {
                             <div className="space-y-6 pt-8 border-t border-white/5">
                                 <h3 className="text-2xl font-heading font-black text-white uppercase tracking-tight border-b border-white/5 pb-4">Home Blog Section</h3>
                                 {homeBlogSettings && (
-                                    <div className="bg-[#0a0a0a] p-8 rounded-3xl border border-white/5 max-w-xl">
+                                    <div className="bg-[#0a0a0a] p-8 rounded-3xl border border-white/5 w-full">
                                         <div className="space-y-4">
                                             <div className="space-y-2">
                                                 <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest pl-2">Section Title</label>

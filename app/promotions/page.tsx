@@ -5,10 +5,12 @@ import PromotionCard from "@/components/PromotionCard";
 import PromotionsDetails from "@/components/promotions/PromotionsDetails";
 import { promotions as staticPromos } from "@/lib/data";
 import { ChevronDown, ChevronUp, Gift } from "lucide-react";
+import { cms, PromotionsPageData } from "@/lib/cms";
 
 export default function PromotionPage() {
     const [openFaq, setOpenFaq] = useState<number | null>(null);
     const [allPromos, setAllPromos] = useState<any[]>([]);
+    const [pageData, setPageData] = useState<PromotionsPageData | null>(null);
 
     useEffect(() => {
         const saved = localStorage.getItem("generalPromotions");
@@ -17,6 +19,7 @@ export default function PromotionPage() {
         } else {
             setAllPromos(staticPromos);
         }
+        setPageData(cms.promotionsPage.get());
     }, []);
 
     const faqs = [
@@ -45,14 +48,15 @@ export default function PromotionPage() {
                 <div className="flex flex-col items-center text-center">
                     <div className="flex items-center gap-4 mb-4">
                         <span className="w-12 h-1 bg-primary rounded-full" />
-                        <span className="text-primary font-black uppercase tracking-[0.4em] text-xs">Rewards & Benefits</span>
+                        <span className="text-primary font-black uppercase tracking-[0.4em] text-xs">
+                            {pageData?.subtitle || "Rewards & Benefits"}
+                        </span>
                         <span className="w-12 h-1 bg-primary rounded-full" />
                     </div>
-                    <h1 className="text-4xl md:text-7xl font-heading font-black text-white uppercase tracking-tighter mb-6">
-                        Elite <span className="text-primary italic">Promotions</span>
+                    <h1 className="text-4xl md:text-7xl font-heading font-black text-white uppercase tracking-tighter mb-6" dangerouslySetInnerHTML={{ __html: pageData?.title || `Elite <span class="text-primary italic">Promotions</span>` }}>
                     </h1>
                     <p className="text-gray-500 max-w-2xl text-lg font-medium leading-relaxed">
-                        Elevate your gaming experience with our exclusive rewards. From welcome bonuses to weekly cashback, we've designed every offer to maximize your winning potential.
+                        {pageData?.introText || "Elevate your gaming experience with our exclusive rewards. From welcome bonuses to weekly cashback, we've designed every offer to maximize your winning potential."}
                     </p>
                 </div>
             </div>
