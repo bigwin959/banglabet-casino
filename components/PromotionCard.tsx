@@ -59,7 +59,7 @@ const PromotionCard = ({
 
         {/* Action Area */}
         <div className="mt-auto">
-          <Link href={ctaLink} className="btn-primary w-full !rounded-2xl !py-4 shadow-xl shadow-primary/10 block text-center">
+          <Link href={ctaLink} prefetch={false} className="btn-primary w-full !rounded-2xl !py-4 shadow-xl shadow-primary/10 block text-center">
             {ctaText}
           </Link>
           
