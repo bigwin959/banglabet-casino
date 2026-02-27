@@ -11,7 +11,7 @@ const defaultCategories: FeaturedContent[] = [
         id: "1",
         title: "Most User-Recommended Platform",
         description: "Player recommendations reflect constant uptime, generous rollover policies, and a clear-cut registration that promises steady growth. Independent review sites list accessibility, game depth, and responsive payouts among the most singly reputable reasons by journeyman players.",
-        image: "/images/teaser-recommended.png",
+        image: "/images/zeus.png",
         cta: "Explore Now",
         link: "/register",
     },
@@ -19,7 +19,7 @@ const defaultCategories: FeaturedContent[] = [
         id: "2",
         title: "High-Stake Jackpots and Lucrative Bonuses",
         description: "Low-key pools mass stakes from a dispersed base of players to create big jackpots worthy of making headlines and generating active conversations. Timed drops and targeted boosts reward engagement during key times.",
-        image: "/images/banner-special-slots.png",
+        image: "/images/zeus.png",
         cta: "Claim Bonus",
         link: "/promotions",
     }
@@ -43,8 +43,8 @@ export default function CategoryTeasers({ items }: CategoryTeasersProps) {
 
                         {/* Image Block with Premium Frame */}
                         <div className="w-full md:w-1/2 relative group">
-                            <div className="relative aspect-[16/10] w-full bg-surface rounded-2xl overflow-hidden shadow-2xl transition-all duration-700 
-                                group-hover:shadow-[0_0_50px_rgba(220,38,38,0.2)] group-hover:scale-[1.02]">
+                            <div className="relative aspect-[16/10] w-full bg-primary/50 backdrop-blur-md border border-primary/30 rounded-3xl overflow-hidden shadow-[0_0_30px_rgba(255,228,145,0.15)] transition-all duration-700 
+                                group-hover:shadow-[0_0_50px_rgba(255,228,145,0.4)] group-hover:scale-[1.02]">
 
                                 {/* Inner Border Glow */}
                                 <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
@@ -53,7 +53,7 @@ export default function CategoryTeasers({ items }: CategoryTeasersProps) {
                                     src={cat.image}
                                     alt={cat.title}
                                     fill
-                                    className="object-contain p-8 transition-all duration-1000 group-hover:scale-110"
+                                    className="object-contain p-8 mix-blend-multiply transition-all duration-1000 group-hover:scale-110"
                                 />
 
                                 {/* Glass Vignette */}
