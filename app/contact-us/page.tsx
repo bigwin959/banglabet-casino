@@ -15,7 +15,7 @@ export default function ContactPage() {
     const [submitted, setSubmitted] = useState(false);
 
     useEffect(() => {
-        setSettings(cms.siteSettings.get());
+        cms.siteSettings.get().then(setSettings);
     }, []);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -31,13 +31,12 @@ export default function ContactPage() {
             email: formData.email,
             subject: formData.subject || "No Subject",
             message: formData.message
+        }).then(() => {
+            // Add subscriber if applicable (logic can be added here)
+            setSubmitted(true);
+            setFormData({ name: "", email: "", subject: "", message: "" });
+            setTimeout(() => setSubmitted(false), 5000);
         });
-
-        // Add subscriber if applicable (logic can be added here)
-
-        setSubmitted(true);
-        setFormData({ name: "", email: "", subject: "", message: "" });
-        setTimeout(() => setSubmitted(false), 5000);
     };
 
     return (

@@ -10,7 +10,7 @@ export default function AboutPage() {
     const [data, setData] = useState<AboutPageData | null>(null);
 
     useEffect(() => {
-        setData(cms.aboutPage.get());
+        cms.aboutPage.get().then(setData);
     }, []);
 
     const iconMap: { [key: string]: any } = {

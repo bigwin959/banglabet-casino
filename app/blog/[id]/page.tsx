@@ -4,6 +4,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { cms } from "@/lib/cms";
 import { Calendar, Tag, ChevronLeft, Share2, MessageCircle, Heart } from "lucide-react";
 
 export default function BlogPostDetail() {
@@ -14,15 +15,15 @@ export default function BlogPostDetail() {
 
     useEffect(() => {
         const id = params.id;
-        const localPosts = localStorage.getItem("blogPosts");
-        if (localPosts) {
-            const posts = JSON.parse(localPosts);
-            const foundPost = posts.find((p: any) => p.id.toString() === id);
-            if (foundPost) {
-                setPost(foundPost);
+        cms.blogPosts.get().then((posts) => {
+            if (posts && posts.length > 0) {
+                const foundPost = posts.find((p: any) => p.id.toString() === id);
+                if (foundPost) {
+                    setPost(foundPost);
+                }
             }
-        }
-        setLoading(false);
+            setLoading(false);
+        });
     }, [params.id]);
 
     if (loading) {

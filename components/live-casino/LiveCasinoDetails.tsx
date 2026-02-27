@@ -8,7 +8,7 @@ export default function LiveCasinoDetails() {
     const [content, setContent] = useState<PageContentLiveCasino | null>(null);
 
     useEffect(() => {
-        setContent(cms.liveCasino.get());
+        cms.liveCasino.get().then(setContent);
     }, []);
 
     const defaultContent = {

@@ -1,6 +1,7 @@
 "use client";
 
 import { blogPosts as staticPosts } from "@/lib/data";
+import { cms } from "@/lib/cms";
 import Image from "next/image";
 import Link from "next/link";
 import { Calendar, Tag } from "lucide-react";
@@ -10,10 +11,11 @@ export default function BlogPage() {
     const [allPosts, setAllPosts] = useState<any[]>([]);
 
     useEffect(() => {
-        const localPosts = localStorage.getItem("blogPosts");
-        if (localPosts) {
-            setAllPosts(JSON.parse(localPosts));
-        }
+        cms.blogPosts.get().then((data) => {
+            if (data && data.length > 0) {
+                setAllPosts(data);
+            }
+        });
     }, []);
 
     const categories = [

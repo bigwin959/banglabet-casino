@@ -37,10 +37,10 @@ export default function Home() {
 
   useEffect(() => {
     // Load CMS Data
-    setBanners(cms.homeBanners.get());
-    setFeaturedContent(cms.featuredContent.get());
-    setDiamondLobby(cms.diamondLobby.get());
-    setBlogSettings(cms.homeBlog.get());
+    cms.homeBanners.get().then(setBanners);
+    cms.featuredContent.get().then(setFeaturedContent);
+    cms.diamondLobby.get().then(setDiamondLobby);
+    cms.homeBlog.get().then(setBlogSettings);
   }, []);
 
   return (

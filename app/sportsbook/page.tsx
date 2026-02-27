@@ -5,32 +5,34 @@ import SportsbookDetails from "@/components/sportbook/SportsbookDetails";
 import LiveMatches from "@/components/sportbook/LiveMatches";
 import { sports } from "@/lib/data";
 import { useState, useEffect } from "react";
+import { cms } from "@/lib/cms";
 
 export default function SportBook() {
     const [promotions, setPromotions] = useState<any[]>([]);
 
     useEffect(() => {
-        const savedPromos = localStorage.getItem("sportsbookPromotions");
-        if (savedPromos) {
-            setPromotions(JSON.parse(savedPromos));
-        } else {
-            setPromotions([
-                {
-                    image: "https://img-live.bannershive.dev/h001_uploads/images/B1_BDT_EN_Pragmatic_Play_God_of_Olympus_1000_Daily_Cashback_CTL_PROMOTION.jpg",
-                    title: "First Bet Bonus",
-                    discount: "$50",
-                    description: "Place your first bet risk-free up to $50. If you lose, we refund you.",
-                    ctaText: "Bet Now",
-                },
-                {
-                    image: "https://img-live.bannershive.dev/h001_uploads/images/B1_BDT_EN_Pragmatic_Play_God_of_Olympus_1000_Daily_Cashback_CTL_PROMOTION.jpg",
-                    title: "Accumulator Boost",
-                    discount: "50%",
-                    description: "Get up to 50% extra winnings on your accumulator bets.",
-                    ctaText: "Bet Now",
-                },
-            ]);
-        }
+        cms.sportsbookPromotions.get().then((savedPromos) => {
+            if (savedPromos && savedPromos.length > 0) {
+                setPromotions(savedPromos);
+            } else {
+                setPromotions([
+                    {
+                        image: "https://img-live.bannershive.dev/h001_uploads/images/B1_BDT_EN_Pragmatic_Play_God_of_Olympus_1000_Daily_Cashback_CTL_PROMOTION.jpg",
+                        title: "First Bet Bonus",
+                        discount: "$50",
+                        description: "Place your first bet risk-free up to $50. If you lose, we refund you.",
+                        ctaText: "Bet Now",
+                    },
+                    {
+                        image: "https://img-live.bannershive.dev/h001_uploads/images/B1_BDT_EN_Pragmatic_Play_God_of_Olympus_1000_Daily_Cashback_CTL_PROMOTION.jpg",
+                        title: "Accumulator Boost",
+                        discount: "50%",
+                        description: "Get up to 50% extra winnings on your accumulator bets.",
+                        ctaText: "Bet Now",
+                    },
+                ]);
+            }
+        });
     }, []);
 
     return (

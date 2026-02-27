@@ -10,7 +10,7 @@ export default function Footer() {
     const [footerData, setFooterData] = useState<FooterData | null>(null);
 
     useEffect(() => {
-        setFooterData(cms.footer.get());
+        cms.footer.get().then(setFooterData);
     }, []);
 
     return (

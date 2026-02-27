@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Calendar, ArrowRight } from "lucide-react";
-import { HomeBlogSettings } from "@/lib/cms";
+import { cms, HomeBlogSettings } from "@/lib/cms";
 
 interface BlogPreviewProps {
     settings?: HomeBlogSettings;
@@ -14,22 +14,21 @@ export default function BlogPreview({ settings }: BlogPreviewProps) {
     const [posts, setPosts] = useState<any[]>([]);
 
     useEffect(() => {
-        const localPosts = localStorage.getItem("blogPosts");
-        if (localPosts) {
-            let allPosts = JSON.parse(localPosts);
+        cms.blogPosts.get().then((allPosts) => {
+            if (allPosts && allPosts.length > 0) {
+                // Apply filtering based on settings
+                if (settings?.filterType === "trending") {
+                    // Random shuffle for "trending" simulation
+                    allPosts = [...allPosts].sort(() => 0.5 - Math.random());
+                } else if (settings?.filterType === "hottest") {
+                    // Assume logic for "hottest" or just reverse
+                    allPosts = [...allPosts].reverse();
+                }
+                // "latest" is default (assuming saved in order)
 
-            // Apply filtering based on settings
-            if (settings?.filterType === "trending") {
-                // Random shuffle for "trending" simulation
-                allPosts = allPosts.sort(() => 0.5 - Math.random());
-            } else if (settings?.filterType === "hottest") {
-                // Assume logic for "hottest" or just reverse
-                allPosts = allPosts.reverse();
+                setPosts(allPosts.slice(0, 3));
             }
-            // "latest" is default (assuming saved in order)
-
-            setPosts(allPosts.slice(0, 3));
-        }
+        });
     }, [settings]);
 
     if (posts.length === 0) return null;

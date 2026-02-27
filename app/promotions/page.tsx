@@ -13,13 +13,15 @@ export default function PromotionPage() {
     const [pageData, setPageData] = useState<PromotionsPageData | null>(null);
 
     useEffect(() => {
-        const saved = localStorage.getItem("generalPromotions");
-        if (saved) {
-            setAllPromos(JSON.parse(saved));
-        } else {
-            setAllPromos(staticPromos);
-        }
-        setPageData(cms.promotionsPage.get());
+        // Fetch promotions asynchronously from the new CMS structure
+        cms.generalPromotions.get().then(promos => {
+            if (promos && promos.length > 0) {
+                setAllPromos(promos);
+            } else {
+                setAllPromos(staticPromos);
+            }
+        });
+        cms.promotionsPage.get().then(setPageData);
     }, []);
 
     const faqs = [

@@ -123,19 +123,19 @@ export default function GlobalAdmin() {
     }, []);
 
     const loadCMSData = () => {
-        setSiteSettings(cms.siteSettings.get());
-        setFeaturedContent(cms.featuredContent.get());
-        setDiamondLobby(cms.diamondLobby.get());
-        setHomeBlogSettings(cms.homeBlog.get());
-        setLiveCasinoContent(cms.liveCasino.get());
-        setContactMessages(cms.contactMessages.get());
-        setSubscribers(cms.subscribers.get());
-        setBlogCategories(cms.blogCategories.get());
+        cms.siteSettings.get().then(setSiteSettings);
+        cms.featuredContent.get().then(setFeaturedContent);
+        cms.diamondLobby.get().then(setDiamondLobby);
+        cms.homeBlog.get().then(setHomeBlogSettings);
+        cms.liveCasino.get().then(setLiveCasinoContent);
+        cms.contactMessages.get().then(setContactMessages);
+        cms.subscribers.get().then(setSubscribers);
+        cms.blogCategories.get().then(setBlogCategories);
 
         // Load New Data
-        setAboutPageData(cms.aboutPage.get());
-        setPromotionsPageData(cms.promotionsPage.get());
-        setFooterData(cms.footer.get());
+        cms.aboutPage.get().then(setAboutPageData);
+        cms.promotionsPage.get().then(setPromotionsPageData);
+        cms.footer.get().then(setFooterData);
     };
 
     const fetchImages = () => {
@@ -210,111 +210,108 @@ export default function GlobalAdmin() {
             setIsAuthenticated(true);
         }
 
-        // Initialize Blog Data if empty
-        const savedBlogs = localStorage.getItem("blogPosts");
-        if (!savedBlogs || JSON.parse(savedBlogs).length === 0) {
-            // Default blogs from lib/data logic would be here, skipping import to avoid errors
-            const defaults: any[] = [];
-            setBlogPosts(defaults);
-        } else {
-            setBlogPosts(JSON.parse(savedBlogs));
-        }
+        cms.blogPosts.get().then((savedBlogs) => {
+            if (!savedBlogs || savedBlogs.length === 0) {
+                setBlogPosts([]);
+            } else {
+                setBlogPosts(savedBlogs);
+            }
+        });
 
-        // Initialize Live Casino Promo Data if empty
-        const savedLive = localStorage.getItem("liveCasinoPromotions");
-        if (!savedLive || JSON.parse(savedLive).length === 0) {
-            const defaults = [
-                {
-                    id: 1,
-                    image: "https://img-live.bannershive.dev/h001_uploads/images/B1_BDT_EN_Pragmatic_Play_God_of_Olympus_1000_Daily_Cashback_CTL_PROMOTION.jpg",
-                    title: "Live Casino Welcome",
-                    discount: "100%",
-                    description: "Experience the thrill of real casino games with a 100% welcome bonus.",
-                    ctaText: "Sign Up",
-                    ctaLink: "/register"
-                },
-                {
-                    id: 2,
-                    image: "https://img-live.bannershive.dev/h001_uploads/images/B1_BDT_EN_ALL_Rescue%20Bonus_CTL_PROMOTION.jpg",
-                    title: "High Roller Cashback",
-                    discount: "20%",
-                    description: "Exclusive 20% cashback for VIP players on all live dealer tables.",
-                    ctaText: "Sign Up",
-                    ctaLink: "/register"
-                },
-            ];
-            localStorage.setItem("liveCasinoPromotions", JSON.stringify(defaults));
-            setLivePromos(defaults);
-        } else {
-            setLivePromos(JSON.parse(savedLive));
-        }
+        cms.liveCasinoPromotions.get().then((savedLive) => {
+            if (!savedLive || savedLive.length === 0) {
+                const defaults = [
+                    {
+                        id: 1,
+                        image: "https://img-live.bannershive.dev/h001_uploads/images/B1_BDT_EN_Pragmatic_Play_God_of_Olympus_1000_Daily_Cashback_CTL_PROMOTION.jpg",
+                        title: "Live Casino Welcome",
+                        discount: "100%",
+                        description: "Experience the thrill of real casino games with a 100% welcome bonus.",
+                        ctaText: "Sign Up",
+                        ctaLink: "/register"
+                    },
+                    {
+                        id: 2,
+                        image: "https://img-live.bannershive.dev/h001_uploads/images/B1_BDT_EN_ALL_Rescue%20Bonus_CTL_PROMOTION.jpg",
+                        title: "High Roller Cashback",
+                        discount: "20%",
+                        description: "Exclusive 20% cashback for VIP players on all live dealer tables.",
+                        ctaText: "Sign Up",
+                        ctaLink: "/register"
+                    },
+                ];
+                cms.liveCasinoPromotions.save(defaults);
+                setLivePromos(defaults);
+            } else {
+                setLivePromos(savedLive);
+            }
+        });
 
-        // Initialize Sportsbook Promo Data if empty
-        const savedSports = localStorage.getItem("sportsbookPromotions");
-        if (!savedSports || JSON.parse(savedSports).length === 0) {
-            const defaults = [
-                {
-                    id: 1,
-                    image: "https://img-live.bannershive.dev/h001_uploads/images/B1_BDT_EN_Pragmatic_Play_God_of_Olympus_1000_Daily_Cashback_CTL_PROMOTION.jpg",
-                    title: "First Bet Bonus",
-                    discount: "$50",
-                    description: "Place your first bet risk-free up to $50. If you lose, we refund you.",
-                    ctaText: "Bet Now",
-                    ctaLink: "/sports"
-                },
-                {
-                    id: 2,
-                    image: "https://img-live.bannershive.dev/h001_uploads/images/B1_BDT_EN_Pragmatic_Play_God_of_Olympus_1000_Daily_Cashback_CTL_PROMOTION.jpg",
-                    title: "Accumulator Boost",
-                    discount: "50%",
-                    description: "Get up to 50% extra winnings on your accumulator bets.",
-                    ctaText: "Bet Now",
-                    ctaLink: "/sports"
-                },
-            ];
-            localStorage.setItem("sportsbookPromotions", JSON.stringify(defaults));
-            setSportsPromos(defaults);
-        } else {
-            setSportsPromos(JSON.parse(savedSports));
-        }
+        cms.sportsbookPromotions.get().then((savedSports) => {
+            if (!savedSports || savedSports.length === 0) {
+                const defaults = [
+                    {
+                        id: 1,
+                        image: "https://img-live.bannershive.dev/h001_uploads/images/B1_BDT_EN_Pragmatic_Play_God_of_Olympus_1000_Daily_Cashback_CTL_PROMOTION.jpg",
+                        title: "First Bet Bonus",
+                        discount: "$50",
+                        description: "Place your first bet risk-free up to $50. If you lose, we refund you.",
+                        ctaText: "Bet Now",
+                        ctaLink: "/sports"
+                    },
+                    {
+                        id: 2,
+                        image: "https://img-live.bannershive.dev/h001_uploads/images/B1_BDT_EN_Pragmatic_Play_God_of_Olympus_1000_Daily_Cashback_CTL_PROMOTION.jpg",
+                        title: "Accumulator Boost",
+                        discount: "50%",
+                        description: "Get up to 50% extra winnings on your accumulator bets.",
+                        ctaText: "Bet Now",
+                        ctaLink: "/sports"
+                    },
+                ];
+                cms.sportsbookPromotions.save(defaults);
+                setSportsPromos(defaults);
+            } else {
+                setSportsPromos(savedSports);
+            }
+        });
 
-        // Initialize General Promo Data if empty
-        const savedGeneral = localStorage.getItem("generalPromotions");
-        if (!savedGeneral || JSON.parse(savedGeneral).length === 0) {
-            const defaults: any[] = []; // Skipping import default logic
-            setGeneralPromos(defaults);
-        } else {
-            setGeneralPromos(JSON.parse(savedGeneral));
-        }
+        cms.generalPromotions.get().then((savedGeneral) => {
+            if (!savedGeneral || savedGeneral.length === 0) {
+                setGeneralPromos([]);
+            } else {
+                setGeneralPromos(savedGeneral);
+            }
+        });
 
-        // Initialize Home Banners
-        const savedBanners = localStorage.getItem("homeBanners");
-        if (!savedBanners || JSON.parse(savedBanners).length === 0) {
-            const defaults = [
-                {
-                    id: "1",
-                    image: "/images/hero-1.jpg",
-                    title: "Ultimate Casino Experience",
-                    description: "Experience the thrill of real casino games.",
-                    buttonText: "Join Now",
-                    link: "/register",
-                    imageOnly: false
-                },
-                {
-                    id: "2",
-                    image: "/images/hero-2.jpg",
-                    title: "Future of Gaming is Here",
-                    description: "Join the future of online gaming today.",
-                    buttonText: "Join Now",
-                    link: "/register",
-                    imageOnly: false
-                }
-            ];
-            localStorage.setItem("homeBanners", JSON.stringify(defaults));
-            setHomeBanners(defaults);
-        } else {
-            setHomeBanners(JSON.parse(savedBanners));
-        }
+        cms.homeBanners.get().then((savedBanners) => {
+            if (!savedBanners || savedBanners.length === 0) {
+                const defaults = [
+                    {
+                        id: "1",
+                        image: "/images/hero-1.jpg",
+                        title: "Ultimate Casino Experience",
+                        description: "Experience the thrill of real casino games.",
+                        buttonText: "Join Now",
+                        link: "/register",
+                        imageOnly: false
+                    },
+                    {
+                        id: "2",
+                        image: "/images/hero-2.jpg",
+                        title: "Future of Gaming is Here",
+                        description: "Join the future of online gaming today.",
+                        buttonText: "Join Now",
+                        link: "/register",
+                        imageOnly: false
+                    }
+                ];
+                cms.homeBanners.save(defaults);
+                setHomeBanners(defaults);
+            } else {
+                setHomeBanners(savedBanners);
+            }
+        });
     }, []);
 
     const handleLogin = (e: React.FormEvent) => {
@@ -470,7 +467,7 @@ export default function GlobalAdmin() {
                 } else {
                     updated = [newItem, ...blogPosts];
                 }
-                localStorage.setItem("blogPosts", JSON.stringify(updated));
+                cms.blogPosts.save(updated);
                 setBlogPosts(updated);
             } else if (activeTab === "live") {
                 const newItem = { id, title, discount: subtitle, description: content, ctaText: btnText, ctaLink: btnUrl, image };
@@ -480,7 +477,7 @@ export default function GlobalAdmin() {
                 } else {
                     updated = [newItem, ...livePromos];
                 }
-                localStorage.setItem("liveCasinoPromotions", JSON.stringify(updated));
+                cms.liveCasinoPromotions.save(updated);
                 setLivePromos(updated);
             } else if (activeTab === "sports") {
                 const newItem = { id, title, discount: subtitle, description: content, ctaText: btnText, ctaLink: btnUrl, image };
@@ -490,7 +487,7 @@ export default function GlobalAdmin() {
                 } else {
                     updated = [newItem, ...sportsPromos];
                 }
-                localStorage.setItem("sportsbookPromotions", JSON.stringify(updated));
+                cms.sportsbookPromotions.save(updated);
                 setSportsPromos(updated);
             } else if (activeTab === "banners") {
                 const newItem = {
@@ -508,7 +505,7 @@ export default function GlobalAdmin() {
                 } else {
                     updated = [newItem, ...homeBanners];
                 }
-                localStorage.setItem("homeBanners", JSON.stringify(updated));
+                cms.homeBanners.save(updated);
                 setHomeBanners(updated);
             } else {
                 const newItem = { id, title, discount: subtitle, description: content, ctaText: btnText, ctaLink: btnUrl, image };
@@ -518,7 +515,7 @@ export default function GlobalAdmin() {
                 } else {
                     updated = [newItem, ...generalPromos];
                 }
-                localStorage.setItem("generalPromotions", JSON.stringify(updated));
+                cms.generalPromotions.save(updated);
                 setGeneralPromos(updated);
             }
 
@@ -535,23 +532,23 @@ export default function GlobalAdmin() {
 
         if (activeTab === "blog") {
             const updated = blogPosts.filter(p => p.id !== id);
-            localStorage.setItem("blogPosts", JSON.stringify(updated));
+            cms.blogPosts.save(updated);
             setBlogPosts(updated);
         } else if (activeTab === "live") {
             const updated = livePromos.filter(p => p.id !== id);
-            localStorage.setItem("liveCasinoPromotions", JSON.stringify(updated));
+            cms.liveCasinoPromotions.save(updated);
             setLivePromos(updated);
         } else if (activeTab === "sports") {
             const updated = sportsPromos.filter(p => p.id !== id);
-            localStorage.setItem("sportsbookPromotions", JSON.stringify(updated));
+            cms.sportsbookPromotions.save(updated);
             setSportsPromos(updated);
         } else if (activeTab === "banners") {
             const updated = homeBanners.filter(p => p.id !== String(id));
-            localStorage.setItem("homeBanners", JSON.stringify(updated));
+            cms.homeBanners.save(updated);
             setHomeBanners(updated);
         } else {
             const updated = generalPromos.filter(p => p.id !== id);
-            localStorage.setItem("generalPromotions", JSON.stringify(updated));
+            cms.generalPromotions.save(updated);
             setGeneralPromos(updated);
         }
         success("Entry Removed");
@@ -910,9 +907,9 @@ export default function GlobalAdmin() {
                                                         <span className="text-xs text-gray-500 font-mono">{msg.date}</span>
                                                         {!msg.read && (
                                                             <button
-                                                                onClick={() => {
-                                                                    cms.contactMessages.markRead(msg.id);
-                                                                    setContactMessages(cms.contactMessages.get());
+                                                                onClick={async () => {
+                                                                    await cms.contactMessages.markRead(msg.id);
+                                                                    cms.contactMessages.get().then(setContactMessages);
                                                                 }}
                                                                 className="block mt-2 text-[10px] text-primary hover:underline cursor-pointer"
                                                             >

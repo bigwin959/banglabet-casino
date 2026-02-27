@@ -201,12 +201,12 @@ const defaultFooterData: FooterData = {
 // --- Helper Functions ---
 
 // Generic get function with default fallback
-function getCMSData<T>(key: string, defaultValue: T): T {
-    if (typeof window === 'undefined') return defaultValue;
-    const stored = localStorage.getItem(key);
-    if (!stored) return defaultValue;
+async function getCMSData<T>(key: string, defaultValue: T): Promise<T> {
     try {
-        return JSON.parse(stored);
+        const res = await fetch(`/api/cms?key=${key}`, { cache: 'no-store' });
+        if (!res.ok) return defaultValue;
+        const result = await res.json();
+        return result.data !== null && result.data !== undefined ? result.data : defaultValue;
     } catch (e) {
         console.error(`Error parsing CMS data for key ${key}`, e);
         return defaultValue;
@@ -214,9 +214,16 @@ function getCMSData<T>(key: string, defaultValue: T): T {
 }
 
 // Generic save function
-function saveCMSData<T>(key: string, data: T): void {
-    if (typeof window === 'undefined') return;
-    localStorage.setItem(key, JSON.stringify(data));
+async function saveCMSData<T>(key: string, data: T): Promise<void> {
+    try {
+        await fetch('/api/cms', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ key, data })
+        });
+    } catch (e) {
+        console.error(`Error saving CMS data for key ${key}`, e);
+    }
 }
 
 // --- Exported CMS Accessors ---
@@ -256,30 +263,30 @@ export const cms = {
     },
     subscribers: {
         get: () => getCMSData<string[]>('active_subscribers', []),
-        add: (email: string) => {
-            const subs = getCMSData<string[]>('active_subscribers', []);
+        add: async (email: string) => {
+            const subs = await getCMSData<string[]>('active_subscribers', []);
             if (!subs.includes(email)) {
                 subs.push(email);
-                saveCMSData('active_subscribers', subs);
+                await saveCMSData('active_subscribers', subs);
             }
         }
     },
     contactMessages: {
         get: () => getCMSData<ContactMessage[]>('active_contactMessages', []),
-        add: (msg: Omit<ContactMessage, 'id' | 'date' | 'read'>) => {
-            const msgs = getCMSData<ContactMessage[]>('active_contactMessages', []);
+        add: async (msg: Omit<ContactMessage, 'id' | 'date' | 'read'>) => {
+            const msgs = await getCMSData<ContactMessage[]>('active_contactMessages', []);
             const newMsg: ContactMessage = {
                 ...msg,
                 id: Date.now().toString(),
                 date: new Date().toISOString().split('T')[0],
                 read: false
             };
-            saveCMSData('active_contactMessages', [newMsg, ...msgs]);
+            await saveCMSData('active_contactMessages', [newMsg, ...msgs]);
         },
-        markRead: (id: string) => {
-            const msgs = getCMSData<ContactMessage[]>('active_contactMessages', []);
+        markRead: async (id: string) => {
+            const msgs = await getCMSData<ContactMessage[]>('active_contactMessages', []);
             const updated = msgs.map(m => m.id === id ? { ...m, read: true } : m);
-            saveCMSData('active_contactMessages', updated);
+            await saveCMSData('active_contactMessages', updated);
         }
     },
     aboutPage: {
@@ -293,5 +300,21 @@ export const cms = {
     footer: {
         get: () => getCMSData<FooterData>('active_footer', defaultFooterData),
         save: (data: FooterData) => saveCMSData('active_footer', data)
+    },
+    generalPromotions: {
+        get: () => getCMSData<any[]>('generalPromotions', []),
+        save: (data: any[]) => saveCMSData('generalPromotions', data)
+    },
+    liveCasinoPromotions: {
+        get: () => getCMSData<any[]>('liveCasinoPromotions', []),
+        save: (data: any[]) => saveCMSData('liveCasinoPromotions', data)
+    },
+    sportsbookPromotions: {
+        get: () => getCMSData<any[]>('sportsbookPromotions', []),
+        save: (data: any[]) => saveCMSData('sportsbookPromotions', data)
+    },
+    blogPosts: {
+        get: () => getCMSData<any[]>('blogPosts', []),
+        save: (data: any[]) => saveCMSData('blogPosts', data)
     }
 };
