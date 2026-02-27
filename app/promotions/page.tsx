@@ -15,10 +15,10 @@ export default function PromotionPage() {
     useEffect(() => {
         // Fetch promotions asynchronously from the new CMS structure
         cms.generalPromotions.get().then(promos => {
-            if (promos && promos.length > 0) {
+            if (promos) { // We only need promo to be defined securely, NOT strictly > 0 length. Let the admin delete cards!
                 setAllPromos(promos);
             } else {
-                setAllPromos(staticPromos);
+                setAllPromos([]);
             }
         });
         cms.promotionsPage.get().then(setPageData);

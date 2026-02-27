@@ -278,7 +278,11 @@ export default function GlobalAdmin() {
 
         cms.generalPromotions.get().then((savedGeneral) => {
             if (!savedGeneral || savedGeneral.length === 0) {
-                setGeneralPromos([]);
+                // If it's completely empty on the very first load, populate it with the baseline 10 cards so the user can easily delete them globally
+                import('@/lib/data').then((module) => {
+                    cms.generalPromotions.save(module.promotions);
+                    setGeneralPromos(module.promotions);
+                });
             } else {
                 setGeneralPromos(savedGeneral);
             }
