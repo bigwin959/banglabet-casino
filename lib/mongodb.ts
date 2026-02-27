@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 
-const MONGODB_URI = process.env.MONGODB_URI;
+// Fallback for when the dev server doesn't restart immediately after adding the .env variable
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/banglabet';
 
 if (!MONGODB_URI) {
     throw new Error('Please define the MONGODB_URI environment variable inside .env.local');
@@ -27,7 +28,8 @@ async function dbConnect() {
     if (!cached.promise) {
         const opts = {
             bufferCommands: false,
-            family: 4
+            family: 4,
+            serverSelectionTimeoutMS: 5000 // Error out quickly if db offline
         };
 
         cached.promise = mongoose.connect(MONGODB_URI!, opts).then((mongoose) => {
