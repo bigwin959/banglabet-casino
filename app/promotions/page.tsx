@@ -13,13 +13,27 @@ export default function PromotionPage() {
     const [pageData, setPageData] = useState<PromotionsPageData | null>(null);
 
     useEffect(() => {
-        const saved = localStorage.getItem("generalPromotions");
-        if (saved) {
-            setAllPromos(JSON.parse(saved));
-        } else {
-            setAllPromos(staticPromos);
-        }
-        setPageData(cms.promotionsPage.get());
+        // Load promos from Firestore
+        fetch("/api/promotions?type=general")
+            .then(r => r.json())
+            .then(data => {
+                if (data.promos && data.promos.length > 0) {
+                    setAllPromos(data.promos);
+                } else {
+                    const saved = localStorage.getItem("generalPromotions");
+                    setAllPromos(saved ? JSON.parse(saved) : staticPromos);
+                }
+            })
+            .catch(() => {
+                const saved = localStorage.getItem("generalPromotions");
+                setAllPromos(saved ? JSON.parse(saved) : staticPromos);
+            });
+
+        // Load page header data from Firestore
+        fetch("/api/cms?section=promotionsPage")
+            .then(r => r.json())
+            .then(data => { if (data.data) setPageData(data.data); })
+            .catch(() => setPageData(cms.promotionsPage.get()));
     }, []);
 
     const faqs = [
