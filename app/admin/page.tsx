@@ -832,12 +832,44 @@ export default function GlobalAdmin() {
                                     </div>
                                 </div>
 
+                                {/* Quick Links */}
+                                <div className="bg-[#0a0a0a] rounded-3xl border border-white/5 p-8">
+                                    <h3 className="text-xl font-heading font-bold text-white mb-6 uppercase tracking-tight flex items-center">
+                                        <span className="mr-3 text-primary">🔗</span>
+                                        Quick Links & Branding
+                                    </h3>
+                                    <div className="space-y-6">
+                                        <div className="space-y-2">
+                                            <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest pl-2">Site Name</label>
+                                            <input type="text" value={siteSettings.siteName ?? ''} onChange={(e) => setSiteSettings({ ...siteSettings, siteName: e.target.value })} className="w-full bg-black border border-white/5 rounded-2xl px-6 py-4 text-white focus:border-primary/50 focus:outline-none transition-all" placeholder="e.g. BigWin959" />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest pl-2">Register / CTA Link</label>
+                                            <input type="url" value={siteSettings.registerLink ?? ''} onChange={(e) => setSiteSettings({ ...siteSettings, registerLink: e.target.value })} className="w-full bg-black border border-white/5 rounded-2xl px-6 py-4 text-white focus:border-primary/50 focus:outline-none transition-all" placeholder="https://www.bigwin959.com/register" />
+                                            <p className="text-xs text-gray-600 pl-2">Used for all "Register" and "Sign Up" buttons site-wide.</p>
+                                        </div>
+                                        <div className="space-y-2">
+                                            <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest pl-2 flex items-center gap-2">
+                                                <span className="text-green-400">📱</span> WhatsApp Support Link
+                                            </label>
+                                            <input type="url" value={siteSettings.whatsappLink ?? ''} onChange={(e) => setSiteSettings({ ...siteSettings, whatsappLink: e.target.value })} className="w-full bg-black border border-green-500/20 rounded-2xl px-6 py-4 text-white focus:border-green-500/50 focus:outline-none transition-all" placeholder="https://wa.me/8801xxxxxxxxx" />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest pl-2 flex items-center gap-2">
+                                                <span className="text-blue-400">✈️</span> Telegram Support Link
+                                            </label>
+                                            <input type="url" value={siteSettings.telegramLink ?? ''} onChange={(e) => setSiteSettings({ ...siteSettings, telegramLink: e.target.value })} className="w-full bg-black border border-blue-500/20 rounded-2xl px-6 py-4 text-white focus:border-blue-500/50 focus:outline-none transition-all" placeholder="https://t.me/yourusername" />
+                                        </div>
+                                    </div>
+                                </div>
+
                                 {/* System Settings */}
                                 <div className="bg-[#0a0a0a] rounded-3xl border border-white/5 p-8">
                                     <h3 className="text-xl font-heading font-bold text-white mb-6 uppercase tracking-tight flex items-center">
                                         <Settings size={20} className="mr-3 text-primary" />
                                         System Settings
                                     </h3>
+
                                     <div className="space-y-6">
                                         <div className="space-y-2">
                                             <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest pl-2">Admin Notification Email</label>
@@ -870,7 +902,7 @@ export default function GlobalAdmin() {
                                                             onClick={() => {
                                                                 const newCats = blogCategories.filter(c => c !== cat);
                                                                 setBlogCategories(newCats);
-                                                                cms.blogCategories.save(newCats);
+                                                                saveCmsSection('blogCategories', newCats);
                                                             }}
                                                             className="ml-2 hover:text-red-500"
                                                         >
@@ -891,7 +923,7 @@ export default function GlobalAdmin() {
                                                             if (val && !blogCategories.includes(val)) {
                                                                 const newCats = [...blogCategories, val];
                                                                 setBlogCategories(newCats);
-                                                                cms.blogCategories.save(newCats);
+                                                                saveCmsSection('blogCategories', newCats);
                                                                 e.currentTarget.value = "";
                                                             }
                                                         }
@@ -905,8 +937,8 @@ export default function GlobalAdmin() {
 
                             <div className="flex justify-end">
                                 <button
-                                    onClick={() => {
-                                        cms.siteSettings.save(siteSettings);
+                                    onClick={async () => {
+                                        await saveCmsSection('siteSettings', siteSettings);
                                         success("Global settings saved successfully!");
                                     }}
                                     className="bg-primary text-black font-black px-8 py-4 rounded-xl hover:scale-105 active:scale-95 transition-all uppercase tracking-widest shadow-lg shadow-primary/20 flex items-center space-x-2"
@@ -944,9 +976,13 @@ export default function GlobalAdmin() {
                                                         <span className="text-xs text-gray-500 font-mono">{msg.date}</span>
                                                         {!msg.read && (
                                                             <button
-                                                                onClick={() => {
-                                                                    cms.contactMessages.markRead(msg.id);
-                                                                    setContactMessages(cms.contactMessages.get());
+                                                                onClick={async () => {
+                                                                    await fetch('/api/contact', {
+                                                                        method: 'POST',
+                                                                        headers: { 'Content-Type': 'application/json' },
+                                                                        body: JSON.stringify({ action: 'markRead', id: msg.id }),
+                                                                    });
+                                                                    setContactMessages(prev => prev.map(m => m.id === msg.id ? { ...m, read: true } : m));
                                                                 }}
                                                                 className="block mt-2 text-[10px] text-primary hover:underline cursor-pointer"
                                                             >
@@ -1021,10 +1057,10 @@ export default function GlobalAdmin() {
                                         <div key={item.id} className="bg-[#0a0a0a] border border-white/5 rounded-3xl p-6 relative group hover:border-primary/30 transition-all">
                                             <div className="absolute top-4 right-4 flex space-x-2 opacity-0 group-hover:opacity-100 transition-opacity z-10 w-auto bg-black/50 p-1 rounded-full">
                                                 <button
-                                                    onClick={() => {
+                                                    onClick={async () => {
                                                         const newContent = featuredContent.filter(c => c.id !== item.id);
                                                         setFeaturedContent(newContent);
-                                                        cms.featuredContent.save(newContent);
+                                                        await saveCmsSection('featuredContent', newContent);
                                                     }}
                                                     className="p-2 bg-red-500/10 hover:bg-red-500/20 text-red-500 rounded-full"
                                                 >
@@ -1044,7 +1080,7 @@ export default function GlobalAdmin() {
                                     {featuredContent.length < 3 && (
                                         <button
                                             className="bg-[#0a0a0a] border border-white/5 border-dashed rounded-3xl p-6 flex flex-col items-center justify-center gap-4 text-gray-600 hover:text-white hover:border-primary/50 hover:bg-white/5 transition-all min-h-[300px]"
-                                            onClick={() => {
+                                            onClick={async () => {
                                                 const newItem: FeaturedContent = {
                                                     id: Date.now().toString(),
                                                     title: "New Featured Content",
@@ -1055,7 +1091,7 @@ export default function GlobalAdmin() {
                                                 };
                                                 const newContent = [...featuredContent, newItem];
                                                 setFeaturedContent(newContent);
-                                                cms.featuredContent.save(newContent);
+                                                await saveCmsSection('featuredContent', newContent);
                                             }}
                                         >
                                             <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center">
@@ -1075,10 +1111,10 @@ export default function GlobalAdmin() {
                                         <div key={item.id} className="bg-[#0a0a0a] border border-white/5 rounded-3xl p-6 relative group hover:border-primary/30 transition-all">
                                             <div className="absolute top-4 right-4 flex space-x-2 opacity-0 group-hover:opacity-100 transition-opacity z-10">
                                                 <button
-                                                    onClick={() => {
+                                                    onClick={async () => {
                                                         const newLobby = diamondLobby.filter(l => l.id !== item.id);
                                                         setDiamondLobby(newLobby);
-                                                        cms.diamondLobby.save(newLobby);
+                                                        await saveCmsSection('diamondLobby', newLobby);
                                                     }}
                                                     className="p-2 bg-red-500/10 hover:bg-red-500/20 text-red-500 rounded-full"
                                                 >
@@ -1093,7 +1129,7 @@ export default function GlobalAdmin() {
                                     ))}
                                     <button
                                         className="bg-[#0a0a0a] border border-white/5 border-dashed rounded-3xl p-6 flex flex-col items-center justify-center gap-4 text-gray-600 hover:text-white hover:border-primary/50 hover:bg-white/5 transition-all aspect-square"
-                                        onClick={() => {
+                                        onClick={async () => {
                                             const newItem: DiamondLobbyItem = {
                                                 id: Date.now().toString(),
                                                 title: "New Lobby Game",
@@ -1103,7 +1139,7 @@ export default function GlobalAdmin() {
                                             };
                                             const newLobby = [...diamondLobby, newItem];
                                             setDiamondLobby(newLobby);
-                                            cms.diamondLobby.save(newLobby);
+                                            await saveCmsSection('diamondLobby', newLobby);
                                         }}
                                     >
                                         <Plus size={24} />
@@ -1140,8 +1176,9 @@ export default function GlobalAdmin() {
                                                 </select>
                                             </div>
                                             <button
-                                                onClick={() => {
-                                                    cms.homeBlog.save(homeBlogSettings);
+                                                onClick={async () => {
+                                                    if (!homeBlogSettings) return;
+                                                    await saveCmsSection('homeBlog', homeBlogSettings);
                                                     success("Blog settings saved!");
                                                 }}
                                                 className="w-full bg-white/5 text-white font-bold py-4 rounded-xl hover:bg-primary hover:text-black transition-colors"
@@ -1244,8 +1281,8 @@ export default function GlobalAdmin() {
 
                                         <div className="flex justify-end">
                                             <button
-                                                onClick={() => {
-                                                    cms.liveCasino.save(liveCasinoContent);
+                                                onClick={async () => {
+                                                    await saveCmsSection('liveCasino', liveCasinoContent);
                                                     success("Page content updated successfully!");
                                                 }}
                                                 className="bg-primary text-black font-black px-8 py-4 rounded-xl hover:scale-105 active:scale-95 transition-all uppercase tracking-widest shadow-lg shadow-primary/20 flex items-center space-x-2"

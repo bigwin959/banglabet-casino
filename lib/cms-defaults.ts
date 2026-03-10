@@ -14,6 +14,10 @@ export const defaultSiteSettings: SiteSettings = {
     address: "Level 12, Future Park Tower, Bashundhara R/A, Dhaka-1229, Bangladesh",
     adminEmail: "admin@bigwin959.com",
     notificationEmail: "support@bigwin959.com",
+    whatsappLink: "https://wa.me/8801234567890",
+    telegramLink: "https://t.me/bigwin959",
+    registerLink: "https://www.bigwin959.com/register",
+    siteName: "BigWin959",
 };
 
 export const defaultFeaturedContent: FeaturedContent[] = [

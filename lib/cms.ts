@@ -6,8 +6,12 @@ export interface SiteSettings {
     contactEmail: string;
     contactPhone: string;
     address: string;
-    adminEmail: string; // For system notifications
-    notificationEmail: string; // Where contact forms go
+    adminEmail: string;
+    notificationEmail: string;
+    whatsappLink: string;
+    telegramLink: string;
+    registerLink: string;
+    siteName: string;
 }
 
 export interface FeaturedContent {
@@ -89,7 +93,11 @@ const defaultSiteSettings: SiteSettings = {
     contactPhone: "+880 1234-567890",
     address: "Level 12, Future Park Tower, Bashundhara R/A, Dhaka-1229, Bangladesh",
     adminEmail: "admin@bigwin959.com",
-    notificationEmail: "support@bigwin959.com"
+    notificationEmail: "support@bigwin959.com",
+    whatsappLink: "https://wa.me/8801234567890",
+    telegramLink: "https://t.me/bigwin959",
+    registerLink: "https://www.bigwin959.com/register",
+    siteName: "BigWin959",
 };
 
 const defaultFeaturedContent: FeaturedContent[] = [
