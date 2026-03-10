@@ -1,8 +1,17 @@
+"use client";
+
 import Link from "next/link";
-import { Mail, Phone, MapPin } from "lucide-react";
+import { Mail, Phone, MapPin, Facebook, Twitter, Instagram, Send } from "lucide-react";
+import { useState, useEffect } from "react";
+import { cms, FooterData } from "@/lib/cms";
 
 export default function Footer() {
     const currentYear = new Date().getFullYear();
+    const [footerData, setFooterData] = useState<FooterData | null>(null);
+
+    useEffect(() => {
+        setFooterData(cms.footer.get());
+    }, []);
 
     return (
         <footer className="bg-[#050505] border-t border-white/5 pt-20 pb-10 text-gray-400 relative overflow-hidden">
@@ -15,15 +24,15 @@ export default function Footer() {
                     <div className="space-y-8">
                         <div>
                             <Link href="/">
-                                <img 
-                                    src="/logo.png" 
-                                    alt="BigWin959" 
+                                <img
+                                    src="/logo.png"
+                                    alt="BigWin959"
                                     className="h-10 md:h-12 w-auto object-contain hover:scale-105 transition-transform"
                                 />
                             </Link>
                         </div>
                         <p className="text-sm leading-relaxed text-gray-500 font-medium">
-                            Win real money with BigWin959! We provide the most secure, fair, and thrilling online gaming environment for players in Bangladesh. Enjoy hundreds of slots and elite live tables.
+                            {footerData?.aboutText || "Win real money with BigWin959! We provide the most secure, fair, and thrilling online gaming environment for players in Bangladesh. Enjoy hundreds of slots and elite live tables."}
                         </p>
                         <div className="space-y-4 text-sm font-bold uppercase tracking-widest text-gray-300">
                             <p className="flex items-center gap-4 hover:text-primary transition-colors cursor-default">
@@ -93,12 +102,36 @@ export default function Footer() {
 
                 <div className="pt-10 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-6">
                     <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-gray-600">
-                        &copy; {currentYear} BigWin959. Bangladeshi Premium Gaming License.
+                        {footerData?.copyright ?
+                            `© ${currentYear} ${footerData.copyright}` :
+                            `© ${currentYear} BigWin959. Bangladeshi Premium Gaming License.`
+                        }
                     </p>
                     <div className="flex items-center space-x-6">
-                         <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary hover:text-white transition-all cursor-pointer">
+                        {footerData?.socialLinks.facebook && (
+                            <Link href={footerData.socialLinks.facebook} className="text-gray-500 hover:text-primary transition-colors">
+                                <Facebook size={18} />
+                            </Link>
+                        )}
+                        {footerData?.socialLinks.twitter && (
+                            <Link href={footerData.socialLinks.twitter} className="text-gray-500 hover:text-primary transition-colors">
+                                <Twitter size={18} />
+                            </Link>
+                        )}
+                        {footerData?.socialLinks.instagram && (
+                            <Link href={footerData.socialLinks.instagram} className="text-gray-500 hover:text-primary transition-colors">
+                                <Instagram size={18} />
+                            </Link>
+                        )}
+                        {footerData?.socialLinks.telegram && (
+                            <Link href={footerData.socialLinks.telegram} className="text-gray-500 hover:text-primary transition-colors">
+                                <Send size={18} />
+                            </Link>
+                        )}
+
+                        <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary hover:text-white transition-all cursor-pointer ml-4">
                             <span className="text-xs font-bold">18+</span>
-                         </div>
+                        </div>
                     </div>
                 </div>
             </div>

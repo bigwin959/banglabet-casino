@@ -3,6 +3,7 @@
 import { usePathname } from "next/navigation";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import FloatingSupportButton from "@/components/FloatingSupportButton";
 
 export default function SiteLayout({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();
@@ -13,6 +14,7 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
             {!isAdmin && <Header />}
             <main className={!isAdmin ? "" : "min-h-screen"}>{children}</main>
             {!isAdmin && <Footer />}
+            {!isAdmin && <FloatingSupportButton />}
         </>
     );
 }

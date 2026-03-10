@@ -14,6 +14,8 @@ import RegistrationGuide from "@/components/home/RegistrationGuide";
 import BankingInfo from "@/components/home/BankingInfo";
 import SportsDetails from "@/components/home/SportsDetails";
 import InfoSection from "@/components/home/InfoSection";
+import LiveWinnersTicker from "@/components/home/LiveWinnersTicker";
+import PaymentMethods from "@/components/home/PaymentMethods";
 
 export default function Home() {
   const [banners, setBanners] = useState([
@@ -36,11 +38,37 @@ export default function Home() {
   const [blogSettings, setBlogSettings] = useState<HomeBlogSettings | undefined>(undefined);
 
   useEffect(() => {
-    // Load CMS Data
-    setBanners(cms.homeBanners.get());
-    setFeaturedContent(cms.featuredContent.get());
-    setDiamondLobby(cms.diamondLobby.get());
-    setBlogSettings(cms.homeBlog.get());
+    // Load all CMS sections from Firestore, fall back to localStorage defaults
+    const loadSection = async (section: string) => {
+      try {
+        const res = await fetch(`/api/cms?section=${section}`);
+        const json = await res.json();
+        return json.data;
+      } catch {
+        return null;
+      }
+    };
+
+    (async () => {
+      const [bannerData, featured, lobby, blog] = await Promise.all([
+        loadSection("homeBanners"),
+        loadSection("featuredContent"),
+        loadSection("diamondLobby"),
+        loadSection("homeBlog"),
+      ]);
+
+      if (bannerData) setBanners(bannerData);
+      else setBanners(cms.homeBanners.get());
+
+      if (featured) setFeaturedContent(featured);
+      else setFeaturedContent(cms.featuredContent.get());
+
+      if (lobby) setDiamondLobby(lobby);
+      else setDiamondLobby(cms.diamondLobby.get());
+
+      if (blog) setBlogSettings(blog);
+      else setBlogSettings(cms.homeBlog.get());
+    })();
   }, []);
 
   return (
@@ -49,9 +77,12 @@ export default function Home() {
 
       {/* Hero Section */}
       <main>
-        <section className="pt-24 md:pt-32 pb-10">
+        <section className="pt-24 md:pt-32 pb-0">
           <BannerSlider banners={banners} />
         </section>
+
+        {/* Live Winners Ticker */}
+        <LiveWinnersTicker />
 
         <div className="space-y-0 text-white">
           {/* Featured Teasers */}
@@ -71,6 +102,9 @@ export default function Home() {
 
           {/* Trust Signals */}
           <ProvidersSection />
+
+          {/* Payment Methods */}
+          <PaymentMethods />
 
           {/* Educational Content */}
           <RegistrationGuide />

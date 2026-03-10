@@ -10,10 +10,22 @@ export default function BlogPage() {
     const [allPosts, setAllPosts] = useState<any[]>([]);
 
     useEffect(() => {
-        const localPosts = localStorage.getItem("blogPosts");
-        if (localPosts) {
-            setAllPosts(JSON.parse(localPosts));
-        }
+        // Try Firestore first, fall back to localStorage cache
+        fetch("/api/blog")
+            .then(r => r.json())
+            .then(data => {
+                if (data.posts && data.posts.length > 0) {
+                    setAllPosts(data.posts);
+                } else {
+                    // Fallback: localStorage
+                    const localPosts = localStorage.getItem("blogPosts");
+                    if (localPosts) setAllPosts(JSON.parse(localPosts));
+                }
+            })
+            .catch(() => {
+                const localPosts = localStorage.getItem("blogPosts");
+                if (localPosts) setAllPosts(JSON.parse(localPosts));
+            });
     }, []);
 
     const categories = [

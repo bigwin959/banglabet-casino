@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { cms, SiteSettings, FeaturedContent, DiamondLobbyItem, HomeBlogSettings, PageContentLiveCasino, ContactMessage } from "@/lib/cms";
+import { cms, SiteSettings, FeaturedContent, DiamondLobbyItem, HomeBlogSettings, PageContentLiveCasino, ContactMessage, AboutPageData, PromotionsPageData, FooterData } from "@/lib/cms";
 import {
     Users,
     Settings,
@@ -38,7 +38,10 @@ import {
     Home,
     MessageSquare,
     Globe,
-    Mail
+    Mail,
+    Info,
+    Megaphone,
+    Link as LinkIcon
 } from 'lucide-react';
 import { useToast } from "@/context/ToastContext";
 import { motion, AnimatePresence } from "framer-motion";
@@ -53,7 +56,7 @@ export default function GlobalAdmin() {
     const [error, setError] = useState("");
 
     // Active Tab
-    const [activeTab, setActiveTab] = useState<"blog" | "live" | "sports" | "general" | "banners" | "home" | "pages" | "global" | "inbox">("blog");
+    const [activeTab, setActiveTab] = useState<"blog" | "live" | "sports" | "general" | "banners" | "home" | "pages" | "global" | "inbox" | "about" | "promotions-page" | "footer">("blog");
 
     // Form states
     const [title, setTitle] = useState("");
@@ -91,6 +94,11 @@ export default function GlobalAdmin() {
     const [blogCategories, setBlogCategories] = useState<string[]>([]);
     const [selectedPage, setSelectedPage] = useState<"live-casino" | "contact">("live-casino");
 
+    // New CMS Data States
+    const [aboutPageData, setAboutPageData] = useState<AboutPageData | null>(null);
+    const [promotionsPageData, setPromotionsPageData] = useState<PromotionsPageData | null>(null);
+    const [footerData, setFooterData] = useState<FooterData | null>(null);
+
     // Editing State
     const [editingId, setEditingId] = useState<number | null>(null);
 
@@ -112,9 +120,11 @@ export default function GlobalAdmin() {
     useEffect(() => {
         fetchImages();
         loadCMSData();
+        loadFirestoreData();
     }, []);
 
     const loadCMSData = () => {
+        // localStorage fallback for immediate render
         setSiteSettings(cms.siteSettings.get());
         setFeaturedContent(cms.featuredContent.get());
         setDiamondLobby(cms.diamondLobby.get());
@@ -123,6 +133,66 @@ export default function GlobalAdmin() {
         setContactMessages(cms.contactMessages.get());
         setSubscribers(cms.subscribers.get());
         setBlogCategories(cms.blogCategories.get());
+        setAboutPageData(cms.aboutPage.get());
+        setPromotionsPageData(cms.promotionsPage.get());
+        setFooterData(cms.footer.get());
+    };
+
+    const loadSection = async (section: string) => {
+        try {
+            const res = await fetch(`/api/cms?section=${section}`);
+            const json = await res.json();
+            return json.data ?? null;
+        } catch { return null; }
+    };
+
+    const loadFirestoreData = async () => {
+        // Load CMS sections from Firestore
+        const [settings, featured, lobby, blog, live, about, promos, footer, cats] = await Promise.all([
+            loadSection('siteSettings'), loadSection('featuredContent'),
+            loadSection('diamondLobby'), loadSection('homeBlog'),
+            loadSection('liveCasino'), loadSection('aboutPage'),
+            loadSection('promotionsPage'), loadSection('footer'),
+            loadSection('blogCategories'),
+        ]);
+        if (settings) setSiteSettings(settings);
+        if (featured) setFeaturedContent(featured);
+        if (lobby) setDiamondLobby(lobby);
+        if (blog) setHomeBlogSettings(blog);
+        if (live) setLiveCasinoContent(live);
+        if (about) setAboutPageData(about);
+        if (promos) setPromotionsPageData(promos);
+        if (footer) setFooterData(footer);
+        if (cats) setBlogCategories(cats);
+
+        // Load blog posts and promotions from Firestore
+        try {
+            const [bRes, lRes, sRes, gRes, msgRes] = await Promise.all([
+                fetch('/api/blog'),
+                fetch('/api/promotions?type=live'),
+                fetch('/api/promotions?type=sports'),
+                fetch('/api/promotions?type=general'),
+                fetch('/api/contact'),
+            ]);
+            const [bData, lData, sData, gData, msgData] = await Promise.all([
+                bRes.json(), lRes.json(), sRes.json(), gRes.json(), msgRes.json()
+            ]);
+            if (bData.posts?.length > 0) setBlogPosts(bData.posts);
+            if (lData.promos?.length > 0) setLivePromos(lData.promos);
+            if (sData.promos?.length > 0) setSportsPromos(sData.promos);
+            if (gData.promos?.length > 0) setGeneralPromos(gData.promos);
+            if (msgData.messages?.length > 0) setContactMessages(msgData.messages);
+        } catch (e) { console.error('Firestore load error:', e); }
+    };
+
+    const saveCmsSection = async (section: string, data: any) => {
+        try {
+            await fetch('/api/cms', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ section, data }),
+            });
+        } catch (e) { console.error('Save section error:', e); }
     };
 
     const fetchImages = () => {
@@ -429,7 +499,7 @@ export default function GlobalAdmin() {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
-    const handleCreate = (e: React.FormEvent) => {
+    const handleCreate = async (e: React.FormEvent) => {
         e.preventDefault();
         const id = editingId || Date.now();
         const date = new Date().toISOString().split('T')[0];
@@ -440,16 +510,8 @@ export default function GlobalAdmin() {
                     id,
                     title,
                     excerpt: content.substring(0, 150) + (content.length > 150 ? "..." : ""),
-                    content,
-                    category,
-                    image,
-                    date,
-                    author,
-                    readTime,
-                    highlightBox,
-                    subHeading,
-                    subContent,
-                    footerNote
+                    content, category, image, date, author, readTime,
+                    highlightBox, subHeading, subContent, footerNote
                 };
                 let updated;
                 if (editingId) {
@@ -457,56 +519,40 @@ export default function GlobalAdmin() {
                 } else {
                     updated = [newItem, ...blogPosts];
                 }
-                localStorage.setItem("blogPosts", JSON.stringify(updated));
                 setBlogPosts(updated);
-            } else if (activeTab === "live") {
+                // Persist to Firestore
+                await fetch('/api/blog', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(newItem),
+                });
+            } else if (activeTab === "live" || activeTab === "sports" || activeTab === "general") {
+                const type = activeTab === "live" ? "live" : activeTab === "sports" ? "sports" : "general";
                 const newItem = { id, title, discount: subtitle, description: content, ctaText: btnText, ctaLink: btnUrl, image };
-                let updated;
-                if (editingId) {
-                    updated = livePromos.map(p => p.id === editingId ? newItem : p);
+                if (activeTab === "live") {
+                    setLivePromos(editingId ? livePromos.map(p => p.id === editingId ? newItem : p) : [newItem, ...livePromos]);
+                } else if (activeTab === "sports") {
+                    setSportsPromos(editingId ? sportsPromos.map(p => p.id === editingId ? newItem : p) : [newItem, ...sportsPromos]);
                 } else {
-                    updated = [newItem, ...livePromos];
+                    setGeneralPromos(editingId ? generalPromos.map(p => p.id === editingId ? newItem : p) : [newItem, ...generalPromos]);
                 }
-                localStorage.setItem("liveCasinoPromotions", JSON.stringify(updated));
-                setLivePromos(updated);
-            } else if (activeTab === "sports") {
-                const newItem = { id, title, discount: subtitle, description: content, ctaText: btnText, ctaLink: btnUrl, image };
-                let updated;
-                if (editingId) {
-                    updated = sportsPromos.map(p => p.id === editingId ? newItem : p);
-                } else {
-                    updated = [newItem, ...sportsPromos];
-                }
-                localStorage.setItem("sportsbookPromotions", JSON.stringify(updated));
-                setSportsPromos(updated);
+                // Persist to Firestore
+                await fetch('/api/promotions', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ type, promo: newItem }),
+                });
             } else if (activeTab === "banners") {
                 const newItem = {
-                    id: String(id),
-                    title: bannerTitle,
-                    description: bannerDesc,
-                    buttonText: bannerBtnText,
-                    link: bannerBtnLink,
-                    image,
-                    imageOnly: bannerImageOnly
+                    id: String(id), title: bannerTitle, description: bannerDesc,
+                    buttonText: bannerBtnText, link: bannerBtnLink, image, imageOnly: bannerImageOnly
                 };
-                let updated;
-                if (editingId) {
-                    updated = homeBanners.map(p => p.id === String(editingId) ? newItem : p);
-                } else {
-                    updated = [newItem, ...homeBanners];
-                }
-                localStorage.setItem("homeBanners", JSON.stringify(updated));
+                const updated = editingId
+                    ? homeBanners.map(p => p.id === String(editingId) ? newItem : p)
+                    : [newItem, ...homeBanners];
                 setHomeBanners(updated);
-            } else {
-                const newItem = { id, title, discount: subtitle, description: content, ctaText: btnText, ctaLink: btnUrl, image };
-                let updated;
-                if (editingId) {
-                    updated = generalPromos.map(p => p.id === editingId ? newItem : p);
-                } else {
-                    updated = [newItem, ...generalPromos];
-                }
-                localStorage.setItem("generalPromotions", JSON.stringify(updated));
-                setGeneralPromos(updated);
+                // Persist to Firestore
+                await saveCmsSection('homeBanners', updated);
             }
 
             success(editingId ? "Entry Updated Successfully" : "New Entry Created Successfully");
@@ -517,29 +563,30 @@ export default function GlobalAdmin() {
         }
     };
 
-    const handleDelete = (id: number | string) => {
+    const handleDelete = async (id: number | string) => {
         if (!confirm("Are you sure you want to delete this item?")) return;
 
         if (activeTab === "blog") {
-            const updated = blogPosts.filter(p => p.id !== id);
-            localStorage.setItem("blogPosts", JSON.stringify(updated));
-            setBlogPosts(updated);
-        } else if (activeTab === "live") {
-            const updated = livePromos.filter(p => p.id !== id);
-            localStorage.setItem("liveCasinoPromotions", JSON.stringify(updated));
-            setLivePromos(updated);
-        } else if (activeTab === "sports") {
-            const updated = sportsPromos.filter(p => p.id !== id);
-            localStorage.setItem("sportsbookPromotions", JSON.stringify(updated));
-            setSportsPromos(updated);
+            setBlogPosts(blogPosts.filter(p => p.id !== id));
+            await fetch('/api/blog', {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id: String(id) }),
+            });
+        } else if (activeTab === "live" || activeTab === "sports" || activeTab === "general") {
+            const type = activeTab === "live" ? "live" : activeTab === "sports" ? "sports" : "general";
+            if (activeTab === "live") setLivePromos(livePromos.filter(p => p.id !== id));
+            else if (activeTab === "sports") setSportsPromos(sportsPromos.filter(p => p.id !== id));
+            else setGeneralPromos(generalPromos.filter(p => p.id !== id));
+            await fetch('/api/promotions', {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ type, id: String(id) }),
+            });
         } else if (activeTab === "banners") {
             const updated = homeBanners.filter(p => p.id !== String(id));
-            localStorage.setItem("homeBanners", JSON.stringify(updated));
             setHomeBanners(updated);
-        } else {
-            const updated = generalPromos.filter(p => p.id !== id);
-            localStorage.setItem("generalPromotions", JSON.stringify(updated));
-            setGeneralPromos(updated);
+            await saveCmsSection('homeBanners', updated);
         }
         success("Entry Removed");
     };
@@ -646,24 +693,6 @@ export default function GlobalAdmin() {
                             { id: "sports", icon: Target, label: "Sportsbook" },
                             { id: "general", icon: Settings, label: "General Promos" },
                             { id: "banners", icon: LayoutTemplate, label: "Home Banners" },
-                        ].map((item) => (
-                            <button
-                                key={item.id}
-                                onClick={() => { setActiveTab(item.id as any); setMobileMenuOpen(false); resetForm(); }}
-                                className={`w-full flex items-center gap-4 px-4 py-4 rounded-xl transition-all group ${activeTab === item.id ? "bg-primary text-black shadow-[0_0_20px_rgba(255,228,145,0.15)]" : "text-gray-500 hover:bg-white/5 hover:text-white"}`}
-                            >
-                                <item.icon size={18} className={activeTab === item.id ? "text-black" : "group-hover:text-primary transition-colors"} />
-                                <span className="font-bold uppercase tracking-widest text-xs">{item.label}</span>
-                            </button>
-                        ))}
-
-                        <div className="pt-4 pb-2">
-                            <p className="px-4 text-[10px] font-black uppercase tracking-widest text-gray-600">CMS Management</p>
-                        </div>
-
-                        {[
-                            { id: "home", icon: Home, label: "Home Page" },
-                            { id: "pages", icon: FileText, label: "Page Content" },
                             { id: "global", icon: Globe, label: "Global Settings" },
                             { id: "inbox", icon: Mail, label: "Inbox & Leads" },
                         ].map((item) => (
@@ -700,8 +729,8 @@ export default function GlobalAdmin() {
 
 
             {/* Main Content Area */}
-            <main className="flex-1 lg:ml-80 p-4 lg:p-10 min-w-0">
-                <div className="max-w-6xl mx-auto space-y-12">
+            <main className="flex-1 p-4 lg:p-6 min-w-0">
+                <div className="w-full space-y-12">
 
                     {/* Top Bar (Mobile Toggle + Page Title) */}
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-8 border-b border-white/5">
@@ -712,10 +741,13 @@ export default function GlobalAdmin() {
                                         activeTab === "sports" ? "Sportsbook Promotions" :
                                             activeTab === "banners" ? "Homepage Banners" :
                                                 activeTab === "home" ? "Home Page Manager" :
-                                                    activeTab === "pages" ? "Page Content Editor" :
-                                                        activeTab === "global" ? "Global Settings" :
-                                                            activeTab === "inbox" ? "Inbox & Leads" :
-                                                                "General Cards"}
+                                                    activeTab === "about" ? "About Us Manager" :
+                                                        activeTab === "promotions-page" ? "Promotions Header" :
+                                                            activeTab === "footer" ? "Footer Manager" :
+                                                                activeTab === "pages" ? "Page Content Editor" :
+                                                                    activeTab === "global" ? "Global Settings" :
+                                                                        activeTab === "inbox" ? "Inbox & Leads" :
+                                                                            "General Cards"}
                             </h2>
                             <p className="text-gray-500 text-sm">
                                 {activeTab === "blog" ? "Create and Edit Articles" :
@@ -1084,7 +1116,7 @@ export default function GlobalAdmin() {
                             <div className="space-y-6 pt-8 border-t border-white/5">
                                 <h3 className="text-2xl font-heading font-black text-white uppercase tracking-tight border-b border-white/5 pb-4">Home Blog Section</h3>
                                 {homeBlogSettings && (
-                                    <div className="bg-[#0a0a0a] p-8 rounded-3xl border border-white/5 max-w-xl">
+                                    <div className="bg-[#0a0a0a] p-8 rounded-3xl border border-white/5 w-full">
                                         <div className="space-y-4">
                                             <div className="space-y-2">
                                                 <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest pl-2">Section Title</label>
