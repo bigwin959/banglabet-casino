@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import BannerSlider from "@/components/BannerSlider";
-import { cms, FeaturedContent, DiamondLobbyItem, HomeBlogSettings } from "@/lib/cms";
+import type { FeaturedContent, DiamondLobbyItem, HomeBlogSettings } from "@/lib/cms";
 
 import CategoryTeasers from "@/components/home/CategoryTeasers";
 import PromotionsPreview from "@/components/home/PromotionsPreview";
@@ -18,20 +18,7 @@ import LiveWinnersTicker from "@/components/home/LiveWinnersTicker";
 import PaymentMethods from "@/components/home/PaymentMethods";
 
 export default function Home() {
-  const [banners, setBanners] = useState([
-    {
-      id: "3",
-      image: "/images/hero-3.jpg",
-      title: "Premium Classic Gaming",
-      link: "https://www.bigwin959.com/register",
-    },
-    {
-      id: "1",
-      image: "/images/hero-1.jpg",
-      title: "Ultimate Casino Experience",
-      link: "https://www.bigwin959.com/register",
-    }
-  ]);
+  const [banners, setBanners] = useState<any[]>([]);
 
   const [featuredContent, setFeaturedContent] = useState<FeaturedContent[]>([]);
   const [diamondLobby, setDiamondLobby] = useState<DiamondLobbyItem[]>([]);
@@ -57,17 +44,15 @@ export default function Home() {
         loadSection("homeBlog"),
       ]);
 
-      if (bannerData) setBanners(bannerData);
-      else setBanners(cms.homeBanners.get());
+      if (bannerData && bannerData.length > 0) setBanners(bannerData);
 
       if (featured) setFeaturedContent(featured);
-      else setFeaturedContent(cms.featuredContent.get());
+      else setFeaturedContent([]);
 
       if (lobby) setDiamondLobby(lobby);
-      else setDiamondLobby(cms.diamondLobby.get());
+      else setDiamondLobby([]);
 
       if (blog) setBlogSettings(blog);
-      else setBlogSettings(cms.homeBlog.get());
     })();
   }, []);
 
@@ -78,7 +63,7 @@ export default function Home() {
       {/* Hero Section */}
       <main>
         <section className="pt-24 md:pt-32 pb-0">
-          <BannerSlider banners={banners} />
+          {banners.length > 0 && <BannerSlider banners={banners} />}
         </section>
 
         {/* Live Winners Ticker */}

@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
+
+
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import Image from "next/image";
@@ -25,22 +26,7 @@ interface BannerSliderProps {
     banners: Banner[];
 }
 
-const BannerSlider = ({ banners: initialBanners }: BannerSliderProps) => {
-    const [banners, setBanners] = useState<Banner[]>(initialBanners);
-
-    useEffect(() => {
-        const savedBanners = localStorage.getItem("homeBanners");
-        if (savedBanners) {
-            try {
-                const parsed = JSON.parse(savedBanners);
-                if (parsed.length > 0) {
-                    setBanners(parsed);
-                }
-            } catch (e) {
-                console.error("Failed to parse banners", e);
-            }
-        }
-    }, []);
+const BannerSlider = ({ banners }: BannerSliderProps) => {
 
     return (
         <div className="w-full max-w-7xl mx-auto mb-16 relative group px-4 md:px-8">
