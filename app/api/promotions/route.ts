@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getPromotions, savePromotion, deletePromotion } from "@/lib/firestore-cms";
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(req: NextRequest) {
     const type = (req.nextUrl.searchParams.get("type") || "general") as "live" | "sports" | "general";
     const promos = await getPromotions(type);

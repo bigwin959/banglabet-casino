@@ -1,5 +1,5 @@
-import { initializeApp, getApps } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import { initializeApp, getApps, getApp } from "firebase/app";
+import { getFirestore, initializeFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
     apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -11,7 +11,20 @@ const firebaseConfig = {
     measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
 };
 
-// Prevent re-initializing on hot reload
-const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
-export const db = getFirestore(app);
+// Prevent re-initializing the Firebase app on hot reload
+const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
+
+// Use experimentalForceLongPolling so Firestore works properly inside
+// Next.js API routes (Node.js server) without WebSocket 504 timeouts.
+// On first call we use initializeFirestore; on subsequent hot reloads
+// getFirestore() returns the already-configured instance.
+let db: ReturnType<typeof getFirestore>;
+try {
+    db = initializeFirestore(app, { experimentalForceLongPolling: true });
+} catch {
+    // Already initialised (hot reload) – just grab the existing instance
+    db = getFirestore(app);
+}
+
+export { db };
 export default app;

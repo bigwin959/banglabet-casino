@@ -6,6 +6,8 @@ import {
     defaultPromotionsPageData, defaultFooterData, defaultBlogCategories
 } from "@/lib/cms-defaults";
 
+export const dynamic = 'force-dynamic';
+
 const sectionHandlers: Record<string, { get: () => Promise<any>; save: (d: any) => Promise<void> }> = {
     siteSettings: {
         get: () => firestoreCms.siteSettings.get(defaultSiteSettings),

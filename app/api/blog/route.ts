@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getBlogPosts, saveBlogPost, deleteBlogPost } from "@/lib/firestore-cms";
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
     const posts = await getBlogPosts();
     return NextResponse.json({ posts });
