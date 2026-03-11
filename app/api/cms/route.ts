@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { firestoreCms, saveHomeBanners, getHomeBanners, addSubscriber, getSubscribers } from "@/lib/firestore-cms";
+import { firestoreCms, saveHomeBanners, getHomeBanners, addSubscriber, getSubscribers, deleteSubscriber } from "@/lib/firestore-cms";
 import {
     defaultSiteSettings, defaultFeaturedContent, defaultDiamondLobby,
     defaultHomeBlogSettings, defaultLiveCasinoContent, defaultAboutPageData,
@@ -49,7 +49,7 @@ const sectionHandlers: Record<string, { get: () => Promise<any>; save: (d: any) 
     },
     subscribers: {
         get: () => getSubscribers(),
-        save: async (emails: string[]) => { /* bulk save not needed */ },
+        save: async () => { /* bulk save not needed */ },
     },
 };
 
@@ -73,4 +73,13 @@ export async function POST(req: NextRequest) {
         await sectionHandlers[section].save(data);
     }
     return NextResponse.json({ success: true });
+}
+
+export async function DELETE(req: NextRequest) {
+    const { section, id } = await req.json();
+    if (section === "subscribers" && id) {
+        await deleteSubscriber(id);
+        return NextResponse.json({ success: true });
+    }
+    return NextResponse.json({ error: "Invalid delete request" }, { status: 400 });
 }

@@ -5,7 +5,7 @@
  */
 import {
     doc, getDoc, setDoc, collection,
-    getDocs, addDoc, deleteDoc, updateDoc, query, orderBy, Timestamp
+    getDocs, addDoc, deleteDoc, updateDoc, query, orderBy
 } from "firebase/firestore";
 import { db } from "./firebase";
 import type {
@@ -49,20 +49,23 @@ export async function getBlogPosts(): Promise<any[]> {
     }
 }
 
-export async function saveBlogPost(post: any): Promise<void> {
+export async function saveBlogPost(post: any): Promise<string> {
     try {
+        // If id is a real Firestore ID (long string), update existing doc
         if (post.id && typeof post.id === "string" && post.id.length > 10) {
-            // Existing Firestore doc
             const ref = doc(db, "blog_posts", post.id);
             const { id, ...rest } = post;
             await setDoc(ref, rest);
+            return post.id;
         } else {
-            // New post — use addDoc
+            // New post — use addDoc to get a real Firestore ID
             const { id, ...rest } = post;
-            await addDoc(collection(db, "blog_posts"), rest);
+            const docRef = await addDoc(collection(db, "blog_posts"), rest);
+            return docRef.id;
         }
     } catch (e) {
         console.error("[Firestore] saveBlogPost:", e);
+        return "";
     }
 }
 
@@ -87,19 +90,22 @@ export async function getPromotions(type: "live" | "sports" | "general"): Promis
     }
 }
 
-export async function savePromotion(type: "live" | "sports" | "general", promo: any): Promise<void> {
+export async function savePromotion(type: "live" | "sports" | "general", promo: any): Promise<string> {
     try {
         const colPath = `promotions_${type}`;
         if (promo.id && typeof promo.id === "string" && promo.id.length > 10) {
             const ref = doc(db, colPath, promo.id);
             const { id, ...rest } = promo;
             await setDoc(ref, rest);
+            return promo.id;
         } else {
             const { id, ...rest } = promo;
-            await addDoc(collection(db, colPath), rest);
+            const docRef = await addDoc(collection(db, colPath), rest);
+            return docRef.id;
         }
     } catch (e) {
         console.error(`[Firestore] savePromotion(${type}):`, e);
+        return "";
     }
 }
 
@@ -144,6 +150,14 @@ export async function markMessageRead(id: string): Promise<void> {
     }
 }
 
+export async function deleteContactMessage(id: string): Promise<void> {
+    try {
+        await deleteDoc(doc(db, "contact_messages", id));
+    } catch (e) {
+        console.error("[Firestore] deleteContactMessage:", e);
+    }
+}
+
 // ─── Subscribers ──────────────────────────────────────────────────────────────
 
 export async function addSubscriber(email: string): Promise<void> {
@@ -157,13 +171,22 @@ export async function addSubscriber(email: string): Promise<void> {
     }
 }
 
-export async function getSubscribers(): Promise<string[]> {
+// Returns array of { id, email } so we can delete by Firestore doc ID
+export async function getSubscribers(): Promise<{ id: string; email: string }[]> {
     try {
         const snap = await getDocs(collection(db, "subscribers"));
-        return snap.docs.map(d => (d.data() as any).email);
+        return snap.docs.map(d => ({ id: d.id, email: (d.data() as any).email }));
     } catch (e) {
         console.error("[Firestore] getSubscribers:", e);
         return [];
+    }
+}
+
+export async function deleteSubscriber(id: string): Promise<void> {
+    try {
+        await deleteDoc(doc(db, "subscribers", id));
+    } catch (e) {
+        console.error("[Firestore] deleteSubscriber:", e);
     }
 }
 
@@ -171,8 +194,8 @@ export async function getSubscribers(): Promise<string[]> {
 
 export async function getHomeBanners(): Promise<any[]> {
     const fallback = [
-        { id: "3", image: "/images/hero-3.jpg", title: "Premium Classic Gaming", link: "https://www.bigwin959.com/register" },
-        { id: "1", image: "/images/hero-1.jpg", title: "Ultimate Casino Experience", link: "https://www.bigwin959.com/register" },
+        { id: "1", image: "/images/hero-1.jpg", title: "Ultimate Casino Experience", link: "https://www.bigwin959.com/register", imageOnly: true },
+        { id: "2", image: "/images/hero-2.jpg", title: "Live Casino Thrills", link: "https://www.bigwin959.com/register", imageOnly: true },
     ];
     const result = await getCmsSection<{ items: any[] }>("homeBanners", { items: fallback });
     return result.items ?? fallback;

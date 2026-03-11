@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { cms, SiteSettings, FeaturedContent, DiamondLobbyItem, HomeBlogSettings, PageContentLiveCasino, ContactMessage, AboutPageData, PromotionsPageData, FooterData } from "@/lib/cms";
+import type { SiteSettings, FeaturedContent, DiamondLobbyItem, HomeBlogSettings, PageContentLiveCasino, ContactMessage, AboutPageData, PromotionsPageData, FooterData } from "@/lib/cms";
 import {
     Users,
     Settings,
@@ -90,7 +90,7 @@ export default function GlobalAdmin() {
     const [homeBlogSettings, setHomeBlogSettings] = useState<HomeBlogSettings | null>(null);
     const [liveCasinoContent, setLiveCasinoContent] = useState<PageContentLiveCasino | null>(null);
     const [contactMessages, setContactMessages] = useState<ContactMessage[]>([]);
-    const [subscribers, setSubscribers] = useState<string[]>([]);
+    const [subscribers, setSubscribers] = useState<{ id: string; email: string }[]>([]);
     const [blogCategories, setBlogCategories] = useState<string[]>([]);
     const [selectedPage, setSelectedPage] = useState<"live-casino" | "contact">("live-casino");
 
@@ -119,24 +119,10 @@ export default function GlobalAdmin() {
 
     useEffect(() => {
         fetchImages();
-        loadCMSData();
         loadFirestoreData();
     }, []);
 
-    const loadCMSData = () => {
-        // localStorage fallback for immediate render
-        setSiteSettings(cms.siteSettings.get());
-        setFeaturedContent(cms.featuredContent.get());
-        setDiamondLobby(cms.diamondLobby.get());
-        setHomeBlogSettings(cms.homeBlog.get());
-        setLiveCasinoContent(cms.liveCasino.get());
-        setContactMessages(cms.contactMessages.get());
-        setSubscribers(cms.subscribers.get());
-        setBlogCategories(cms.blogCategories.get());
-        setAboutPageData(cms.aboutPage.get());
-        setPromotionsPageData(cms.promotionsPage.get());
-        setFooterData(cms.footer.get());
-    };
+
 
     const loadSection = async (section: string) => {
         try {
@@ -167,21 +153,25 @@ export default function GlobalAdmin() {
 
         // Load blog posts and promotions from Firestore
         try {
-            const [bRes, lRes, sRes, gRes, msgRes] = await Promise.all([
+            const [bRes, lRes, sRes, gRes, msgRes, subsRes, bannersRes] = await Promise.all([
                 fetch('/api/blog'),
                 fetch('/api/promotions?type=live'),
                 fetch('/api/promotions?type=sports'),
                 fetch('/api/promotions?type=general'),
                 fetch('/api/contact'),
+                fetch('/api/cms?section=subscribers'),
+                fetch('/api/cms?section=homeBanners'),
             ]);
-            const [bData, lData, sData, gData, msgData] = await Promise.all([
-                bRes.json(), lRes.json(), sRes.json(), gRes.json(), msgRes.json()
+            const [bData, lData, sData, gData, msgData, subsData, bannersData] = await Promise.all([
+                bRes.json(), lRes.json(), sRes.json(), gRes.json(), msgRes.json(), subsRes.json(), bannersRes.json()
             ]);
-            if (bData.posts?.length > 0) setBlogPosts(bData.posts);
-            if (lData.promos?.length > 0) setLivePromos(lData.promos);
-            if (sData.promos?.length > 0) setSportsPromos(sData.promos);
-            if (gData.promos?.length > 0) setGeneralPromos(gData.promos);
-            if (msgData.messages?.length > 0) setContactMessages(msgData.messages);
+            setBlogPosts(bData.posts ?? []);
+            setLivePromos(lData.promos ?? []);
+            setSportsPromos(sData.promos ?? []);
+            setGeneralPromos(gData.promos ?? []);
+            setContactMessages(msgData.messages ?? []);
+            setSubscribers(subsData.data ?? []);
+            setHomeBanners(bannersData.data ?? []);
         } catch (e) { console.error('Firestore load error:', e); }
     };
 
@@ -265,112 +255,6 @@ export default function GlobalAdmin() {
         const auth = sessionStorage.getItem("adminAuth");
         if (auth === "true") {
             setIsAuthenticated(true);
-        }
-
-        // Initialize Blog Data if empty
-        const savedBlogs = localStorage.getItem("blogPosts");
-        if (!savedBlogs || JSON.parse(savedBlogs).length === 0) {
-            // Default blogs from lib/data logic would be here, skipping import to avoid errors
-            const defaults: any[] = [];
-            setBlogPosts(defaults);
-        } else {
-            setBlogPosts(JSON.parse(savedBlogs));
-        }
-
-        // Initialize Live Casino Promo Data if empty
-        const savedLive = localStorage.getItem("liveCasinoPromotions");
-        if (!savedLive || JSON.parse(savedLive).length === 0) {
-            const defaults = [
-                {
-                    id: 1,
-                    image: "https://img-live.bannershive.dev/h001_uploads/images/B1_BDT_EN_Pragmatic_Play_God_of_Olympus_1000_Daily_Cashback_CTL_PROMOTION.jpg",
-                    title: "Live Casino Welcome",
-                    discount: "100%",
-                    description: "Experience the thrill of real casino games with a 100% welcome bonus.",
-                    ctaText: "Sign Up",
-                    ctaLink: "/register"
-                },
-                {
-                    id: 2,
-                    image: "https://img-live.bannershive.dev/h001_uploads/images/B1_BDT_EN_ALL_Rescue%20Bonus_CTL_PROMOTION.jpg",
-                    title: "High Roller Cashback",
-                    discount: "20%",
-                    description: "Exclusive 20% cashback for VIP players on all live dealer tables.",
-                    ctaText: "Sign Up",
-                    ctaLink: "/register"
-                },
-            ];
-            localStorage.setItem("liveCasinoPromotions", JSON.stringify(defaults));
-            setLivePromos(defaults);
-        } else {
-            setLivePromos(JSON.parse(savedLive));
-        }
-
-        // Initialize Sportsbook Promo Data if empty
-        const savedSports = localStorage.getItem("sportsbookPromotions");
-        if (!savedSports || JSON.parse(savedSports).length === 0) {
-            const defaults = [
-                {
-                    id: 1,
-                    image: "https://img-live.bannershive.dev/h001_uploads/images/B1_BDT_EN_Pragmatic_Play_God_of_Olympus_1000_Daily_Cashback_CTL_PROMOTION.jpg",
-                    title: "First Bet Bonus",
-                    discount: "$50",
-                    description: "Place your first bet risk-free up to $50. If you lose, we refund you.",
-                    ctaText: "Bet Now",
-                    ctaLink: "/sports"
-                },
-                {
-                    id: 2,
-                    image: "https://img-live.bannershive.dev/h001_uploads/images/B1_BDT_EN_Pragmatic_Play_God_of_Olympus_1000_Daily_Cashback_CTL_PROMOTION.jpg",
-                    title: "Accumulator Boost",
-                    discount: "50%",
-                    description: "Get up to 50% extra winnings on your accumulator bets.",
-                    ctaText: "Bet Now",
-                    ctaLink: "/sports"
-                },
-            ];
-            localStorage.setItem("sportsbookPromotions", JSON.stringify(defaults));
-            setSportsPromos(defaults);
-        } else {
-            setSportsPromos(JSON.parse(savedSports));
-        }
-
-        // Initialize General Promo Data if empty
-        const savedGeneral = localStorage.getItem("generalPromotions");
-        if (!savedGeneral || JSON.parse(savedGeneral).length === 0) {
-            const defaults: any[] = []; // Skipping import default logic
-            setGeneralPromos(defaults);
-        } else {
-            setGeneralPromos(JSON.parse(savedGeneral));
-        }
-
-        // Initialize Home Banners
-        const savedBanners = localStorage.getItem("homeBanners");
-        if (!savedBanners || JSON.parse(savedBanners).length === 0) {
-            const defaults = [
-                {
-                    id: "1",
-                    image: "/images/hero-1.jpg",
-                    title: "Ultimate Casino Experience",
-                    description: "Experience the thrill of real casino games.",
-                    buttonText: "Join Now",
-                    link: "/register",
-                    imageOnly: false
-                },
-                {
-                    id: "2",
-                    image: "/images/hero-2.jpg",
-                    title: "Future of Gaming is Here",
-                    description: "Join the future of online gaming today.",
-                    buttonText: "Join Now",
-                    link: "/register",
-                    imageOnly: false
-                }
-            ];
-            localStorage.setItem("homeBanners", JSON.stringify(defaults));
-            setHomeBanners(defaults);
-        } else {
-            setHomeBanners(JSON.parse(savedBanners));
         }
     }, []);
 
@@ -507,44 +391,41 @@ export default function GlobalAdmin() {
         try {
             if (activeTab === "blog") {
                 const newItem = {
-                    id,
+                    id: editingId ? String(editingId) : undefined,
                     title,
                     excerpt: content.substring(0, 150) + (content.length > 150 ? "..." : ""),
                     content, category, image, date, author, readTime,
                     highlightBox, subHeading, subContent, footerNote
                 };
-                let updated;
-                if (editingId) {
-                    updated = blogPosts.map(p => p.id === editingId ? newItem : p);
-                } else {
-                    updated = [newItem, ...blogPosts];
-                }
-                setBlogPosts(updated);
-                // Persist to Firestore
+                // Persist to Firestore, then refresh
                 await fetch('/api/blog', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(newItem),
                 });
+                // Reload from Firestore to get real doc IDs
+                const bRes = await fetch('/api/blog');
+                const bData = await bRes.json();
+                setBlogPosts(bData.posts ?? []);
             } else if (activeTab === "live" || activeTab === "sports" || activeTab === "general") {
                 const type = activeTab === "live" ? "live" : activeTab === "sports" ? "sports" : "general";
-                const newItem = { id, title, discount: subtitle, description: content, ctaText: btnText, ctaLink: btnUrl, image };
-                if (activeTab === "live") {
-                    setLivePromos(editingId ? livePromos.map(p => p.id === editingId ? newItem : p) : [newItem, ...livePromos]);
-                } else if (activeTab === "sports") {
-                    setSportsPromos(editingId ? sportsPromos.map(p => p.id === editingId ? newItem : p) : [newItem, ...sportsPromos]);
-                } else {
-                    setGeneralPromos(editingId ? generalPromos.map(p => p.id === editingId ? newItem : p) : [newItem, ...generalPromos]);
-                }
-                // Persist to Firestore
+                const newItem = { id: editingId ? String(editingId) : undefined, title, discount: subtitle, description: content, ctaText: btnText, ctaLink: btnUrl, image };
+                // Persist to Firestore, then refresh
                 await fetch('/api/promotions', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ type, promo: newItem }),
                 });
+                // Reload from Firestore
+                const pRes = await fetch(`/api/promotions?type=${type}`);
+                const pData = await pRes.json();
+                if (activeTab === "live") setLivePromos(pData.promos ?? []);
+                else if (activeTab === "sports") setSportsPromos(pData.promos ?? []);
+                else setGeneralPromos(pData.promos ?? []);
             } else if (activeTab === "banners") {
                 const newItem = {
-                    id: String(id), title: bannerTitle, description: bannerDesc,
+                    id: editingId ? String(editingId) : String(Date.now()),
+                    title: bannerTitle, description: bannerDesc,
                     buttonText: bannerBtnText, link: bannerBtnLink, image, imageOnly: bannerImageOnly
                 };
                 const updated = editingId
@@ -565,30 +446,53 @@ export default function GlobalAdmin() {
 
     const handleDelete = async (id: number | string) => {
         if (!confirm("Are you sure you want to delete this item?")) return;
+        const strId = String(id);
 
         if (activeTab === "blog") {
-            setBlogPosts(blogPosts.filter(p => p.id !== id));
+            setBlogPosts(prev => prev.filter(p => String(p.id) !== strId));
             await fetch('/api/blog', {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ id: String(id) }),
+                body: JSON.stringify({ id: strId }),
             });
         } else if (activeTab === "live" || activeTab === "sports" || activeTab === "general") {
             const type = activeTab === "live" ? "live" : activeTab === "sports" ? "sports" : "general";
-            if (activeTab === "live") setLivePromos(livePromos.filter(p => p.id !== id));
-            else if (activeTab === "sports") setSportsPromos(sportsPromos.filter(p => p.id !== id));
-            else setGeneralPromos(generalPromos.filter(p => p.id !== id));
+            if (activeTab === "live") setLivePromos(prev => prev.filter(p => String(p.id) !== strId));
+            else if (activeTab === "sports") setSportsPromos(prev => prev.filter(p => String(p.id) !== strId));
+            else setGeneralPromos(prev => prev.filter(p => String(p.id) !== strId));
             await fetch('/api/promotions', {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ type, id: String(id) }),
+                body: JSON.stringify({ type, id: strId }),
             });
         } else if (activeTab === "banners") {
-            const updated = homeBanners.filter(p => p.id !== String(id));
+            const updated = homeBanners.filter(p => String(p.id) !== strId);
             setHomeBanners(updated);
             await saveCmsSection('homeBanners', updated);
         }
         success("Entry Removed");
+    };
+
+    const handleDeleteMessage = async (id: string) => {
+        if (!confirm("Delete this message permanently?")) return;
+        setContactMessages(prev => prev.filter(m => m.id !== id));
+        await fetch('/api/contact', {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id }),
+        });
+        info("Message Deleted");
+    };
+
+    const handleDeleteSubscriber = async (id: string) => {
+        if (!confirm("Remove this subscriber?")) return;
+        setSubscribers(prev => prev.filter(s => s.id !== id));
+        await fetch('/api/cms', {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ section: 'subscribers', id }),
+        });
+        info("Subscriber Removed");
     };
 
     if (!isAuthenticated) {
@@ -994,6 +898,15 @@ export default function GlobalAdmin() {
                                                 <p className="text-gray-400 text-sm leading-relaxed border-t border-white/5 pt-4">
                                                     {msg.message}
                                                 </p>
+                                                <div className="flex justify-end mt-4 pt-3 border-t border-white/5">
+                                                    <button
+                                                        onClick={() => handleDeleteMessage(msg.id)}
+                                                        className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-red-500 hover:text-red-400 transition-colors px-3 py-1.5 rounded-lg hover:bg-red-500/10"
+                                                    >
+                                                        <Trash2 size={12} />
+                                                        Delete Message
+                                                    </button>
+                                                </div>
                                             </div>
                                         ))}
                                     </div>
@@ -1012,10 +925,14 @@ export default function GlobalAdmin() {
                                         <p className="text-xs text-gray-500 uppercase tracking-widest">Active Email Subs</p>
                                     </div>
                                     <div className="max-h-[500px] overflow-y-auto space-y-2 pr-2 custom-scrollbar">
-                                        {subscribers.map((email, i) => (
-                                            <div key={i} className="flex items-center justify-between bg-black/50 p-3 rounded-xl border border-white/5">
-                                                <span className="text-xs text-gray-300 font-mono">{email}</span>
-                                                <button className="text-gray-600 hover:text-red-500">
+                                        {subscribers.map((sub) => (
+                                            <div key={sub.id} className="flex items-center justify-between bg-black/50 p-3 rounded-xl border border-white/5">
+                                                <span className="text-xs text-gray-300 font-mono">{sub.email}</span>
+                                                <button
+                                                    onClick={() => handleDeleteSubscriber(sub.id)}
+                                                    className="text-gray-600 hover:text-red-500 transition-colors p-1 hover:bg-red-500/10 rounded-lg"
+                                                    title="Remove subscriber"
+                                                >
                                                     <Trash2 size={12} />
                                                 </button>
                                             </div>

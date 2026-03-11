@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { saveContactMessage, getContactMessages, markMessageRead } from "@/lib/firestore-cms";
+import { saveContactMessage, getContactMessages, markMessageRead, deleteContactMessage } from "@/lib/firestore-cms";
 
 export async function GET() {
     const messages = await getContactMessages();
@@ -17,5 +17,12 @@ export async function POST(req: NextRequest) {
     }
 
     await saveContactMessage({ name, email, subject, message });
+    return NextResponse.json({ success: true });
+}
+
+export async function DELETE(req: NextRequest) {
+    const { id } = await req.json();
+    if (!id) return NextResponse.json({ error: "ID required" }, { status: 400 });
+    await deleteContactMessage(id);
     return NextResponse.json({ success: true });
 }
