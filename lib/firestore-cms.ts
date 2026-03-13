@@ -1,13 +1,16 @@
 /**
- * firestore-cms.ts
- * Async Firestore CRUD for every CMS section.
- * Replaces localStorage as the persistence layer.
+ * lib/firestore-cms.ts
+ *
+ * CMS CRUD operations using the Firestore REST API.
+ * Works reliably in all serverless environments (Netlify, Vercel, Edge).
+ * No SDK timeout issues.
  */
+
 import {
-    doc, getDoc, setDoc, collection,
-    getDocs, addDoc, deleteDoc, updateDoc, query, orderBy
-} from "firebase/firestore";
-import { db } from "./firebase";
+    listDocs, getDoc, getCmsDoc, setDoc, setCmsDoc,
+    addDoc, deleteDoc
+} from "./firestore-rest";
+
 import type {
     SiteSettings, FeaturedContent, DiamondLobbyItem, HomeBlogSettings,
     PageContentLiveCasino, ContactMessage, AboutPageData, PromotionsPageData, FooterData
@@ -17,22 +20,23 @@ import type {
 
 async function getCmsSection<T>(section: string, fallback: T): Promise<T> {
     try {
-        const ref = doc(db, "cms", section);
-        const snap = await getDoc(ref);
-        if (snap.exists()) return snap.data() as T;
+        const doc = await getCmsDoc(section);
+        if (doc) {
+            const { id: _, ...data } = doc;
+            return data as T;
+        }
         return fallback;
     } catch (e) {
-        console.error(`[Firestore] getCmsSection ${section}:`, e);
+        console.error(`[Firestore REST] getCmsSection ${section}:`, e);
         return fallback;
     }
 }
 
 async function setCmsSection<T extends object>(section: string, data: T): Promise<void> {
     try {
-        const ref = doc(db, "cms", section);
-        await setDoc(ref, data);
+        await setCmsDoc(section, data as Record<string, unknown>);
     } catch (e) {
-        console.error(`[Firestore] setCmsSection ${section}:`, e);
+        console.error(`[Firestore REST] setCmsSection ${section}:`, e);
     }
 }
 
@@ -40,40 +44,35 @@ async function setCmsSection<T extends object>(section: string, data: T): Promis
 
 export async function getBlogPosts(): Promise<any[]> {
     try {
-        const col = collection(db, "blog_posts");
-        const snap = await getDocs(query(col, orderBy("date", "desc")));
-        return snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        const docs = await listDocs("blog_posts");
+        return docs.sort((a, b) => (b.date ?? "").localeCompare(a.date ?? ""));
     } catch (e) {
-        console.error("[Firestore] getBlogPosts:", e);
+        console.error("[Firestore REST] getBlogPosts:", e);
         return [];
     }
 }
 
 export async function saveBlogPost(post: any): Promise<string> {
     try {
-        // If id is a real Firestore ID (long string), update existing doc
-        if (post.id && typeof post.id === "string" && post.id.length > 10) {
-            const ref = doc(db, "blog_posts", post.id);
-            const { id, ...rest } = post;
-            await setDoc(ref, rest);
-            return post.id;
-        } else {
-            // New post — use addDoc to get a real Firestore ID
-            const { id, ...rest } = post;
-            const docRef = await addDoc(collection(db, "blog_posts"), rest);
-            return docRef.id;
+        const { id, ...rest } = post;
+        // If we have a real Firestore string ID (>10 chars), update existing
+        if (id && typeof id === "string" && id.length > 10) {
+            await setDoc("blog_posts", id, rest);
+            return id;
         }
+        // New post — addDoc generates a Firestore ID
+        return await addDoc("blog_posts", rest);
     } catch (e) {
-        console.error("[Firestore] saveBlogPost:", e);
+        console.error("[Firestore REST] saveBlogPost:", e);
         return "";
     }
 }
 
 export async function deleteBlogPost(id: string): Promise<void> {
     try {
-        await deleteDoc(doc(db, "blog_posts", id));
+        await deleteDoc("blog_posts", id);
     } catch (e) {
-        console.error("[Firestore] deleteBlogPost:", e);
+        console.error("[Firestore REST] deleteBlogPost:", e);
     }
 }
 
@@ -81,39 +80,33 @@ export async function deleteBlogPost(id: string): Promise<void> {
 
 export async function getPromotions(type: "live" | "sports" | "general"): Promise<any[]> {
     try {
-        const col = collection(db, `promotions_${type}`);
-        const snap = await getDocs(col);
-        return snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        return await listDocs(`promotions_${type}`);
     } catch (e) {
-        console.error(`[Firestore] getPromotions(${type}):`, e);
+        console.error(`[Firestore REST] getPromotions(${type}):`, e);
         return [];
     }
 }
 
 export async function savePromotion(type: "live" | "sports" | "general", promo: any): Promise<string> {
     try {
-        const colPath = `promotions_${type}`;
-        if (promo.id && typeof promo.id === "string" && promo.id.length > 10) {
-            const ref = doc(db, colPath, promo.id);
-            const { id, ...rest } = promo;
-            await setDoc(ref, rest);
-            return promo.id;
-        } else {
-            const { id, ...rest } = promo;
-            const docRef = await addDoc(collection(db, colPath), rest);
-            return docRef.id;
+        const { id, ...rest } = promo;
+        const col = `promotions_${type}`;
+        if (id && typeof id === "string" && id.length > 10) {
+            await setDoc(col, id, rest);
+            return id;
         }
+        return await addDoc(col, rest);
     } catch (e) {
-        console.error(`[Firestore] savePromotion(${type}):`, e);
+        console.error(`[Firestore REST] savePromotion(${type}):`, e);
         return "";
     }
 }
 
 export async function deletePromotion(type: "live" | "sports" | "general", id: string): Promise<void> {
     try {
-        await deleteDoc(doc(db, `promotions_${type}`, id));
+        await deleteDoc(`promotions_${type}`, id);
     } catch (e) {
-        console.error(`[Firestore] deletePromotion(${type}):`, e);
+        console.error(`[Firestore REST] deletePromotion(${type}):`, e);
     }
 }
 
@@ -121,40 +114,45 @@ export async function deletePromotion(type: "live" | "sports" | "general", id: s
 
 export async function getContactMessages(): Promise<ContactMessage[]> {
     try {
-        const col = collection(db, "contact_messages");
-        const snap = await getDocs(query(col, orderBy("date", "desc")));
-        return snap.docs.map(d => ({ id: d.id, ...d.data() } as ContactMessage));
+        const docs = await listDocs("contact_messages");
+        return docs.sort((a, b) =>
+            (b.date ?? "").localeCompare(a.date ?? "")
+        ) as ContactMessage[];
     } catch (e) {
-        console.error("[Firestore] getContactMessages:", e);
+        console.error("[Firestore REST] getContactMessages:", e);
         return [];
     }
 }
 
 export async function saveContactMessage(msg: Omit<ContactMessage, "id" | "date" | "read">): Promise<void> {
     try {
-        await addDoc(collection(db, "contact_messages"), {
+        await addDoc("contact_messages", {
             ...msg,
             date: new Date().toISOString().split("T")[0],
             read: false,
         });
     } catch (e) {
-        console.error("[Firestore] saveContactMessage:", e);
+        console.error("[Firestore REST] saveContactMessage:", e);
     }
 }
 
 export async function markMessageRead(id: string): Promise<void> {
     try {
-        await updateDoc(doc(db, "contact_messages", id), { read: true });
+        const existing = await getDoc("contact_messages", id);
+        if (existing) {
+            const { id: _, ...rest } = existing;
+            await setDoc("contact_messages", id, { ...rest, read: true });
+        }
     } catch (e) {
-        console.error("[Firestore] markMessageRead:", e);
+        console.error("[Firestore REST] markMessageRead:", e);
     }
 }
 
 export async function deleteContactMessage(id: string): Promise<void> {
     try {
-        await deleteDoc(doc(db, "contact_messages", id));
+        await deleteDoc("contact_messages", id);
     } catch (e) {
-        console.error("[Firestore] deleteContactMessage:", e);
+        console.error("[Firestore REST] deleteContactMessage:", e);
     }
 }
 
@@ -162,31 +160,30 @@ export async function deleteContactMessage(id: string): Promise<void> {
 
 export async function addSubscriber(email: string): Promise<void> {
     try {
-        await addDoc(collection(db, "subscribers"), {
+        await addDoc("subscribers", {
             email,
             date: new Date().toISOString(),
         });
     } catch (e) {
-        console.error("[Firestore] addSubscriber:", e);
+        console.error("[Firestore REST] addSubscriber:", e);
     }
 }
 
-// Returns array of { id, email } so we can delete by Firestore doc ID
 export async function getSubscribers(): Promise<{ id: string; email: string }[]> {
     try {
-        const snap = await getDocs(collection(db, "subscribers"));
-        return snap.docs.map(d => ({ id: d.id, email: (d.data() as any).email }));
+        const docs = await listDocs("subscribers");
+        return docs.map(d => ({ id: d.id, email: d.email ?? "" }));
     } catch (e) {
-        console.error("[Firestore] getSubscribers:", e);
+        console.error("[Firestore REST] getSubscribers:", e);
         return [];
     }
 }
 
 export async function deleteSubscriber(id: string): Promise<void> {
     try {
-        await deleteDoc(doc(db, "subscribers", id));
+        await deleteDoc("subscribers", id);
     } catch (e) {
-        console.error("[Firestore] deleteSubscriber:", e);
+        console.error("[Firestore REST] deleteSubscriber:", e);
     }
 }
 
@@ -205,7 +202,7 @@ export async function saveHomeBanners(items: any[]): Promise<void> {
     await setCmsSection("homeBanners", { items });
 }
 
-// ─── Site Settings ────────────────────────────────────────────────────────────
+// ─── firestoreCms namespace ───────────────────────────────────────────────────
 
 export const firestoreCms = {
     siteSettings: {
@@ -213,11 +210,13 @@ export const firestoreCms = {
         save: (data: SiteSettings) => setCmsSection("siteSettings", data),
     },
     featuredContent: {
-        get: (fallback: FeaturedContent[]) => getCmsSection<{ items: FeaturedContent[] }>("featuredContent", { items: fallback }).then(r => r.items ?? fallback),
+        get: (fallback: FeaturedContent[]) =>
+            getCmsSection<{ items: FeaturedContent[] }>("featuredContent", { items: fallback }).then(r => r.items ?? fallback),
         save: (data: FeaturedContent[]) => setCmsSection("featuredContent", { items: data }),
     },
     diamondLobby: {
-        get: (fallback: DiamondLobbyItem[]) => getCmsSection<{ items: DiamondLobbyItem[] }>("diamondLobby", { items: fallback }).then(r => r.items ?? fallback),
+        get: (fallback: DiamondLobbyItem[]) =>
+            getCmsSection<{ items: DiamondLobbyItem[] }>("diamondLobby", { items: fallback }).then(r => r.items ?? fallback),
         save: (data: DiamondLobbyItem[]) => setCmsSection("diamondLobby", { items: data }),
     },
     homeBlog: {
@@ -241,7 +240,8 @@ export const firestoreCms = {
         save: (data: FooterData) => setCmsSection("footer", data),
     },
     blogCategories: {
-        get: (fallback: string[]) => getCmsSection<{ items: string[] }>("blogCategories", { items: fallback }).then(r => r.items ?? fallback),
+        get: (fallback: string[]) =>
+            getCmsSection<{ items: string[] }>("blogCategories", { items: fallback }).then(r => r.items ?? fallback),
         save: (data: string[]) => setCmsSection("blogCategories", { items: data }),
     },
 };

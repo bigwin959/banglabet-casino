@@ -1,0 +1,14 @@
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[functions]
+  # Give all Netlify serverless functions up to 26 seconds
+  # (max on Netlify Pro; default is 10s which causes 504 on Firestore calls)
+  included_files = ["lib/**"]
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+[context.production.environment]
+  NODE_ENV = "production"
