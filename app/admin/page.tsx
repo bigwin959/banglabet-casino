@@ -117,6 +117,10 @@ export default function GlobalAdmin() {
     // Mobile Menu State
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+    // Custom Confirm Modal State (replaces native window.confirm)
+    const [confirmModal, setConfirmModal] = useState<{ message: string; onConfirm: () => void } | null>(null);
+    const showConfirm = (message: string, onConfirm: () => void) => setConfirmModal({ message, onConfirm });
+
     useEffect(() => {
         fetchImages();
         loadFirestoreData();
@@ -445,54 +449,56 @@ export default function GlobalAdmin() {
     };
 
     const handleDelete = async (id: number | string) => {
-        if (!confirm("Are you sure you want to delete this item?")) return;
         const strId = String(id);
-
-        if (activeTab === "blog") {
-            setBlogPosts(prev => prev.filter(p => String(p.id) !== strId));
-            await fetch('/api/blog', {
-                method: 'DELETE',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ id: strId }),
-            });
-        } else if (activeTab === "live" || activeTab === "sports" || activeTab === "general") {
-            const type = activeTab === "live" ? "live" : activeTab === "sports" ? "sports" : "general";
-            if (activeTab === "live") setLivePromos(prev => prev.filter(p => String(p.id) !== strId));
-            else if (activeTab === "sports") setSportsPromos(prev => prev.filter(p => String(p.id) !== strId));
-            else setGeneralPromos(prev => prev.filter(p => String(p.id) !== strId));
-            await fetch('/api/promotions', {
-                method: 'DELETE',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ type, id: strId }),
-            });
-        } else if (activeTab === "banners") {
-            const updated = homeBanners.filter(p => String(p.id) !== strId);
-            setHomeBanners(updated);
-            await saveCmsSection('homeBanners', updated);
-        }
-        success("Entry Removed");
+        showConfirm("Are you sure you want to delete this item?", async () => {
+            if (activeTab === "blog") {
+                setBlogPosts(prev => prev.filter(p => String(p.id) !== strId));
+                await fetch('/api/blog', {
+                    method: 'DELETE',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id: strId }),
+                });
+            } else if (activeTab === "live" || activeTab === "sports" || activeTab === "general") {
+                const type = activeTab === "live" ? "live" : activeTab === "sports" ? "sports" : "general";
+                if (activeTab === "live") setLivePromos(prev => prev.filter(p => String(p.id) !== strId));
+                else if (activeTab === "sports") setSportsPromos(prev => prev.filter(p => String(p.id) !== strId));
+                else setGeneralPromos(prev => prev.filter(p => String(p.id) !== strId));
+                await fetch('/api/promotions', {
+                    method: 'DELETE',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ type, id: strId }),
+                });
+            } else if (activeTab === "banners") {
+                const updated = homeBanners.filter(p => String(p.id) !== strId);
+                setHomeBanners(updated);
+                await saveCmsSection('homeBanners', updated);
+            }
+            success("Entry Removed");
+        });
     };
 
     const handleDeleteMessage = async (id: string) => {
-        if (!confirm("Delete this message permanently?")) return;
-        setContactMessages(prev => prev.filter(m => m.id !== id));
-        await fetch('/api/contact', {
-            method: 'DELETE',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ id }),
+        showConfirm("Delete this message permanently?", async () => {
+            setContactMessages(prev => prev.filter(m => m.id !== id));
+            await fetch('/api/contact', {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id }),
+            });
+            info("Message Deleted");
         });
-        info("Message Deleted");
     };
 
     const handleDeleteSubscriber = async (id: string) => {
-        if (!confirm("Remove this subscriber?")) return;
-        setSubscribers(prev => prev.filter(s => s.id !== id));
-        await fetch('/api/cms', {
-            method: 'DELETE',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ section: 'subscribers', id }),
+        showConfirm("Remove this subscriber?", async () => {
+            setSubscribers(prev => prev.filter(s => s.id !== id));
+            await fetch('/api/cms', {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ section: 'subscribers', id }),
+            });
+            info("Subscriber Removed");
         });
-        info("Subscriber Removed");
     };
 
     if (!isAuthenticated) {
@@ -1767,7 +1773,53 @@ export default function GlobalAdmin() {
                     </>
                 )}
             </AnimatePresence>
+
+            {/* Custom Confirm Modal */}
+            <AnimatePresence>
+                {confirmModal && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-black/80 backdrop-blur-xl"
+                    >
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                            exit={{ opacity: 0, scale: 0.9, y: 20 }}
+                            className="bg-[#0f0f0f] border border-white/10 rounded-3xl p-8 w-full max-w-sm shadow-2xl"
+                        >
+                            <div className="flex items-center gap-4 mb-6">
+                                <div className="w-12 h-12 rounded-2xl bg-red-500/10 flex items-center justify-center">
+                                    <Trash2 size={22} className="text-red-500" />
+                                </div>
+                                <div>
+                                    <h3 className="text-white font-black uppercase tracking-tight text-lg">Confirm Delete</h3>
+                                    <p className="text-gray-500 text-xs font-bold uppercase tracking-widest">This action cannot be undone</p>
+                                </div>
+                            </div>
+                            <p className="text-gray-300 text-sm mb-8 leading-relaxed">{confirmModal.message}</p>
+                            <div className="flex gap-3">
+                                <button
+                                    onClick={() => setConfirmModal(null)}
+                                    className="flex-1 px-6 py-3 rounded-xl bg-white/5 hover:bg-white/10 text-white font-bold uppercase tracking-widest text-xs transition-all"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    onClick={() => {
+                                        confirmModal.onConfirm();
+                                        setConfirmModal(null);
+                                    }}
+                                    className="flex-1 px-6 py-3 rounded-xl bg-red-500 hover:bg-red-600 text-white font-black uppercase tracking-widest text-xs transition-all shadow-lg shadow-red-500/20"
+                                >
+                                    Delete
+                                </button>
+                            </div>
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     );
 }
-

@@ -10,27 +10,50 @@ export default function SportBook() {
     const [promotions, setPromotions] = useState<any[]>([]);
 
     useEffect(() => {
-        const savedPromos = localStorage.getItem("sportsbookPromotions");
-        if (savedPromos) {
-            setPromotions(JSON.parse(savedPromos));
-        } else {
-            setPromotions([
-                {
-                    image: "https://img-live.bannershive.dev/h001_uploads/images/B1_BDT_EN_Pragmatic_Play_God_of_Olympus_1000_Daily_Cashback_CTL_PROMOTION.jpg",
-                    title: "First Bet Bonus",
-                    discount: "$50",
-                    description: "Place your first bet risk-free up to $50. If you lose, we refund you.",
-                    ctaText: "Bet Now",
-                },
-                {
-                    image: "https://img-live.bannershive.dev/h001_uploads/images/B1_BDT_EN_Pragmatic_Play_God_of_Olympus_1000_Daily_Cashback_CTL_PROMOTION.jpg",
-                    title: "Accumulator Boost",
-                    discount: "50%",
-                    description: "Get up to 50% extra winnings on your accumulator bets.",
-                    ctaText: "Bet Now",
-                },
-            ]);
-        }
+        fetch("/api/promotions?type=sports")
+            .then(r => r.json())
+            .then(data => {
+                if (data.promos && data.promos.length > 0) {
+                    setPromotions(data.promos);
+                } else {
+                    const saved = localStorage.getItem("sportsbookPromotions");
+                    setPromotions(saved ? JSON.parse(saved) : [
+                        {
+                            image: "https://img-live.bannershive.dev/h001_uploads/images/B1_BDT_EN_Pragmatic_Play_God_of_Olympus_1000_Daily_Cashback_CTL_PROMOTION.jpg",
+                            title: "First Bet Bonus",
+                            discount: "$50",
+                            description: "Place your first bet risk-free up to $50. If you lose, we refund you.",
+                            ctaText: "Bet Now",
+                        },
+                        {
+                            image: "https://img-live.bannershive.dev/h001_uploads/images/B1_BDT_EN_Pragmatic_Play_God_of_Olympus_1000_Daily_Cashback_CTL_PROMOTION.jpg",
+                            title: "Accumulator Boost",
+                            discount: "50%",
+                            description: "Get up to 50% extra winnings on your accumulator bets.",
+                            ctaText: "Bet Now",
+                        },
+                    ]);
+                }
+            })
+            .catch(() => {
+                const saved = localStorage.getItem("sportsbookPromotions");
+                setPromotions(saved ? JSON.parse(saved) : [
+                    {
+                        image: "https://img-live.bannershive.dev/h001_uploads/images/B1_BDT_EN_Pragmatic_Play_God_of_Olympus_1000_Daily_Cashback_CTL_PROMOTION.jpg",
+                        title: "First Bet Bonus",
+                        discount: "$50",
+                        description: "Place your first bet risk-free up to $50. If you lose, we refund you.",
+                        ctaText: "Bet Now",
+                    },
+                    {
+                        image: "https://img-live.bannershive.dev/h001_uploads/images/B1_BDT_EN_Pragmatic_Play_God_of_Olympus_1000_Daily_Cashback_CTL_PROMOTION.jpg",
+                        title: "Accumulator Boost",
+                        discount: "50%",
+                        description: "Get up to 50% extra winnings on your accumulator bets.",
+                        ctaText: "Bet Now",
+                    },
+                ]);
+            });
     }, []);
 
     return (
@@ -56,7 +79,7 @@ export default function SportBook() {
                         </h2>
                         <span className="h-0.5 w-12 bg-primary" />
                     </div>
-                    
+
                     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
                         {sports.map((sport) => (
                             <div

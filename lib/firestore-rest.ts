@@ -66,7 +66,11 @@ function docToObject(doc: any) {
 export async function listDocs(collection: string): Promise<any[]> {
     const url = `${BASE}/${collection}?key=${API_KEY}&pageSize=100`;
     const res = await fetch(url, { cache: "no-store" });
-    if (!res.ok) return [];
+    if (!res.ok) {
+        const errText = await res.text().catch(() => res.statusText);
+        console.error(`[Firestore REST] listDocs(${collection}) ${res.status}:`, errText);
+        return [];
+    }
     const json = await res.json();
     return (json.documents ?? []).map(docToObject);
 }
@@ -89,11 +93,15 @@ export async function getCmsDoc(section: string): Promise<any | null> {
 export async function setDoc(collection: string, docId: string, data: Record<string, unknown>): Promise<void> {
     const { id: _id, ...rest } = data;
     const url = `${BASE}/${collection}/${docId}?key=${API_KEY}`;
-    await fetch(url, {
+    const res = await fetch(url, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ fields: encodeFields(rest) }),
     });
+    if (!res.ok) {
+        const errText = await res.text().catch(() => res.statusText);
+        console.error(`[Firestore REST] setDoc(${collection}/${docId}) ${res.status}:`, errText);
+    }
 }
 
 /** Set a CMS section document */
@@ -110,6 +118,11 @@ export async function addDoc(collection: string, data: Record<string, unknown>):
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ fields: encodeFields(rest) }),
     });
+    if (!res.ok) {
+        const errText = await res.text().catch(() => res.statusText);
+        console.error(`[Firestore REST] addDoc(${collection}) ${res.status}:`, errText);
+        return "";
+    }
     const json = await res.json();
     return json.name?.split("/").pop() ?? "";
 }

@@ -4,21 +4,21 @@ import PromotionCard from "@/components/PromotionCard";
 import LiveCasinoDetails from "@/components/live-casino/LiveCasinoDetails";
 import { useState, useEffect } from "react";
 
+const DEFAULT_LIVE_PROMOS = [
+    {
+        image: "https://img-live.bannershive.dev/h001_uploads/images/B1_BDT_EN_Pragmatic_Play_God_of_Olympus_1000_Daily_Cashback_CTL_PROMOTION.jpg",
+        title: "Live Casino Welcome", discount: "100%",
+        description: "Experience the thrill of real casino games with a 100% welcome bonus.", ctaText: "Sign Up",
+    },
+    {
+        image: "https://img-live.bannershive.dev/h001_uploads/images/B1_BDT_EN_ALL_Rescue%20Bonus_CTL_PROMOTION.jpg",
+        title: "High Roller Cashback", discount: "20%",
+        description: "Exclusive 20% cashback for VIP players on all live dealer tables.", ctaText: "Sign Up",
+    },
+];
+
 export default function LiveCasino() {
     const [promotions, setPromotions] = useState<any[]>([]);
-
-    const defaultPromos = [
-        {
-            image: "https://img-live.bannershive.dev/h001_uploads/images/B1_BDT_EN_Pragmatic_Play_God_of_Olympus_1000_Daily_Cashback_CTL_PROMOTION.jpg",
-            title: "Live Casino Welcome", discount: "100%",
-            description: "Experience the thrill of real casino games with a 100% welcome bonus.", ctaText: "Sign Up",
-        },
-        {
-            image: "https://img-live.bannershive.dev/h001_uploads/images/B1_BDT_EN_ALL_Rescue%20Bonus_CTL_PROMOTION.jpg",
-            title: "High Roller Cashback", discount: "20%",
-            description: "Exclusive 20% cashback for VIP players on all live dealer tables.", ctaText: "Sign Up",
-        },
-    ];
 
     useEffect(() => {
         fetch("/api/promotions?type=live")
@@ -28,12 +28,12 @@ export default function LiveCasino() {
                     setPromotions(data.promos);
                 } else {
                     const saved = localStorage.getItem("liveCasinoPromotions");
-                    setPromotions(saved ? JSON.parse(saved) : defaultPromos);
+                    setPromotions(saved ? JSON.parse(saved) : DEFAULT_LIVE_PROMOS);
                 }
             })
             .catch(() => {
                 const saved = localStorage.getItem("liveCasinoPromotions");
-                setPromotions(saved ? JSON.parse(saved) : defaultPromos);
+                setPromotions(saved ? JSON.parse(saved) : DEFAULT_LIVE_PROMOS);
             });
     }, []);
 
