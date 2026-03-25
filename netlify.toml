@@ -12,3 +12,6 @@
 
 [context.production.environment]
   NODE_ENV = "production"
+  # Firebase NEXT_PUBLIC_ keys are intentionally public (client-side). Disable
+  # Netlify's smart secrets scanner so it doesn't block the build.
+  SECRETS_SCAN_SMART_DETECTION_ENABLED = "false"
