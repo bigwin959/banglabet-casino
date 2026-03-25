@@ -7,18 +7,6 @@ export default {
     ],
     theme: {
         extend: {
-            colors: {
-                primary: "var(--color-primary)",
-                secondary: "var(--color-secondary)",
-                cta: "var(--color-cta)",
-                background: "var(--color-background)",
-                text: "var(--color-text)",
-                heading: "var(--color-heading)",
-            },
-            fontFamily: {
-                heading: ["var(--font-chakra)", "sans-serif"],
-                body: ["var(--font-chakra)", "sans-serif"],
-            },
             animation: {
                 "neon-pulse": "neon-pulse 2s ease-in-out infinite",
                 glitch: "glitch 0.3s ease-in-out",
